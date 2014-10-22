@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>start (Kgio::UNIXSocket)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      Kgio::UNIXSocket.start(&quot;/path/to/unix/socket&quot;) -&gt; socket
+ *
+ * Creates a new Kgio::UNIXSocket object and initiates a
+ * non-blocking connection.  The caller should select/poll
+ * on the socket for writability before attempting to write
+ * or optimistically attempt a write and handle :wait_writable
+ * or Errno::EAGAIN.
+ */
+static VALUE kgio_unix_start(VALUE klass, VALUE path)
+{
+        return unix_connect(klass, path, 0);
+}</pre>
+</body>
+</html>

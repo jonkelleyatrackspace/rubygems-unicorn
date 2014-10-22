@@ -1,0 +1,18 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Returns the size of the input. For requests with a Content-Length header value, this will not read data off the socket and just return the value of the Content-Length header as an Integer.
+- !ruby/struct:SM::Flow::P 
+  body: For Transfer-Encoding:chunked requests, this requires consuming all of the input stream before returning since there's no other way to determine the size of the request body beforehand.
+- !ruby/struct:SM::Flow::P 
+  body: This method is no longer part of the Rack specification as of Rack 1.2, so its use is not recommended. This method only exists for compatibility with Rack applications designed for Rack 1.1 and earlier. Most applications should only need to call <tt>read</tt> with a specified <tt>length</tt> in a loop until it returns <tt>nil</tt>.
+full_name: Unicorn::TeeInput#size
+is_singleton: false
+name: size
+params: |
+  ios.size  => Integer
+
+visibility: public

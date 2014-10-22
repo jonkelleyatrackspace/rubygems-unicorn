@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: proxy for \Aggregate#outliers_high
+full_name: Raindrops::Aggregate::PMQ#outliers_high
+is_singleton: false
+name: outliers_high
+params: ()
+visibility: public

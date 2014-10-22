@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>accept_nonblock? (Kgio)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ *
+ * call-seq:
+ *
+ *      Kgio.accept_nonblock? -&gt; true or false
+ *
+ * Returns true if newly accepted Kgio::Sockets are created with the
+ * O_NONBLOCK file status flag, false if not.
+ *
+ * Deprecated, use the per-socket flags for kgio_*accept instead.
+ */
+static VALUE get_nonblock(VALUE mod)
+{
+        return (accept4_flags &amp; SOCK_NONBLOCK)==SOCK_NONBLOCK ? Qtrue : Qfalse;
+}</pre>
+</body>
+</html>

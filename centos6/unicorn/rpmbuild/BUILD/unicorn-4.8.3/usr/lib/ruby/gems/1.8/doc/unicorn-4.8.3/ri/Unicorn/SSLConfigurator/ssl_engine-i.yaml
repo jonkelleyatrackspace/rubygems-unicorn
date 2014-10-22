@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Allows specifying an engine for OpenSSL to use. We have not been able to successfully test this feature due to a lack of hardware, Reports of success or patches to unicorn-public@bogomips.org is greatly appreciated.
+full_name: Unicorn::SSLConfigurator#ssl_engine
+is_singleton: false
+name: ssl_engine
+params: (engine)
+visibility: public

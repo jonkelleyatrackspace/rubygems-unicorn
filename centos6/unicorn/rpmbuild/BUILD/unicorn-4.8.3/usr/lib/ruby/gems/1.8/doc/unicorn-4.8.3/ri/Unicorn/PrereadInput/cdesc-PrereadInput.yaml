@@ -1,0 +1,21 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This middleware is used to ensure input is buffered to memory or disk (depending on size) before the application is dispatched by entirely consuming it (from TeeInput) beforehand.
+- !ruby/struct:SM::Flow::P 
+  body: "Usage (in config.ru):"
+- !ruby/struct:SM::Flow::VERB 
+  body: "    require 'unicorn/preread_input'\n    if defined?(Unicorn)\n      use Unicorn::PrereadInput\n    end\n    run YourApp.new\n"
+constants: []
+
+full_name: Unicorn::PrereadInput
+includes: []
+
+instance_methods: []
+
+name: PrereadInput
+superclass: Object

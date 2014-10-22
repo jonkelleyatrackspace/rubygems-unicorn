@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_ary (Raindrops)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      rd.to_ary    -&gt; Array
+ *
+ * converts the Raindrops structure to an Array
+ */
+static VALUE to_ary(VALUE self)
+{
+        struct raindrops *r = get(self);
+        VALUE rv = rb_ary_new2(r-&gt;size);
+        size_t i;
+        unsigned long base = (unsigned long)r-&gt;drops;
+
+        for (i = 0; i &lt; r-&gt;size; i++) {
+                rb_ary_push(rv, ULONG2NUM(*((unsigned long *)base)));
+                base += raindrop_size;
+        }
+
+        return rv;
+}</pre>
+</body>
+</html>

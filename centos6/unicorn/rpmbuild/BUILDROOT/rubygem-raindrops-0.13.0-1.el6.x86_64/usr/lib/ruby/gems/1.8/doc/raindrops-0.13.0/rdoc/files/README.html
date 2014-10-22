@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+        &nbsp;(<a href="http://bogomips.org/raindrops.git/tree/README"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:05:31 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>raindrops - real-time stats for preforking Rack servers</h1>
+<p>
+<a href="../classes/Raindrops.html">Raindrops</a> is a real-time stats
+toolkit to show statistics for Rack HTTP servers. It is designed for
+preforking servers such as Rainbows! and Unicorn, but should support any
+Rack HTTP server under Ruby 2.0, 1.9, 1.8 and Rubinius on platforms
+supporting POSIX shared memory. It may also be used as a generic scoreboard
+for sharing atomic counters across multiple processes.
+</p>
+<h2>Features</h2>
+<ul>
+<li>counters are shared across all forked children and lock-free
+
+</li>
+<li>counters are kept on separate cache lines to reduce contention under SMP
+
+</li>
+<li>may expose server statistics as a Rack Middleware endpoint (default:
+&quot;/_raindrops&quot;)
+
+</li>
+<li>middleware displays the number of actively processing and writing clients
+from a single request regardless of which worker process it hits.
+
+</li>
+</ul>
+<h2>Linux-only Extra Features!</h2>
+<ul>
+<li>Middleware response includes extra stats for bound TCP and Unix domain
+sockets (configurable, it can include stats from other TCP or UNIX domain
+socket servers).
+
+</li>
+<li>TCP socket stats use efficient inet_diag facilities via netlink instead of
+parsing /proc/net/tcp to minimize overhead. This was fun to discover and
+write.
+
+</li>
+<li>TCP_Info reporting may be used to check stat for every accepted client on
+TCP servers
+
+</li>
+</ul>
+<p>
+Users of older Linux kernels need to ensure that the the
+&quot;inet_diag&quot; and &quot;tcp_diag&quot; kernel modules are loaded as
+they do not autoload correctly
+</p>
+<h2>Install</h2>
+<p>
+We recommend GCC 4+ (or compatible) to support the <a
+href="http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html">atomic
+builtins</a> (<em>_sync</em><a
+href="http://www.hpl.hp.com/research/linux/atomic_ops/">add,sub}_and_fetch()).
+For non-GCC 4+ users, we also support compilation with the
+{libatomic_ops</a> package starting with <a
+href="../classes/Raindrops.html">Raindrops</a> 0.4.0.
+</p>
+<p>
+If you&#8216;re using a packaged Ruby distribution, make sure you have a C
+compiler and the matching Ruby development libraries and headers.
+</p>
+<p>
+If you use RubyGems:
+</p>
+<pre>
+    gem install raindrops
+</pre>
+<p>
+Otherwise grab the latest tarball from:
+</p>
+<p>
+<a
+href="http://raindrops.bogomips.org/files">raindrops.bogomips.org/files</a>/
+</p>
+<p>
+Unpack it, and run &quot;ruby setup.rb&quot;
+</p>
+<h2>Usage</h2>
+<p>
+See <a
+href="../classes/Raindrops/Middleware.html">Raindrops::Middleware</a> and
+Raindrops::LastDataRecv documentation for use Rack servers. The entire
+library is fully-documented and we are responsive on the mailing list (<a
+href="mailto:raindrops@librelist.org">raindrops@librelist.org</a>) if you
+have any questions or comments.
+</p>
+<h2>Development</h2>
+<p>
+You can get the latest source via git from the following locations:
+</p>
+<pre>
+  git://bogomips.org/raindrops.git
+  git://repo.or.cz/raindrops.git (mirror)
+</pre>
+<p>
+You may browse the code from the web and download the latest snapshot
+tarballs here:
+</p>
+<ul>
+<li><a href="http://bogomips.org/raindrops.git">bogomips.org/raindrops.git</a>
+(cgit)
+
+</li>
+<li><a href="http://repo.or.cz/w/raindrops.git">repo.or.cz/w/raindrops.git</a>
+(gitweb)
+
+</li>
+</ul>
+<p>
+Inline patches (from &quot;git format-patch&quot;) to the mailing list are
+preferred because they allow code review and comments in the reply to the
+patch.
+</p>
+<p>
+We will adhere to mostly the same conventions for patch submissions as git
+itself. See the Documentation/SubmittingPatches document distributed with
+git on on patch submission guidelines to follow. Just don&#8216;t email the
+git mailing list or maintainer with raindrops patches.
+</p>
+<p>
+raindrops is currently dual-licensed under the LGPLv2.1 and LGPLv3. To
+allow for a transition to future versions of the LGPL, contributors are
+required to sign-off changes allowing allowing the project leader to
+relicense raindrops under newer versions of the LGPL (which should be
+similar in spirit to the existing LGPL).
+</p>
+<h2>Contact</h2>
+<p>
+All feedback (bug reports, user/development discussion, patches, pull
+requests) go to the mailing list: <a
+href="mailto:raindrops@librelist.org">raindrops@librelist.org</a>
+</p>
+<p>
+The mailing list is mirrored to Gmane, all information about the group is
+here:
+</p>
+<p>
+<a
+href="http://gmane.org/info.php?group=gmane.comp.lang.ruby.raindrops.general">gmane.org/info.php?group=gmane.comp.lang.ruby.raindrops.general</a>
+</p>
+<p>
+Mailing list archives in mbox format may be downloaded here:
+</p>
+<p>
+<a
+href="http://raindrops.bogomips.org/archives">raindrops.bogomips.org/archives</a>/
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

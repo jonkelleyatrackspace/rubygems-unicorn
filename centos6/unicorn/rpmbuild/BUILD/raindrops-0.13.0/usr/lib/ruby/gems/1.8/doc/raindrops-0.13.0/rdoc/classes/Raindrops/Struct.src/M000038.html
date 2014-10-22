@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Raindrops::Struct)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/raindrops/struct.rb, line 20</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">members</span>)
+    <span class="ruby-identifier">members</span> = <span class="ruby-identifier">members</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">to_sym</span> }.<span class="ruby-identifier">freeze</span>
+    <span class="ruby-identifier">str</span> = <span class="ruby-value str">&quot;def initialize(*values)\n  (MEMBERS.size &gt;= values.size) or raise ArgumentError, \&quot;too many arguments\&quot;\n  @raindrops = Raindrops.new(MEMBERS.size)\n  values.each_with_index { |val,i| @raindrops[i] = values[i] }\nend\n\ndef initialize_copy(src)\n  @raindrops = src.instance_variable_get(:@raindrops).dup\nend\n\ndef []=(index, value)\n  @raindrops[index] = value\nend\n\ndef [](index)\n  @raindrops[index]\nend\n\ndef to_hash\n  ary = @raindrops.to_ary\n  rv = {}\n  MEMBERS.each_with_index { |member, i| rv[member] = ary[i] }\n  rv\nend\n&quot;</span>
+
+    <span class="ruby-identifier">members</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">member</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;def incr_#{member}; @raindrops.incr(#{i}); end; &quot;</span> \
+             <span class="ruby-node">&quot;def decr_#{member}; @raindrops.decr(#{i}); end; &quot;</span> \
+             <span class="ruby-node">&quot;def #{member}; @raindrops[#{i}]; end; &quot;</span> \
+             <span class="ruby-node">&quot;def #{member}=(val); @raindrops[#{i}] = val; end; &quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">klass</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-identifier">:MEMBERS</span>, <span class="ruby-identifier">members</span>)
+    <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-identifier">str</span>)
+    <span class="ruby-identifier">klass</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

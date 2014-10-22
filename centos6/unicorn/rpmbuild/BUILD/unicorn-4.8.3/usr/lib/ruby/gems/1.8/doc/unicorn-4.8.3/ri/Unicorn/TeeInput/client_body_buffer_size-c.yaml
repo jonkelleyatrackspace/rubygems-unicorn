@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: returns the maximum size of request bodies to buffer in memory, amounts larger than this are buffered to the filesystem
+full_name: Unicorn::TeeInput::client_body_buffer_size
+is_singleton: true
+name: client_body_buffer_size
+params: ()
+visibility: public

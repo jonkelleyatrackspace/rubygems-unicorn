@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: (*args)
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: proxy for \Aggregate#each_nonzero
+full_name: Raindrops::Aggregate::PMQ#each_nonzero
+is_singleton: false
+name: each_nonzero
+params: () {|*args| ...}
+visibility: public

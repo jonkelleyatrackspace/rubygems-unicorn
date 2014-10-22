@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Assign any object that responds to *&lt;&lt;*
+full_name: Raindrops::Aggregate::LastDataRecv::default_aggregate=
+is_singleton: true
+name: default_aggregate=
+params: (agg)
+visibility: public

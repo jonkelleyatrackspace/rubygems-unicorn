@@ -1,0 +1,20 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     io.kgio_wait_writable           -&gt; IO\n     io.kgio_wait_writable(timeout)  -&gt; IO or nil\n"
+- !ruby/struct:SM::Flow::P 
+  body: Blocks the running Thread indefinitely until the IO object is writable or if <tt>timeout</tt> expires. If <tt>timeout</tt> is specified and expires, <tt>nil</tt> is returned.
+- !ruby/struct:SM::Flow::P 
+  body: This method is automatically called (without timeout argument) by default whenever kgio_write needs to block on output.
+- !ruby/struct:SM::Flow::P 
+  body: Users of alternative threading/fiber libraries are encouraged to override this method in their subclasses or modules to work with their threading/blocking methods.
+full_name: Kgio::DefaultWaiters#kgio_wait_writable
+is_singleton: false
+name: kgio_wait_writable
+params: |
+  
+
+visibility: public

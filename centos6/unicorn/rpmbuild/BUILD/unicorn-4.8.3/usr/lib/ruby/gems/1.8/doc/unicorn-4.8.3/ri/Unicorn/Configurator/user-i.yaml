@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Runs worker processes as the specified <tt>user</tt> and <tt>group</tt>. The master process always stays running as the user who started it. This switch will occur after calling the after_fork hook, and only if the Worker#user method is not called in the after_fork hook <tt>group</tt> is optional and will not change if unspecified.
+full_name: Unicorn::Configurator#user
+is_singleton: false
+name: user
+params: (user, group = nil)
+visibility: public

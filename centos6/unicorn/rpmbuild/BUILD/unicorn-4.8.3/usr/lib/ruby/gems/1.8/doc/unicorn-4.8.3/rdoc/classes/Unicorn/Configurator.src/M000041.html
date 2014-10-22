@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>listen (Unicorn::Configurator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/configurator.rb, line 410</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">listen</span>(<span class="ruby-identifier">address</span>, <span class="ruby-identifier">options</span> = {})
+    <span class="ruby-identifier">address</span> = <span class="ruby-identifier">expand_addr</span>(<span class="ruby-identifier">address</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">String</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">address</span>
+      [ <span class="ruby-identifier">:umask</span>, <span class="ruby-identifier">:backlog</span>, <span class="ruby-identifier">:sndbuf</span>, <span class="ruby-identifier">:rcvbuf</span>, <span class="ruby-identifier">:tries</span> ].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">key</span>] <span class="ruby-keyword kw">or</span> <span class="ruby-keyword kw">next</span>
+        <span class="ruby-constant">Integer</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword kw">or</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;not an integer: #{key}=#{value.inspect}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      [ <span class="ruby-identifier">:tcp_nodelay</span>, <span class="ruby-identifier">:tcp_nopush</span>, <span class="ruby-identifier">:ipv6only</span>, <span class="ruby-identifier">:reuseport</span> ].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+        (<span class="ruby-identifier">value</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">key</span>]).<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">next</span>
+        <span class="ruby-constant">TrueClass</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">||</span> <span class="ruby-constant">FalseClass</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword kw">or</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;not boolean: #{key}=#{value.inspect}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">unless</span> (<span class="ruby-identifier">value</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:delay</span>]).<span class="ruby-identifier">nil?</span>
+        <span class="ruby-constant">Numeric</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword kw">or</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;not numeric: delay=#{value.inspect}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">set</span>[<span class="ruby-identifier">:listener_opts</span>][<span class="ruby-identifier">address</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">options</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">set</span>[<span class="ruby-identifier">:listeners</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">address</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_fastopen (Kgio::Socket)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      s = Kgio::Socket.new(:INET, :STREAM)
+ *      addr = Socket.pack_sockaddr_in(80, &quot;example.com&quot;)
+ *      s.kgio_fastopen(&quot;hello world&quot;, addr) -&gt; nil
+ *
+ * Starts a TCP connection using TCP Fast Open.  This uses a blocking
+ * sendto() syscall and is only available on Ruby 1.9 or later.
+ * This raises exceptions (including Errno::EINPROGRESS/Errno::EAGAIN)
+ * on errors.  Using this is only recommended for blocking sockets.
+ *
+ * Timeouts may be set with setsockopt:
+ *
+ *      s.setsockopt(:SOCKET, :SNDTIMEO, [1,0].pack(&quot;l_l_&quot;))
+ */
+static VALUE fastopen(VALUE sock, VALUE buf, VALUE addr)
+{
+        struct tfo_args a;
+        VALUE str = (TYPE(buf) == T_STRING) ? buf : rb_obj_as_string(buf);
+        ssize_t w;
+
+        a.fd = my_fileno(sock);
+        a.buf = RSTRING_PTR(str);
+        a.buflen = (size_t)RSTRING_LEN(str);
+        a.addr = sockaddr_from(&amp;a.addrlen, addr);
+
+        /* n.b. rb_thread_blocking_region preserves errno */
+        w = (ssize_t)rb_thread_io_blocking_region(tfo_sendto, &amp;a, a.fd);
+        if (w &lt; 0)
+                rb_sys_fail(&quot;sendto&quot;);
+        if ((size_t)w == a.buflen)
+                return Qnil;
+
+        return rb_str_subseq(str, w, a.buflen - w);
+}</pre>
+</body>
+</html>

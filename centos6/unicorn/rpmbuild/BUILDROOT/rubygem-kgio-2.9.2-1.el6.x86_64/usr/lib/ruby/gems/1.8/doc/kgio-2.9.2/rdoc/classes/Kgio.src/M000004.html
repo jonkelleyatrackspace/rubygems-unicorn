@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>accept_nonblock= (Kgio)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      Kgio.accept_nonblock = true
+ *      Kgio.accept_nonblock = false
+ *
+ * Sets whether or not Kgio::Socket objects created by
+ * TCPServer#kgio_accept,
+ * TCPServer#kgio_tryaccept,
+ * UNIXServer#kgio_accept,
+ * and UNIXServer#kgio_tryaccept
+ * are created with the O_NONBLOCK file status flag.
+ *
+ * This defaults to +false+ for GNU/Linux where MSG_DONTWAIT is
+ * available (and on newer GNU/Linux, accept4() may also set
+ * the non-blocking flag.  This defaults to +true+ on non-GNU/Linux
+ * systems.
+ *
+ * This is always true on Ruby implementations using user-space threads.
+ *
+ * Deprecated, use the per-socket flags for kgio_*accept instead.
+ */
+static VALUE set_nonblock(VALUE mod, VALUE boolean)
+{
+        switch (TYPE(boolean)) {
+        case T_TRUE:
+                accept4_flags |= SOCK_NONBLOCK;
+                return boolean;
+        case T_FALSE:
+                accept4_flags &amp;= ~SOCK_NONBLOCK;
+                return boolean;
+        }
+        rb_raise(rb_eTypeError, &quot;not true or false&quot;);
+        return Qnil;
+}</pre>
+</body>
+</html>

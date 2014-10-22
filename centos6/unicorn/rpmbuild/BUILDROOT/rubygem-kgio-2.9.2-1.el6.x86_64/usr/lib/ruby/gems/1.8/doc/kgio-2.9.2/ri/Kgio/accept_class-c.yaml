@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Returns the default class for newly accepted sockets when kgio_accept or kgio_tryaccept are not passed arguments
+full_name: Kgio::accept_class
+is_singleton: true
+name: accept_class
+params: ()
+visibility: public

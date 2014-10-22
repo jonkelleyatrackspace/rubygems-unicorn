@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>set_cookie_header! (lib/rack/utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/utils.rb, line 247</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_cookie_header!</span>(<span class="ruby-identifier">header</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">value</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Hash</span>
+        <span class="ruby-identifier">domain</span>  = <span class="ruby-value str">&quot;; domain=&quot;</span>  <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:domain</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:domain</span>]
+        <span class="ruby-identifier">path</span>    = <span class="ruby-value str">&quot;; path=&quot;</span>    <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:path</span>]   <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:path</span>]
+        <span class="ruby-identifier">max_age</span> = <span class="ruby-value str">&quot;; max-age=&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:max_age</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:max_age</span>]
+        <span class="ruby-comment cmt"># There is an RFC mess in the area of date formatting for Cookies. Not</span>
+        <span class="ruby-comment cmt"># only are there contradicting RFCs and examples within RFC text, but</span>
+        <span class="ruby-comment cmt"># there are also numerous conflicting names of fields and partially</span>
+        <span class="ruby-comment cmt"># cross-applicable specifications.</span>
+        <span class="ruby-comment cmt">#</span>
+        <span class="ruby-comment cmt"># These are best described in RFC 2616 3.3.1. This RFC text also</span>
+        <span class="ruby-comment cmt"># specifies that RFC 822 as updated by RFC 1123 is preferred. That is a</span>
+        <span class="ruby-comment cmt"># fixed length format with space-date delimeted fields.</span>
+        <span class="ruby-comment cmt">#</span>
+        <span class="ruby-comment cmt"># See also RFC 1123 section 5.2.14.</span>
+        <span class="ruby-comment cmt">#</span>
+        <span class="ruby-comment cmt"># RFC 6265 also specifies &quot;sane-cookie-date&quot; as RFC 1123 date, defined</span>
+        <span class="ruby-comment cmt"># in RFC 2616 3.3.1. RFC 6265 also gives examples that clearly denote</span>
+        <span class="ruby-comment cmt"># the space delimited format. These formats are compliant with RFC 2822.</span>
+        <span class="ruby-comment cmt">#</span>
+        <span class="ruby-comment cmt"># For reference, all involved RFCs are:</span>
+        <span class="ruby-comment cmt"># RFC 822</span>
+        <span class="ruby-comment cmt"># RFC 1123</span>
+        <span class="ruby-comment cmt"># RFC 2109</span>
+        <span class="ruby-comment cmt"># RFC 2616</span>
+        <span class="ruby-comment cmt"># RFC 2822</span>
+        <span class="ruby-comment cmt"># RFC 2965</span>
+        <span class="ruby-comment cmt"># RFC 6265</span>
+        <span class="ruby-identifier">expires</span> = <span class="ruby-value str">&quot;; expires=&quot;</span> <span class="ruby-operator">+</span>
+          <span class="ruby-identifier">rfc2822</span>(<span class="ruby-identifier">value</span>[<span class="ruby-identifier">:expires</span>].<span class="ruby-identifier">clone</span>.<span class="ruby-identifier">gmtime</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:expires</span>]
+        <span class="ruby-identifier">secure</span> = <span class="ruby-value str">&quot;; secure&quot;</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:secure</span>]
+        <span class="ruby-identifier">httponly</span> = <span class="ruby-value str">&quot;; HttpOnly&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:httponly</span>]
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>[<span class="ruby-identifier">:value</span>]
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">value</span> = [<span class="ruby-identifier">value</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">value</span>
+      <span class="ruby-identifier">cookie</span> = <span class="ruby-identifier">escape</span>(<span class="ruby-identifier">key</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;=&quot;</span> <span class="ruby-operator">+</span>
+        <span class="ruby-identifier">value</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">escape</span> <span class="ruby-identifier">v</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;&amp;&quot;</span>) <span class="ruby-operator">+</span>
+        <span class="ruby-node">&quot;#{domain}#{path}#{max_age}#{expires}#{secure}#{httponly}&quot;</span>
+
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>]
+      <span class="ruby-keyword kw">when</span> <span class="ruby-keyword kw">nil</span>, <span class="ruby-value str">''</span>
+        <span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>] = <span class="ruby-identifier">cookie</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>
+        <span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>] = [<span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>], <span class="ruby-identifier">cookie</span>].<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>] = (<span class="ruby-identifier">header</span>[<span class="ruby-value str">&quot;Set-Cookie&quot;</span>] <span class="ruby-operator">+</span> [<span class="ruby-identifier">cookie</span>]).<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

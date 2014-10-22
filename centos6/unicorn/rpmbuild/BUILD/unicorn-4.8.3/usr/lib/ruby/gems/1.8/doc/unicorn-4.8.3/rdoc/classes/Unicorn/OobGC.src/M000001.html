@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Unicorn::OobGC)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/oob_gc.rb, line 56</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">interval</span> = <span class="ruby-value">5</span>, <span class="ruby-identifier">path</span> = <span class="ruby-regexp re">%r{\A/}</span>)
+    <span class="ruby-ivar">@@nr</span> = <span class="ruby-identifier">interval</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">const_set</span> <span class="ruby-identifier">:OOBGC_PATH</span>, <span class="ruby-identifier">path</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">const_set</span> <span class="ruby-identifier">:OOBGC_INTERVAL</span>, <span class="ruby-identifier">interval</span>
+    <span class="ruby-constant">ObjectSpace</span>.<span class="ruby-identifier">each_object</span>(<span class="ruby-constant">Unicorn</span><span class="ruby-operator">::</span><span class="ruby-constant">HttpServer</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">s</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-keyword kw">self</span>)
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">const_set</span> <span class="ruby-identifier">:OOBGC_ENV</span>, <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">:@request</span>).<span class="ruby-identifier">env</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">app</span> <span class="ruby-comment cmt"># pretend to be Rack middleware since it was in the past</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

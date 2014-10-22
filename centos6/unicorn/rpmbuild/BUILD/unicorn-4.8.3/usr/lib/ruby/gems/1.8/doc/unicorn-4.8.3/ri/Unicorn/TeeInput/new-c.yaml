@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Initializes a new TeeInput object. You normally do not have to call this unless you are writing an HTTP server.
+full_name: Unicorn::TeeInput::new
+is_singleton: true
+name: new
+params: (socket, request)
+visibility: public

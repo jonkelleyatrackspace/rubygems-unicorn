@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: By default, this is a Raindrops::Aggregate::PMQ object It may be anything that responds to *&lt;&lt;*
+full_name: Raindrops::Aggregate::LastDataRecv::default_aggregate
+is_singleton: true
+name: default_aggregate
+params: ()
+visibility: public

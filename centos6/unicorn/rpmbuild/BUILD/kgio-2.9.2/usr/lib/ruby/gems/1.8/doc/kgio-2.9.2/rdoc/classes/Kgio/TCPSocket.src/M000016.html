@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Kgio::TCPSocket)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      Kgio::TCPSocket.new('127.0.0.1', 80) -&gt; socket
+ *
+ * Creates a new Kgio::TCPSocket object and initiates a
+ * non-blocking connection.
+ *
+ * This may block and call any method defined to +kgio_wait_writable+
+ * for the class.
+ *
+ * Unlike the TCPSocket.new in Ruby, this does NOT perform DNS
+ * lookups (which is subject to a different set of timeouts and
+ * best handled elsewhere).
+ */
+static VALUE kgio_tcp_connect(VALUE klass, VALUE ip, VALUE port)
+{
+        return tcp_connect(klass, ip, port, 1);
+}</pre>
+</body>
+</html>

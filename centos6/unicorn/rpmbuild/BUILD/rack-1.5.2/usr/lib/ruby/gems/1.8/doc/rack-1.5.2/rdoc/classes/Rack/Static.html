@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Rack::Static</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Rack::Static</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/rack/static_rb.html">
+                lib/rack/static.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Static.html">Rack::Static</a> middleware intercepts requests
+for static files (javascript files, images, stylesheets, etc) based on the
+url prefixes or route mappings passed in the options, and serves them using
+a <a href="File.html">Rack::File</a> object. This allows a <a
+href="../Rack.html">Rack</a> stack to serve both static and dynamic
+content.
+</p>
+<p>
+Examples:
+</p>
+<p>
+Serve all requests beginning with /media from the &quot;media&quot; folder
+located in the current directory (ie media/*):
+</p>
+<pre>
+    use Rack::Static, :urls =&gt; [&quot;/media&quot;]
+</pre>
+<p>
+Serve all requests beginning with /css or /images from the folder
+&quot;public&quot; in the current directory (ie public/css/* and
+public/images/*):
+</p>
+<pre>
+    use Rack::Static, :urls =&gt; [&quot;/css&quot;, &quot;/images&quot;], :root =&gt; &quot;public&quot;
+</pre>
+<p>
+Serve all requests to / with &quot;index.html&quot; from the folder
+&quot;public&quot; in the current directory (ie public/index.html):
+</p>
+<pre>
+    use Rack::Static, :urls =&gt; {&quot;/&quot; =&gt; 'index.html'}, :root =&gt; 'public'
+</pre>
+<p>
+Serve all requests normally from the folder &quot;public&quot; in the
+current directory but uses index.html as default route for &quot;/&quot;
+</p>
+<pre>
+    use Rack::Static, :urls =&gt; [&quot;&quot;], :root =&gt; 'public', :index =&gt;
+    'index.html'
+</pre>
+<p>
+Set custom HTTP Headers for based on rules:
+</p>
+<pre>
+    use Rack::Static, :root =&gt; 'public',
+        :header_rules =&gt; [
+          [rule, {header_field =&gt; content, header_field =&gt; content}],
+          [rule, {header_field =&gt; content}]
+        ]
+
+ Rules for selecting files:
+
+ 1) All files
+    Provide the :all symbol
+    :all =&gt; Matches every file
+
+ 2) Folders
+    Provide the folder path as a string
+    '/folder' or '/folder/subfolder' =&gt; Matches files in a certain folder
+
+ 3) File Extensions
+    Provide the file extensions as an array
+    ['css', 'js'] or %w(css js) =&gt; Matches files ending in .css or .js
+
+ 4) Regular Expressions / Regexp
+    Provide a regular expression
+    %r{\.(?:css|js)\z} =&gt; Matches files ending in .css or .js
+    /\.(?:eot|ttf|otf|woff|svg)\z/ =&gt; Matches files ending in
+      the most common web font formats (.eot, .ttf, .otf, .woff, .svg)
+      Note: This Regexp is available as a shortcut, using the :fonts rule
+
+ 5) Font Shortcut
+    Provide the :fonts symbol
+    :fonts =&gt; Uses the Regexp rule stated right above to match all common web font endings
+
+ Rule Ordering:
+   Rules are applied in the order that they are provided.
+   List rather general rules above special ones.
+
+ Complete example use case including HTTP header rules:
+
+    use Rack::Static, :root =&gt; 'public',
+        :header_rules =&gt; [
+          # Cache all static files in public caches (e.g. Rack::Cache)
+          #  as well as in the browser
+          [:all, {'Cache-Control' =&gt; 'public, max-age=31536000'}],
+
+          # Provide web fonts with cross-origin access-control-headers
+          #  Firefox requires this when serving assets using a Content Delivery Network
+          [:fonts, {'Access-Control-Allow-Origin' =&gt; '*'}]
+        ]
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000362">apply_header_rules</a>&nbsp;&nbsp;
+      <a href="#M000363">apply_rule</a>&nbsp;&nbsp;
+      <a href="#M000361">call</a>&nbsp;&nbsp;
+      <a href="#M000360">can_serve</a>&nbsp;&nbsp;
+      <a href="#M000357">new</a>&nbsp;&nbsp;
+      <a href="#M000358">overwrite_file_path</a>&nbsp;&nbsp;
+      <a href="#M000359">route_file</a>&nbsp;&nbsp;
+      <a href="#M000364">set_headers</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000357" class="method-detail">
+        <a name="M000357"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000357.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000357.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(app, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000362" class="method-detail">
+        <a name="M000362"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000362.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000362.html');return false;">
+          <span class="method-name">apply_header_rules</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Convert HTTP header rules to HTTP headers
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000363" class="method-detail">
+        <a name="M000363"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000363.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000363.html');return false;">
+          <span class="method-name">apply_rule</span><span class="method-args">(rule, headers)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000361" class="method-detail">
+        <a name="M000361"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000361.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000361.html');return false;">
+          <span class="method-name">call</span><span class="method-args">(env)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000360" class="method-detail">
+        <a name="M000360"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000360.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000360.html');return false;">
+          <span class="method-name">can_serve</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000358" class="method-detail">
+        <a name="M000358"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000358.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000358.html');return false;">
+          <span class="method-name">overwrite_file_path</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000359" class="method-detail">
+        <a name="M000359"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000359.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000359.html');return false;">
+          <span class="method-name">route_file</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000364" class="method-detail">
+        <a name="M000364"></a>
+
+        <div class="method-heading">
+          <a href="Static.src/M000364.html" target="Code" class="method-signature"
+            onclick="popupCode('Static.src/M000364.html');return false;">
+          <span class="method-name">set_headers</span><span class="method-args">(headers)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

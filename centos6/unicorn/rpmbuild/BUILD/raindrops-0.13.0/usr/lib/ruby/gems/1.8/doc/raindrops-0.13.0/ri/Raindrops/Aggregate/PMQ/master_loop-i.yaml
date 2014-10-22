@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "Starts running a master loop, usually in a dedicated thread or process:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Thread.new { agg.master_loop }\n"
+- !ruby/struct:SM::Flow::P 
+  body: Any worker can call +agg.stop_master_loop+ to stop the master loop (possibly causing the thread or process to exit)
+full_name: Raindrops::Aggregate::PMQ#master_loop
+is_singleton: false
+name: master_loop
+params: ()
+visibility: public

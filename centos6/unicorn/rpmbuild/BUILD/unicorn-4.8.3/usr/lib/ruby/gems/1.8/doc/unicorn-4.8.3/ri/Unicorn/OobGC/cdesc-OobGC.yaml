@@ -1,0 +1,51 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Strongly consider https://github.com/tmm1/gctools if using Ruby 2.1+ It is built on new APIs in Ruby 2.1, so it is more intelligent than this historical implementation.
+- !ruby/struct:SM::Flow::P 
+  body: Users on Ruby 2.0 (not 2.1+) may also want to check out lib/middleware/unicorn_oobgc.rb from the Discourse project (https://github.com/discourse/discourse)
+- !ruby/struct:SM::Flow::P 
+  body: The following information is only for historical versions of Ruby.
+- !ruby/struct:SM::Flow::P 
+  body: Runs GC after requests, after closing the client socket and before attempting to accept more connections.
+- !ruby/struct:SM::Flow::P 
+  body: This shouldn't hurt overall performance as long as the server cluster is at &lt;50% CPU capacity, and improves the performance of most memory intensive requests. This serves to improve _client-visible_ performance (possibly at the cost of overall performance).
+- !ruby/struct:SM::Flow::P 
+  body: Increasing the number of <tt>worker_processes</tt> may be necessary to improve average client response times because some of your workers will be busy doing GC and unable to service clients. Think of using more workers with this module as a poor man's concurrent GC.
+- !ruby/struct:SM::Flow::P 
+  body: We'll call GC after each request is been written out to the socket, so the client never sees the extra GC hit it.
+- !ruby/struct:SM::Flow::P 
+  body: This middleware is <em>only</em> effective for applications that use a lot of memory, and will hurt simpler apps/endpoints that can process multiple requests before incurring GC.
+- !ruby/struct:SM::Flow::P 
+  body: This middleware is only designed to work with unicorn, as it harms performance with keepalive-enabled servers.
+- !ruby/struct:SM::Flow::P 
+  body: "Example (in config.ru):"
+- !ruby/struct:SM::Flow::VERB 
+  body: "    require 'unicorn/oob_gc'\n\n    # GC ever two requests that hit /expensive/foo or /more_expensive/foo\n    # in your app.  By default, this will GC once every 5 requests\n    # for all endpoints in your app\n    use Unicorn::OobGC, 2, %r{\\A/(?:expensive/foo|more_expensive/foo)}\n"
+- !ruby/struct:SM::Flow::P 
+  body: "Feedback from users of early implementations of this module:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: http://comments.gmane.org/gmane.comp.lang.ruby.unicorn.general/486
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: http://article.gmane.org/gmane.comp.lang.ruby.unicorn.general/596
+  type: :BULLET
+constants: []
+
+full_name: Unicorn::OobGC
+includes: []
+
+instance_methods: []
+
+name: OobGC
+superclass: 

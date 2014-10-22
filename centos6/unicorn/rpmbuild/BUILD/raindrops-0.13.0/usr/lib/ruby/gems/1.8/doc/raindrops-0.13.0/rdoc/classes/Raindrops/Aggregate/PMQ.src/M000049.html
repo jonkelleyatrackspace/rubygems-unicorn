@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>flush_master (Raindrops::Aggregate::PMQ)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/raindrops/aggregate/pmq.rb, line 162</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flush_master</span>
+    <span class="ruby-identifier">dump</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span> <span class="ruby-ivar">@aggregate</span>
+    <span class="ruby-identifier">synchronize</span>(<span class="ruby-ivar">@wr</span>, <span class="ruby-constant">WRLOCK</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">wr</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">wr</span>.<span class="ruby-identifier">truncate</span> <span class="ruby-value">0</span>
+      <span class="ruby-constant">IO</span>.<span class="ruby-identifier">pwrite</span> <span class="ruby-identifier">wr</span>.<span class="ruby-identifier">fileno</span>, <span class="ruby-identifier">dump</span>, <span class="ruby-value">0</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

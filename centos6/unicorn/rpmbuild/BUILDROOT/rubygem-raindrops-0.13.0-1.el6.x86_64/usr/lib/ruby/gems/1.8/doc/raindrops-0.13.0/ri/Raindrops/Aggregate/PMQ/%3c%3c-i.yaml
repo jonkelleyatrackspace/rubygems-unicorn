@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: adds a sample to the underlying \Aggregate object
+full_name: Raindrops::Aggregate::PMQ#<<
+is_singleton: false
+name: "<<"
+params: (val)
+visibility: public

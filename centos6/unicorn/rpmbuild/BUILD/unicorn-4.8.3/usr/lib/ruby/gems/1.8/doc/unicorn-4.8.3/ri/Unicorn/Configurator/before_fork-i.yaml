@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets before_fork got be a given Proc object. This Proc object will be called by the master process before forking each worker.
+full_name: Unicorn::Configurator#before_fork
+is_singleton: false
+name: before_fork
+params: (*args, &block)
+visibility: public

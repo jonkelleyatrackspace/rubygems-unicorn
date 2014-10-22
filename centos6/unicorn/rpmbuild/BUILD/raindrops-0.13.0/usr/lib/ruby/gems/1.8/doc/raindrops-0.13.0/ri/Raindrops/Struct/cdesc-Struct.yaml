@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This is a wrapper around Raindrops objects much like the core Ruby \Struct can be seen as a wrapper around the core \Array class. It's usage is similar to the core \Struct class, except its fields may only be used to house unsigned long integers.
+- !ruby/struct:SM::Flow::VERB 
+  body: "  class Foo &lt; Raindrops::Struct.new(:readers, :writers)\n  end\n\n  foo = Foo.new 0, 0\n\n  foo.incr_writers    -&gt; 1\n  foo.incr_readers    -&gt; 1\n"
+constants: []
+
+full_name: Raindrops::Struct
+includes: []
+
+instance_methods: []
+
+name: Struct
+superclass: Object

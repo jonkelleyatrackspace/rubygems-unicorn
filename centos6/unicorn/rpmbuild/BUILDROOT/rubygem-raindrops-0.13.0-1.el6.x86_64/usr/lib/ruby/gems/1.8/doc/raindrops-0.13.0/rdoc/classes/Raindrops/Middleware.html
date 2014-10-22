@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Raindrops::Middleware</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Raindrops::Middleware</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/raindrops/middleware_rb.html">
+                lib/raindrops/middleware.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/raindrops.git/tree/lib/raindrops/middleware.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+<a href="Middleware.html">Raindrops::Middleware</a> is Rack middleware that
+allows snapshotting current activity from an HTTP request. For all
+operating systems, it returns at least the following fields:
+</p>
+<ul>
+<li>calling - the number of application dispatchers on your machine
+
+</li>
+<li>writing - the number of clients being written to on your machine
+
+</li>
+</ul>
+<p>
+Additional fields are available for \<a href="Linux.html">Linux</a> users.
+</p>
+<p>
+It should be loaded at the top of Rack middleware stack before other
+middlewares for maximum accuracy.
+</p>
+<h3>Usage (Rainbows!/Unicorn preload_app=false)</h3>
+<p>
+If you&#8216;re using preload_app=false (the default) in your
+Rainbows!/Unicorn config file, you&#8216;ll need to create the global <a
+href="Middleware/Stats.html">Stats</a> object before forking.
+</p>
+<pre>
+   require 'raindrops'
+   $stats ||= Raindrops::Middleware::Stats.new
+</pre>
+<p>
+In your Rack config.ru:
+</p>
+<pre>
+   use Raindrops::Middleware, :stats =&gt; $stats
+</pre>
+<h3>Usage (Rainbows!/Unicorn preload_app=true)</h3>
+<p>
+If you&#8216;re using preload_app=true in your Rainbows!/Unicorn config
+file, just add the middleware to your stack:
+</p>
+<p>
+In your Rack config.ru:
+</p>
+<pre>
+   use Raindrops::Middleware
+</pre>
+<h3><a href="Linux.html">Linux</a>-only extras!</h3>
+<p>
+To get bound listener statistics under \<a href="Linux.html">Linux</a>, you
+need to specify the listener names for your server. You can even include
+listen sockets for <b>other</b> servers on the same machine. This can be
+handy for monitoring your nginx proxy as well.
+</p>
+<p>
+In your Rack config.ru, just pass the :listeners argument as an array of
+strings (along with any other arguments). You can specify any combination
+of TCP or Unix domain socket names:
+</p>
+<pre>
+   use Raindrops::Middleware, :listeners =&gt; %w(0.0.0.0:80 /tmp/.sock)
+</pre>
+<p>
+If you&#8216;re running Unicorn 0.98.0 or later, you don&#8216;t have to
+pass in the :listeners array, <a href="../Raindrops.html">Raindrops</a>
+will automatically detect the listeners used by Unicorn master process.
+This does not detect listeners in different processes, of course.
+</p>
+<p>
+The response body includes the following stats for each listener (see also
+Raindrops::ListenStats):
+</p>
+<ul>
+<li>active - total number of active clients on that listener
+
+</li>
+<li>queued - total number of queued (pre-accept()) clients on that listener
+
+</li>
+</ul>
+<h1>Demo Server</h1>
+<p>
+There is a server running this middleware (and <a
+href="Watcher.html">Watcher</a>) at
+</p>
+<pre>
+ http://raindrops-demo.bogomips.org/_raindrops
+</pre>
+<p>
+Also check out the <a href="Watcher.html">Watcher</a> demo at <a
+href="http://raindrops-demo.bogomips.org">raindrops-demo.bogomips.org</a>/
+</p>
+<p>
+The demo server is only limited to 30 users, so be sure not to abuse it by
+using the /tail/ endpoint too much.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000065">new</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Middleware/Stats.html" class="link">Raindrops::Middleware::Stats</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000065" class="method-detail">
+        <a name="M000065"></a>
+
+        <div class="method-heading">
+          <a href="Middleware.src/M000065.html" target="Code" class="method-signature"
+            onclick="popupCode('Middleware.src/M000065.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(app, opts = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<tt>app</tt> may be any Rack application, this middleware wraps it.
+<tt>opts</tt> is a hash that understands the following members:
+</p>
+<ul>
+<li>:stats - <a href="Middleware/Stats.html">Raindrops::Middleware::Stats</a>
+struct (default: Stats.new)
+
+</li>
+<li>:path - HTTP endpoint used for reading the stats (default:
+&quot;/_raindrops&quot;)
+
+</li>
+<li>:listeners - array of host:port or socket paths (default: from Unicorn)
+
+</li>
+</ul>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

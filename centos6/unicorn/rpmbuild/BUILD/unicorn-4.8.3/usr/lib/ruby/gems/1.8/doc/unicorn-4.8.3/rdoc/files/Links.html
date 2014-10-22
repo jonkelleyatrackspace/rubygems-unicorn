@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: Links</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>Links</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>Links
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/Links"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Related Projects</h1>
+<p>
+If you&#8216;re interested in \<a
+href="../classes/Unicorn.html">Unicorn</a>, you may be interested in some
+of the projects listed below. If you have any links to add/change/remove,
+please tell us at <a
+href="mailto:unicorn-public@bogomips.org">unicorn-public@bogomips.org</a>!
+</p>
+<h2>Disclaimer</h2>
+<p>
+The \<a href="../classes/Unicorn.html">Unicorn</a> project is not
+responsible for the content in these links. Furthermore, the \<a
+href="../classes/Unicorn.html">Unicorn</a> project has never, does not and
+will never endorse:
+</p>
+<ul>
+<li>any for-profit entities or services
+
+</li>
+<li>any non-<a href="http://www.gnu.org/philosophy/free-sw.html">Free
+Software</a>
+
+</li>
+</ul>
+<p>
+The existence of these links does not imply endorsement of any entities or
+services behind them.
+</p>
+<h3>For use with \<a href="../classes/Unicorn.html">Unicorn</a></h3>
+<ul>
+<li><a href="https://github.com/arya/bluepill">Bluepill</a> - a simple process
+monitoring tool written in Ruby
+
+</li>
+<li><a href="https://github.com/simonoff/golden_brindle">golden_brindle</a> -
+tool to manage multiple \<a href="../classes/Unicorn.html">Unicorn</a>
+instances/applications on a single server
+
+</li>
+<li><a href="http://raindrops.bogomips.org/">raindrops</a> - real-time stats
+for preforking Rack servers
+
+</li>
+<li><a href="http://bogomips.org/unxf/">UnXF</a> Un-X-Forward* the Rack
+environment, useful since unicorn is designed to be deployed behind a
+reverse proxy.
+
+</li>
+</ul>
+<h3>\<a href="../classes/Unicorn.html">Unicorn</a> is written to work with</h3>
+<ul>
+<li><a href="http://rack.github.io/">Rack</a> - a minimal interface between
+webservers supporting Ruby and Ruby frameworks
+
+</li>
+<li><a href="http://www.ruby-lang.org/">Ruby</a> - the programming language of
+Rack and \<a href="../classes/Unicorn.html">Unicorn</a>
+
+</li>
+<li><a href="http://nginx.org/">nginx</a> - the reverse proxy for use with \<a
+href="../classes/Unicorn.html">Unicorn</a>
+
+</li>
+<li><a href="http://bogomips.org/kgio/">kgio</a> - the I/O library written for
+\<a href="../classes/Unicorn.html">Unicorn</a>
+
+</li>
+</ul>
+<h3>Derivatives</h3>
+<ul>
+<li><a href="http://gunicorn.org/">Green Unicorn</a> - a Python version of \<a
+href="../classes/Unicorn.html">Unicorn</a>
+
+</li>
+<li><a href="http://rainbows.bogomips.org/">Rainbows!</a> - \<a
+href="../classes/Unicorn.html">Unicorn</a> for sleepy apps and slow
+clients.
+
+</li>
+</ul>
+<h3>Prior Work</h3>
+<ul>
+<li><a href="http://rubygems.org/gems/mongrel">Mongrel</a> - the awesome
+webserver unicorn is based on
+
+</li>
+<li><a href="http://bogomips.org/david.git">david</a> - a tool to explain why
+you need nginx in front of \<a href="../classes/Unicorn.html">Unicorn</a>
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

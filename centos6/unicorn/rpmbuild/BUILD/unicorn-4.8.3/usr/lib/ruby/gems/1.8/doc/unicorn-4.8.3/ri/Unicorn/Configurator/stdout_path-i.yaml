@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Same as stderr_path, except for $stdout. Not many Rack applications write to $stdout, but any that do will have their output written here. It is safe to point this to the same location a stderr_path. Like stderr_path, this defaults to /dev/null when daemonized.
+full_name: Unicorn::Configurator#stdout_path
+is_singleton: false
+name: stdout_path
+params: (path)
+visibility: public

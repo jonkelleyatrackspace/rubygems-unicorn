@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>body (Rack::MockResponse)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/mock.rb, line 172</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">body</span>
+      <span class="ruby-comment cmt"># FIXME: apparently users of MockResponse expect the return value of</span>
+      <span class="ruby-comment cmt"># MockResponse#body to be a string.  However, the real response object</span>
+      <span class="ruby-comment cmt"># returns the body as a list.</span>
+      <span class="ruby-comment cmt">#</span>
+      <span class="ruby-comment cmt"># See spec_showstatus.rb:</span>
+      <span class="ruby-comment cmt">#</span>
+      <span class="ruby-comment cmt">#   should &quot;not replace existing messages&quot; do</span>
+      <span class="ruby-comment cmt">#     ...</span>
+      <span class="ruby-comment cmt">#     res.body.should == &quot;foo!&quot;</span>
+      <span class="ruby-comment cmt">#   end</span>
+      <span class="ruby-keyword kw">super</span>.<span class="ruby-identifier">join</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

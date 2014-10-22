@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>autopush? (Kgio)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      Kgio.autopush? -&gt; true or false
+ *
+ * Returns whether or not autopush is enabled.
+ *
+ * Only available on systems with TCP_CORK (Linux) or
+ * TCP_NOPUSH (FreeBSD, and maybe other *BSDs).
+ */
+static VALUE s_get_autopush(VALUE self)
+{
+        return enabled ? Qtrue : Qfalse;
+}</pre>
+</body>
+</html>

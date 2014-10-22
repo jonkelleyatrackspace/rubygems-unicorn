@@ -1,0 +1,79 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: 
+- !ruby/object:RI::Attribute 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: returns the number of dropped messages sent to a POSIX message queue if non-blocking operation was desired with :lossy
+  name: nr_dropped
+  rw: R
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: \Aggregate + POSIX message queues support for Ruby 1.9 and \Linux
+- !ruby/struct:SM::Flow::P 
+  body: This class is duck-type compatible with \Aggregate and allows us to aggregate and share statistics from multiple processes/threads aided POSIX message queues. This is designed to be used with the Raindrops::LastDataRecv Rack application, but can be used independently on compatible Runtimes.
+- !ruby/struct:SM::Flow::P 
+  body: "Unlike the core of raindrops, this is only supported on Ruby 1.9 and Linux 2.6. Using this class requires the following additional RubyGems or libraries:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: aggregate (tested with 0.2.2)
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: io-extra (tested with 1.2.3)
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: posix_mq (tested with 1.0.0)
+  type: :BULLET
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: Design
+- !ruby/struct:SM::Flow::P 
+  body: "There is one master thread which aggregates statistics. Individual worker processes or threads will write to a shared POSIX message queue (default: &quot;/raindrops&quot;) that the master reads from. At a predefined interval, the master thread will write out to a shared, anonymous temporary file that workers may read from"
+- !ruby/struct:SM::Flow::P 
+  body: Setting +:worker_interval+ and +:master_interval+ to +1+ will result in perfect accuracy but at the cost of a high synchronization overhead. Larger intervals mean less frequent messaging for higher performance but lower accuracy.
+constants: []
+
+full_name: Raindrops::Aggregate::PMQ
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: "<<"
+- !ruby/object:RI::MethodSummary 
+  name: aggregate
+- !ruby/object:RI::MethodSummary 
+  name: count
+- !ruby/object:RI::MethodSummary 
+  name: each
+- !ruby/object:RI::MethodSummary 
+  name: each_nonzero
+- !ruby/object:RI::MethodSummary 
+  name: flush
+- !ruby/object:RI::MethodSummary 
+  name: flush_master
+- !ruby/object:RI::MethodSummary 
+  name: master_loop
+- !ruby/object:RI::MethodSummary 
+  name: max
+- !ruby/object:RI::MethodSummary 
+  name: mean
+- !ruby/object:RI::MethodSummary 
+  name: min
+- !ruby/object:RI::MethodSummary 
+  name: outliers_high
+- !ruby/object:RI::MethodSummary 
+  name: outliers_low
+- !ruby/object:RI::MethodSummary 
+  name: std_dev
+- !ruby/object:RI::MethodSummary 
+  name: stop_master_loop
+- !ruby/object:RI::MethodSummary 
+  name: sum
+- !ruby/object:RI::MethodSummary 
+  name: to_s
+name: PMQ
+superclass: Object

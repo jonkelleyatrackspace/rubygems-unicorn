@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>initialize_copy (Raindrops)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      rd.dup               -&gt; rd_copy
+ *
+ * Duplicates and snapshots the current state of a Raindrops object.
+ */
+static VALUE init_copy(VALUE dest, VALUE source)
+{
+        struct raindrops *dst = DATA_PTR(dest);
+        struct raindrops *src = get(source);
+
+        init(dest, SIZET2NUM(src-&gt;size));
+        memcpy(dst-&gt;drops, src-&gt;drops, raindrop_size * src-&gt;size);
+
+        return dest;
+}</pre>
+</body>
+</html>

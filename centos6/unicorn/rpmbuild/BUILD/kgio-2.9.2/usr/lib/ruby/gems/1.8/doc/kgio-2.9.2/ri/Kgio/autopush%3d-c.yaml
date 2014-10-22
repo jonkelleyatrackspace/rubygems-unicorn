@@ -1,0 +1,17 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Enables or disables autopush for sockets created with kgio_accept and kgio_tryaccept methods. Autopush relies on TCP_CORK/TCP_NOPUSH being enabled on the listen socket.
+- !ruby/struct:SM::Flow::P 
+  body: Only available on systems with TCP_CORK (Linux) or TCP_NOPUSH (FreeBSD, and maybe other *BSDs).
+full_name: Kgio::autopush=
+is_singleton: true
+name: autopush=
+params: |
+  Kgio.autopush = true
+  Kgio.autopush = false
+
+visibility: public

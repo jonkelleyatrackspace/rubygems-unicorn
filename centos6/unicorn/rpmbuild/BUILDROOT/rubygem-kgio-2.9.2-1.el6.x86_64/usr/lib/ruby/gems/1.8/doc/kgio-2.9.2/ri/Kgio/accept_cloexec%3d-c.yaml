@@ -1,0 +1,20 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio.accept_cloexec = true\n     Kgio.accept_cloexec = false\n"
+- !ruby/struct:SM::Flow::P 
+  body: Sets whether or not Kgio::Socket objects created by TCPServer#kgio_accept, TCPServer#kgio_tryaccept, UNIXServer#kgio_accept, and UNIXServer#kgio_tryaccept default to being created with the FD_CLOEXEC file descriptor flag.
+- !ruby/struct:SM::Flow::P 
+  body: This is on by default, as there is little reason to deal to enable it for client sockets on a socket server.
+- !ruby/struct:SM::Flow::P 
+  body: Deprecated, use the per-socket flags for kgio_*accept instead.
+full_name: Kgio::accept_cloexec=
+is_singleton: true
+name: accept_cloexec=
+params: |
+  
+
+visibility: public

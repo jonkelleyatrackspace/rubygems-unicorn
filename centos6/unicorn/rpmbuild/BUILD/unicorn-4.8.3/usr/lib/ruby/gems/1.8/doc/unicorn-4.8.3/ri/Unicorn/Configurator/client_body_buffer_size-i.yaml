@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: The maximum size (in <tt>bytes</tt>) to buffer in memory before resorting to a temporary file. Default is 112 kilobytes. This option has no effect if &quot;rewindable_input&quot; is set to <tt>false</tt>.
+full_name: Unicorn::Configurator#client_body_buffer_size
+is_singleton: false
+name: client_body_buffer_size
+params: (bytes)
+visibility: public

@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: flushes the local queue of the worker process, sending all pending data to the master. There is no need to call this explicitly as +:worker_interval+ defines how frequently your queue will be flushed
+full_name: Raindrops::Aggregate::PMQ#flush
+is_singleton: false
+name: flush
+params: ()
+visibility: public

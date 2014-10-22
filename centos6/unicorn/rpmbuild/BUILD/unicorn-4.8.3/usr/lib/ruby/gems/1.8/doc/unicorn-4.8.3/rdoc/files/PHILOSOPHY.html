@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: PHILOSOPHY</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>PHILOSOPHY</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>PHILOSOPHY
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/PHILOSOPHY"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>The Philosophy Behind unicorn</h1>
+<p>
+Being a server that only runs on Unix-like platforms, unicorn is strongly
+tied to the Unix philosophy of doing one thing and (hopefully) doing it
+well. Despite using HTTP, unicorn is strictly a <em>backend</em>
+application server for running Rack-based Ruby applications.
+</p>
+<h2>Avoid Complexity</h2>
+<p>
+Instead of attempting to be efficient at serving slow clients, unicorn
+relies on a buffering reverse proxy to efficiently deal with slow clients.
+</p>
+<p>
+unicorn uses an old-fashioned preforking worker model with blocking I/O.
+Our processing model is the antithesis of more modern (and theoretically
+more efficient) server processing models using threads or non-blocking I/O
+with events.
+</p>
+<h3>Threads and Events Are Hard</h3>
+<p>
+&#8230;to many developers. Reasons for this is beyond the scope of this
+document. unicorn avoids concurrency within each worker process so you have
+fewer things to worry about when developing your application. Of course
+unicorn can use multiple worker processes to utilize multiple CPUs or
+spindles. Applications can still use threads internally, however.
+</p>
+<h2>Slow Clients Are Problematic</h2>
+<p>
+Most benchmarks we&#8216;ve seen don&#8216;t tell you this, and unicorn
+doesn&#8216;t care about slow clients&#8230; but <em>you</em> should.
+</p>
+<p>
+A &quot;slow client&quot; can be any client outside of your datacenter.
+Network traffic within a local network is always faster than traffic that
+crosses outside of it. The laws of physics do not allow otherwise.
+</p>
+<p>
+Persistent connections were introduced in HTTP/1.1 reduce latency from
+connection establishment and TCP slow start. They also waste server
+resources when clients are idle.
+</p>
+<p>
+Persistent connections mean one of the unicorn worker processes (depending
+on your application, it can be very memory hungry) would spend a
+significant amount of its time idle keeping the connection alive <em>and
+not doing anything else</em>. Being single-threaded and using blocking I/O,
+a worker cannot serve other clients while keeping a connection alive. Thus
+unicorn does not implement persistent connections.
+</p>
+<p>
+If your application responses are larger than the socket buffer or if
+you&#8216;re handling large requests (uploads), worker processes will also
+be bottlenecked by the speed of the <b>client</b> connection. You should
+not allow unicorn to serve clients outside of your local network.
+</p>
+<h2>Application Concurrency != Network Concurrency</h2>
+<p>
+Performance is asymmetric across the different subsystems of the machine
+and parts of the network. CPUs and main memory can process gigabytes of
+data in a second; clients on the Internet are usually only capable of a
+tiny fraction of that. unicorn deployments should avoid dealing with slow
+clients directly and instead rely on a reverse proxy to shield it from the
+effects of slow I/O.
+</p>
+<h2>Improved Performance Through Reverse Proxying</h2>
+<p>
+By acting as a buffer to shield unicorn from slow I/O, a reverse proxy will
+inevitably incur overhead in the form of extra data copies. However, as I/O
+within a local network is fast (and faster still with local sockets), this
+overhead is negligible for the vast majority of HTTP requests and
+responses.
+</p>
+<p>
+The ideal reverse proxy complements the weaknesses of unicorn. A reverse
+proxy for unicorn should meet the following requirements:
+</p>
+<ol>
+<li>It should fully buffer all HTTP requests (and large responses). Each
+request should be &quot;corked&quot; in the reverse proxy and sent as fast
+as possible to the backend unicorn processes. This is the most important
+feature to look for when choosing a reverse proxy for unicorn.
+
+</li>
+<li>It should spend minimal time in userspace. Network (and disk) I/O are
+system-level tasks and usually managed by the kernel. This may change if
+userspace TCP stacks become more popular in the future; but the reverse
+proxy should not waste time with application-level logic. These concerns
+should be separated
+
+</li>
+<li>It should avoid context switches and CPU scheduling overhead. In many
+(most?) cases, network devices and their interrupts are only be handled by
+one CPU at a time. It should avoid contention within the system by
+serializing all network I/O into one (or few) userspace processes. Network
+I/O is not a CPU-intensive task and it is not helpful to use multiple CPU
+cores (at least not for GigE).
+
+</li>
+<li>It should efficiently manage persistent connections (and pipelining) to
+slow clients. If you care to serve slow clients outside your network, then
+these features of HTTP/1.1 will help.
+
+</li>
+<li>It should (optionally) serve static files. If you have static files on your
+site (especially large ones), they are far more efficiently served with as
+few data copies as possible (e.g. with sendfile() to completely avoid
+copying the data to userspace).
+
+</li>
+</ol>
+<p>
+nginx is the only (Free) solution we know of that meets the above
+requirements.
+</p>
+<p>
+Indeed, the folks behind unicorn have deployed nginx as a reverse-proxy not
+only for Ruby applications, but also for production applications running
+Apache/mod_perl, Apache/mod_php and Apache Tomcat. In every single case,
+performance improved because application servers were able to use backend
+resources more efficiently and spend less time waiting on slow I/O.
+</p>
+<h2>Worse Is Better</h2>
+<p>
+Requirements and scope for applications change frequently and drastically.
+Thus languages like Ruby and frameworks like Rails were built to give
+developers fewer things to worry about in the face of rapid change.
+</p>
+<p>
+On the other hand, stable protocols which host your applications (HTTP and
+TCP) only change rarely. This is why we recommend you NOT tie your
+rapidly-changing application logic directly into the processes that deal
+with the stable outside world. Instead, use HTTP as a common RPC protocol
+to communicate between your frontend and backend.
+</p>
+<p>
+In short: separate your concerns.
+</p>
+<p>
+Of course a theoretical &quot;perfect&quot; solution would combine the
+pieces and <em>maybe</em> give you better performance at the end of the
+day, but that is not the Unix way.
+</p>
+<h2>Just Worse in Some Cases</h2>
+<p>
+unicorn is not suited for all applications. unicorn is optimized for
+applications that are CPU/memory/disk intensive and spend little time
+waiting on external resources (e.g. a database server or external API).
+</p>
+<p>
+unicorn is highly inefficient for Comet/reverse-HTTP/push applications
+where the HTTP connection spends a large amount of time idle. Nevertheless,
+the ease of troubleshooting, debugging, and management of unicorn may still
+outweigh the drawbacks for these applications.
+</p>
+<p>
+The <a href="http://rainbows.bogomips.org/">Rainbows!</a> aims to fill the
+gap for odd corner cases where the nginx + unicorn combination is not
+enough. While Rainbows! management/administration is largely identical to
+unicorn, Rainbows! is far more ambitious and has seen little real-world
+usage.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

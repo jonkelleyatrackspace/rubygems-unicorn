@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>apply_rule (Rack::Static)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/static.rb, line 130</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">apply_rule</span>(<span class="ruby-identifier">rule</span>, <span class="ruby-identifier">headers</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">rule</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:all</span>    <span class="ruby-comment cmt"># All files</span>
+        <span class="ruby-identifier">set_headers</span>(<span class="ruby-identifier">headers</span>)
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:fonts</span>  <span class="ruby-comment cmt"># Fonts Shortcut</span>
+        <span class="ruby-identifier">set_headers</span>(<span class="ruby-identifier">headers</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@path</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/\.(?:ttf|otf|eot|woff|svg)\z/</span>)
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>  <span class="ruby-comment cmt"># Folder</span>
+        <span class="ruby-identifier">path</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">unescape</span>(<span class="ruby-ivar">@path</span>)
+        <span class="ruby-identifier">set_headers</span>(<span class="ruby-identifier">headers</span>) <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">path</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-identifier">rule</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-value str">'/'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">rule</span>))
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Array</span>   <span class="ruby-comment cmt"># Extension/Extensions</span>
+        <span class="ruby-identifier">extensions</span> = <span class="ruby-identifier">rule</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">'|'</span>)
+        <span class="ruby-identifier">set_headers</span>(<span class="ruby-identifier">headers</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@path</span>.<span class="ruby-identifier">match</span>(<span class="ruby-node">/\.(#{extensions})\z/</span>)
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Regexp</span>  <span class="ruby-comment cmt"># Flexible Regexp</span>
+        <span class="ruby-identifier">set_headers</span>(<span class="ruby-identifier">headers</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@path</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">rule</span>)
+      <span class="ruby-keyword kw">else</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

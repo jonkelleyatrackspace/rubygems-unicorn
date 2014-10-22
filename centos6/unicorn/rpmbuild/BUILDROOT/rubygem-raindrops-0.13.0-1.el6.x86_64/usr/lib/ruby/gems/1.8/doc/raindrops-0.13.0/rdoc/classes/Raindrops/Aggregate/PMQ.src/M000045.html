@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Raindrops::Aggregate::PMQ)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/raindrops/aggregate/pmq.rb, line 65</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = {})
+    <span class="ruby-identifier">opts</span> = {
+      <span class="ruby-identifier">:queue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RAINDROPS_MQUEUE&quot;</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;/raindrops&quot;</span>,
+      <span class="ruby-identifier">:worker_interval</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>,
+      <span class="ruby-identifier">:master_interval</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>,
+      <span class="ruby-identifier">:lossy</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>,
+      <span class="ruby-identifier">:mq_attr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">nil</span>,
+      <span class="ruby-identifier">:mq_umask</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0666</span>,
+      <span class="ruby-identifier">:aggregate</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Aggregate</span>.<span class="ruby-identifier">new</span>,
+    }.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">params</span>
+    <span class="ruby-ivar">@master_interval</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:master_interval</span>]
+    <span class="ruby-ivar">@worker_interval</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:worker_interval</span>]
+    <span class="ruby-ivar">@aggregate</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:aggregate</span>]
+    <span class="ruby-ivar">@worker_queue</span> = <span class="ruby-ivar">@worker_interval</span> <span class="ruby-operator">?</span> [] <span class="ruby-operator">:</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-ivar">@mutex</span> = <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+
+    <span class="ruby-ivar">@mq_name</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:queue</span>]
+    <span class="ruby-identifier">mq</span> = <span class="ruby-constant">POSIX_MQ</span>.<span class="ruby-identifier">new</span> <span class="ruby-ivar">@mq_name</span>, <span class="ruby-identifier">:w</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:mq_umask</span>], <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:mq_attr</span>]
+    <span class="ruby-constant">Tempfile</span>.<span class="ruby-identifier">open</span>(<span class="ruby-value str">&quot;raindrops_pmq&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@wr</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">t</span>.<span class="ruby-identifier">path</span>, <span class="ruby-value str">&quot;wb&quot;</span>)
+      <span class="ruby-ivar">@rd</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">t</span>.<span class="ruby-identifier">path</span>, <span class="ruby-value str">&quot;rb&quot;</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-ivar">@cached_aggregate</span> = <span class="ruby-ivar">@aggregate</span>
+    <span class="ruby-identifier">flush_master</span>
+    <span class="ruby-ivar">@mq_send</span> = <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:lossy</span>]
+      <span class="ruby-ivar">@nr_dropped</span> = <span class="ruby-value">0</span>
+      <span class="ruby-identifier">mq</span>.<span class="ruby-identifier">nonblock</span> = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">mq</span>.<span class="ruby-identifier">method</span> <span class="ruby-identifier">:trysend</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">mq</span>.<span class="ruby-identifier">method</span> <span class="ruby-identifier">:send</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>user (Unicorn::Worker)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/worker.rb, line 137</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">user</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">group</span> = <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-comment cmt"># we do not protect the caller, checking Process.euid == 0 is</span>
+    <span class="ruby-comment cmt"># insufficient because modern systems have fine-grained</span>
+    <span class="ruby-comment cmt"># capabilities.  Let the caller handle any and all errors.</span>
+    <span class="ruby-identifier">uid</span> = <span class="ruby-constant">Etc</span>.<span class="ruby-identifier">getpwnam</span>(<span class="ruby-identifier">user</span>).<span class="ruby-identifier">uid</span>
+    <span class="ruby-identifier">gid</span> = <span class="ruby-constant">Etc</span>.<span class="ruby-identifier">getgrnam</span>(<span class="ruby-identifier">group</span>).<span class="ruby-identifier">gid</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">group</span>
+    <span class="ruby-constant">Unicorn</span><span class="ruby-operator">::</span><span class="ruby-constant">Util</span>.<span class="ruby-identifier">chown_logs</span>(<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">gid</span>)
+    <span class="ruby-ivar">@tmp</span>.<span class="ruby-identifier">chown</span>(<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">gid</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@tmp</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">gid</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Process</span>.<span class="ruby-identifier">egid</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">gid</span>
+      <span class="ruby-constant">Process</span>.<span class="ruby-identifier">initgroups</span>(<span class="ruby-identifier">user</span>, <span class="ruby-identifier">gid</span>)
+      <span class="ruby-constant">Process</span><span class="ruby-operator">::</span><span class="ruby-constant">GID</span>.<span class="ruby-identifier">change_privilege</span>(<span class="ruby-identifier">gid</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-constant">Process</span>.<span class="ruby-identifier">euid</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">uid</span> <span class="ruby-keyword kw">and</span> <span class="ruby-constant">Process</span><span class="ruby-operator">::</span><span class="ruby-constant">UID</span>.<span class="ruby-identifier">change_privilege</span>(<span class="ruby-identifier">uid</span>)
+    <span class="ruby-ivar">@switched</span> = <span class="ruby-keyword kw">true</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

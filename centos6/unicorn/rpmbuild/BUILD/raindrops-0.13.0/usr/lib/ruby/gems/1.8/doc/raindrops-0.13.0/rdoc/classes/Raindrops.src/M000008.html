@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>size= (Raindrops)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      rd.size = new_size
+ *
+ * Increases or decreases the current capacity of our Raindrop.
+ * Raises RangeError if +new_size+ is too big or small for the
+ * current backing store
+ */
+static VALUE setsize(VALUE self, VALUE new_size)
+{
+        size_t new_rd_size = NUM2SIZET(new_size);
+        struct raindrops *r = get(self);
+
+        if (new_rd_size &lt;= r-&gt;capa)
+                r-&gt;size = new_rd_size;
+        else
+                resize(r, new_rd_size);
+
+        return new_size;
+}</pre>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: TUNING</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>TUNING</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>TUNING
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/TUNING"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Tuning \<a href="../classes/Unicorn.html">Unicorn</a></h1>
+<p>
+\<a href="../classes/Unicorn.html">Unicorn</a> performance is generally as
+good as a (mostly) Ruby web server can provide. Most often the performance
+bottleneck is in the web application running on <a
+href="../classes/Unicorn.html">Unicorn</a> rather than <a
+href="../classes/Unicorn.html">Unicorn</a> itself.
+</p>
+<h2>\<a href="../classes/Unicorn.html">Unicorn</a> Configuration</h2>
+<p>
+See <a
+href="../classes/Unicorn/Configurator.html">Unicorn::Configurator</a> for
+details on the config file format. <tt>worker_processes</tt> is the
+most-commonly needed tuning parameter.
+</p>
+<h3>Unicorn::Configurator#worker_processes</h3>
+<ul>
+<li>worker_processes should be scaled to the number of processes your backend
+system(s) can support. DO NOT scale it to the number of external network
+clients your application expects to be serving. \<a
+href="../classes/Unicorn.html">Unicorn</a> is NOT for serving slow clients,
+that is the job of nginx.
+
+</li>
+<li>worker_processes should be <b>at</b> <b>least</b> the number of CPU cores
+on a dedicated server. If your application has occasionally slow responses
+that are /not/ CPU-intensive, you may increase this to workaround those
+inefficiencies.
+
+</li>
+<li>worker_processes may be increased for <a
+href="../classes/Unicorn/OobGC.html">Unicorn::OobGC</a> users to provide
+more consistent response times.
+
+</li>
+<li>Never, ever, increase worker_processes to the point where the system runs
+out of physical memory and hits swap. Production servers should never see
+heavy swap activity.
+
+</li>
+</ul>
+<h3>Unicorn::Configurator#listen Options</h3>
+<ul>
+<li>Setting a very low value for the :backlog parameter in &quot;listen&quot;
+directives can allow failover to happen more quickly if your cluster is
+configured for it.
+
+</li>
+<li>If you&#8216;re doing extremely simple benchmarks and getting connection
+errors under high request rates, increasing your :backlog parameter above
+the already-generous default of 1024 can help avoid connection errors. Keep
+in mind this is not recommended for real traffic if you have another
+machine to failover to (see above).
+
+</li>
+<li>:rcvbuf and :sndbuf parameters generally do not need to be set for TCP
+listeners under Linux 2.6 because auto-tuning is enabled. UNIX domain
+sockets do not have auto-tuning buffer sizes; so increasing those will
+allow syscalls and task switches to be saved for larger requests and
+responses. If your app only generates small responses or expects small
+requests, you may shrink the buffer sizes to save memory, too.
+
+</li>
+<li>Having socket buffers too large can also be detrimental or have little
+effect. Huge buffers can put more pressure on the allocator and may also
+thrash CPU caches, cancelling out performance gains one would normally
+expect.
+
+</li>
+<li>UNIX domain sockets are slightly faster than TCP sockets, but only work if
+nginx is on the same machine.
+
+</li>
+</ul>
+<h2>Other \<a href="../classes/Unicorn.html">Unicorn</a> settings</h2>
+<ul>
+<li>Setting &quot;preload_app true&quot; can allow copy-on-write-friendly GC to
+be used to save memory. It will probably not work out of the box with
+applications that open sockets or perform random I/O on files. Databases
+like TokyoCabinet use concurrency-safe pread()/pwrite() functions for safe
+sharing of database file descriptors across processes.
+
+</li>
+<li>On POSIX-compliant filesystems, it is safe for multiple threads or
+processes to append to one log file as long as all the processes are have
+them unbuffered (File#sync = true) or they are record(line)-buffered in
+userspace before any writes.
+
+</li>
+</ul>
+<h2>Kernel Parameters (Linux sysctl)</h2>
+<p>
+WARNING: Do not change system parameters unless you know what you&#8216;re
+doing!
+</p>
+<ul>
+<li>net.core.rmem_max and net.core.wmem_max can increase the allowed size of
+:rcvbuf and :sndbuf respectively. This is mostly only useful for UNIX
+domain sockets which do not have auto-tuning buffer sizes.
+
+</li>
+<li>For load testing/benchmarking with UNIX domain sockets, you should consider
+increasing net.core.somaxconn or else nginx will start failing to connect
+under heavy load. You may also consider setting a higher :backlog to listen
+on as noted earlier.
+
+</li>
+<li>If you&#8216;re running out of local ports, consider lowering
+net.ipv4.tcp_fin_timeout to 20-30 (default: 60 seconds). Also consider
+widening the usable port range by changing net.ipv4.ip_local_port_range.
+
+</li>
+<li>Setting net.ipv4.tcp_timestamps=1 will also allow setting
+net.ipv4.tcp_tw_reuse=1 and net.ipv4.tcp_tw_recycle=1, which along with the
+above settings can slow down port exhaustion. Not all networks are
+compatible with these settings, check with your friendly network
+administrator before changing these.
+
+</li>
+<li>Increasing the MTU size can reduce framing overhead for larger transfers.
+One often-overlooked detail is that the loopback device (usually
+&quot;lo&quot;) can have its MTU increased, too.
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

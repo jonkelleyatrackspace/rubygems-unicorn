@@ -1,0 +1,20 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     s = Kgio::Socket.new(:INET, :STREAM)\n     addr = Socket.pack_sockaddr_in(80, &quot;example.com&quot;)\n     s.kgio_fastopen(&quot;hello world&quot;, addr) -&gt; nil\n"
+- !ruby/struct:SM::Flow::P 
+  body: Starts a TCP connection using TCP Fast Open. This uses a blocking sendto() syscall and is only available on Ruby 1.9 or later. This raises exceptions (including Errno::EINPROGRESS/Errno::EAGAIN) on errors. Using this is only recommended for blocking sockets.
+- !ruby/struct:SM::Flow::P 
+  body: "Timeouts may be set with setsockopt:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "     s.setsockopt(:SOCKET, :SNDTIMEO, [1,0].pack(&quot;l_l_&quot;))\n"
+full_name: Kgio::Socket#kgio_fastopen
+is_singleton: false
+name: kgio_fastopen
+params: |
+  
+
+visibility: public

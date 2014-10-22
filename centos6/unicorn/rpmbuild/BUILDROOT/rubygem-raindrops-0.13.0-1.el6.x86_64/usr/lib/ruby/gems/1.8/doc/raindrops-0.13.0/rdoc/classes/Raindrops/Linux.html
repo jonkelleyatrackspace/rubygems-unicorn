@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Raindrops::Linux</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Raindrops::Linux</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/raindrops/linux_rb.html">
+                lib/raindrops/linux.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/raindrops.git/tree/lib/raindrops/linux.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000063">unix_listener_stats</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">PROC_NET_UNIX_ARGS</td>
+          <td>=</td>
+          <td class="context-item-value">%w(/proc/net/unix)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+The standard proc path for active UNIX domain sockets, feel free to call
+String#replace on this if your /proc is mounted in a non-standard location
+for whatever reason
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
+
+        <div class="method-heading">
+          <a href="Linux.src/M000063.html" target="Code" class="method-signature"
+            onclick="popupCode('Linux.src/M000063.html');return false;">
+          <span class="method-name">unix_listener_stats</span><span class="method-args">(paths = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Get ListenStats from an array of <tt>paths</tt>
+</p>
+<p>
+Socket state mapping from integer =&gt; symbol, based on socket_state enum
+from include/linux/net.h in the \<a href="Linux.html">Linux</a> kernel:
+</p>
+<pre>
+    typedef enum {
+            SS_FREE = 0,              /* not allocated                */
+            SS_UNCONNECTED,           /* unconnected to any socket    */
+            SS_CONNECTING,            /* in process of connecting     */
+            SS_CONNECTED,             /* connected to socket          */
+            SS_DISCONNECTING          /* in process of disconnecting  */
+    } socket_state;
+</pre>
+<ul>
+<li>SS_CONNECTING maps to ListenStats#queued
+
+</li>
+<li>SS_CONNECTED maps to ListenStats#active
+
+</li>
+</ul>
+<p>
+This method may be significantly slower than its tcp_listener_stats
+counterpart due to the latter being able to use inet_diag via netlink. This
+parses /proc/net/unix as there is no other (known) way to expose Unix
+domain socket statistics over netlink.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

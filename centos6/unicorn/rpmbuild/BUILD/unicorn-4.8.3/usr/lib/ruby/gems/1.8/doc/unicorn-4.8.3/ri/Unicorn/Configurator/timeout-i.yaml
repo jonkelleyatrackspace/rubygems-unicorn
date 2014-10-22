@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets the timeout of worker processes to <tt>seconds</tt>. Workers handling the request/app.call/response cycle taking longer than this time period will be forcibly killed (via SIGKILL). This timeout is enforced by the master process itself and not subject to the scheduling limitations by the worker process. Due the low-complexity, low-overhead implementation, timeouts of less than 3.0 seconds can be considered inaccurate and unsafe.
+- !ruby/struct:SM::Flow::P 
+  body: For running Unicorn behind nginx, it is recommended to set &quot;fail_timeout=0&quot; for in your nginx configuration like this to have nginx always retry backends that may have had workers SIGKILL-ed due to timeouts.
+- !ruby/struct:SM::Flow::VERB 
+  body: "   # See http://wiki.nginx.org/NginxHttpUpstreamModule for more details\n   # on nginx upstream configuration:\n   upstream unicorn_backend {\n     # for UNIX domain socket setups:\n     server unix:/path/to/.unicorn.sock fail_timeout=0;\n\n     # for TCP setups\n     server 192.168.0.7:8080 fail_timeout=0;\n     server 192.168.0.8:8080 fail_timeout=0;\n     server 192.168.0.9:8080 fail_timeout=0;\n   }\n"
+full_name: Unicorn::Configurator#timeout
+is_singleton: false
+name: timeout
+params: (seconds)
+visibility: public

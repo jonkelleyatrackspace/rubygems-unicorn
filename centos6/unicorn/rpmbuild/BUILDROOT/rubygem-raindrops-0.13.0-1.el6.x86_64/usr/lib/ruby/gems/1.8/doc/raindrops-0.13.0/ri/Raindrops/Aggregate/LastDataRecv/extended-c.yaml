@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: each extended object needs to have TCP_DEFER_ACCEPT enabled for accuracy.
+full_name: Raindrops::Aggregate::LastDataRecv::extended
+is_singleton: true
+name: extended
+params: (obj)
+visibility: public

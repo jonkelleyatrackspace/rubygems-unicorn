@@ -1,0 +1,108 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: accept_class
+- !ruby/object:RI::MethodSummary 
+  name: accept_class=
+- !ruby/object:RI::MethodSummary 
+  name: accept_cloexec=
+- !ruby/object:RI::MethodSummary 
+  name: accept_cloexec?
+- !ruby/object:RI::MethodSummary 
+  name: accept_nonblock=
+- !ruby/object:RI::MethodSummary 
+  name: accept_nonblock?
+- !ruby/object:RI::MethodSummary 
+  name: autopush=
+- !ruby/object:RI::MethodSummary 
+  name: autopush?
+- !ruby/object:RI::MethodSummary 
+  name: poll
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "call-seq:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio::File.tryopen(filename, [, mode [, perm]])      -&gt; Kgio::File or Symbol\n"
+- !ruby/struct:SM::Flow::P 
+  body: Returns a Kgio::File object on a successful open. <tt>filename</tt> is a path to any file on the filesystem. If specified, <tt>mode</tt> is a bitmask of flags (see IO.sysopen) and <tt>perm</tt> should be an octal number.
+- !ruby/struct:SM::Flow::P 
+  body: This does not raise errors for most failures, but installs returns a Ruby symbol for the constant in the Errno::* namespace.
+- !ruby/struct:SM::Flow::P 
+  body: "Common error symbols are:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":ENOENT"
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":EACCES"
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: See your open(2) manpage for more information on open(2) errors.
+constants: 
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The IPv4 address of UNIX domain sockets, useful for creating Rack (and CGI) servers that also serve HTTP traffic over UNIX domain sockets.
+  name: LOCALHOST
+  value: "'127.0.0.1'"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Kgio::PipeMethods#kgio_tryread and Kgio::SocketMethods#kgio_tryread will return :wait_readable when waiting for a read is required.
+  name: WaitReadable
+  value: ":wait_readable"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: PipeMethods#kgio_trywrite and SocketMethods#kgio_trywrite will return :wait_writable when waiting for a read is required.
+  name: WaitWritable
+  value: ":wait_writable"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The IPv4 address of UNIX domain sockets, useful for creating Rack (and CGI) servers that also serve HTTP traffic over UNIX domain sockets.
+  name: LOCALHOST
+  value: "'127.0.0.1'"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Kgio::PipeMethods#kgio_tryread and Kgio::SocketMethods#kgio_tryread will return :wait_readable when waiting for a read is required.
+  name: WaitReadable
+  value: ":wait_readable"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: PipeMethods#kgio_trywrite and SocketMethods#kgio_trywrite will return :wait_writable when waiting for a read is required.
+  name: WaitWritable
+  value: ":wait_writable"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Maps to the SOCK_NONBLOCK constant in Linux for setting the non-blocking flag on newly accepted sockets. This is usually unnecessary as sockets are made non-blocking whenever non-blocking methods are used.
+  name: SOCK_NONBLOCK
+  value: INT2NUM(SOCK_NONBLOCK)
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Maps to the SOCK_CLOEXEC constant in Linux for setting the close-on-exec flag on newly accepted descriptors. This is enabled by default, and there is usually no reason to disable close-on-exec for accepted sockets.
+  name: SOCK_CLOEXEC
+  value: INT2NUM(SOCK_CLOEXEC)
+- !ruby/object:RI::Constant 
+  comment: 
+  name: TCP_FASTOPEN
+  value: INT2NUM(TCP_FASTOPEN)
+- !ruby/object:RI::Constant 
+  comment: 
+  name: MSG_FASTOPEN
+  value: INT2NUM(MSG_FASTOPEN)
+full_name: Kgio
+includes: []
+
+instance_methods: []
+
+name: Kgio
+superclass: 

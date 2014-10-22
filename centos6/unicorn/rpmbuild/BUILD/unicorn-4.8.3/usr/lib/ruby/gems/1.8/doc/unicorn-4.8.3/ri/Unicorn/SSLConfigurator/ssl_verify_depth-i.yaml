@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Unicorn::SSLConfigurator#ssl_verify_depth
+is_singleton: false
+name: ssl_verify_depth
+params: (depth)
+visibility: public

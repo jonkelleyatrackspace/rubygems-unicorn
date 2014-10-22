@@ -1,0 +1,22 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio.accept_nonblock = true\n     Kgio.accept_nonblock = false\n"
+- !ruby/struct:SM::Flow::P 
+  body: Sets whether or not Kgio::Socket objects created by TCPServer#kgio_accept, TCPServer#kgio_tryaccept, UNIXServer#kgio_accept, and UNIXServer#kgio_tryaccept are created with the O_NONBLOCK file status flag.
+- !ruby/struct:SM::Flow::P 
+  body: This defaults to <tt>false</tt> for GNU/Linux where MSG_DONTWAIT is available (and on newer GNU/Linux, accept4() may also set the non-blocking flag. This defaults to <tt>true</tt> on non-GNU/Linux systems.
+- !ruby/struct:SM::Flow::P 
+  body: This is always true on Ruby implementations using user-space threads.
+- !ruby/struct:SM::Flow::P 
+  body: Deprecated, use the per-socket flags for kgio_*accept instead.
+full_name: Kgio::accept_nonblock=
+is_singleton: true
+name: accept_nonblock=
+params: |
+  
+
+visibility: public

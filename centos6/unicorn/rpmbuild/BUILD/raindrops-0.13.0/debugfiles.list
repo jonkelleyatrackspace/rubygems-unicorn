@@ -1,0 +1,15 @@
+%dir /usr/lib/debug
+%dir /usr/lib/debug/usr
+%dir /usr/lib/debug/usr/lib
+%dir /usr/lib/debug/usr/lib/ruby
+%dir /usr/lib/debug/usr/lib/ruby/gems
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems/raindrops-0.13.0
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems/raindrops-0.13.0/lib
+%dir /usr/lib/debug/.build-id
+%dir /usr/lib/debug/.build-id/4e
+/usr/lib/debug/usr/lib/ruby/gems/1.8/gems/raindrops-0.13.0/lib/raindrops_ext.so.debug
+/usr/lib/debug/.build-id/4e/c7049206f2f6f5c44fce4ae987c47bb6ca80f8
+/usr/lib/debug/.build-id/4e/c7049206f2f6f5c44fce4ae987c47bb6ca80f8.debug
+/usr/src/debug/raindrops-0.13.0

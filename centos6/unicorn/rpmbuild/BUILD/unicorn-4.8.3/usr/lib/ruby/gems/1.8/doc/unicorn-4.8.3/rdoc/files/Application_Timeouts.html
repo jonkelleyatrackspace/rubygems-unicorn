@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: Application_Timeouts</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>Application_Timeouts</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>Application_Timeouts
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/Application_Timeouts"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Application Timeouts</h1>
+<p>
+This article focuses on <em>application</em> setup for Rack applications,
+but can be expanded to all applications that connect to external resources
+and expect short response times.
+</p>
+<p>
+This article is not specific to \<a
+href="../classes/Unicorn.html">Unicorn</a>, but exists to discourage the
+overuse of the built-in <a
+href="../Unicorn/Configurator.html#method-i-timeout">timeout</a> directive
+in \<a href="../classes/Unicorn.html">Unicorn</a>.
+</p>
+<h2>ALL External Resources Are Considered Unreliable</h2>
+<p>
+Network reliability can <em>never</em> be guaranteed. Network failures
+cannot be detected reliably by the client (Rack application) in a
+reasonable timeframe, not even on a LAN.
+</p>
+<p>
+Thus, application authors must configure timeouts when interacting with
+external resources.
+</p>
+<p>
+Most database adapters allow configurable timeouts.
+</p>
+<p>
+Net::HTTP and Net::SMTP in the Ruby standard library allow configurable
+timeouts.
+</p>
+<p>
+Even for things as fast as <a href="http://memcached.org/">memcached</a>,
+<a href="http://rubygems.org/gems/dalli">dalli</a>, <a
+href="http://rubygems.org/gems/memcached">memcached</a> and <a
+href="http://rubygems.org/gems/memcache-client">memcache-client</a>
+RubyGems all offer configurable timeouts.
+</p>
+<p>
+Consult the relevant documentation for the libraries you use on how to
+configure these timeouts.
+</p>
+<h2>Rolling Your Own Socket Code</h2>
+<p>
+Use non-blocking I/O and IO.select with a timeout to wait on sockets.
+</p>
+<h2>Timeout module in the Ruby standard library</h2>
+<p>
+Ruby offers a Timeout module in its standard library. It has several
+caveats and is not always reliable:
+</p>
+<ul>
+<li>/Some/ Ruby C extensions are not interrupted/timed-out gracefully by this
+module (report these bugs to extension authors, please) but pure-Ruby
+components should be.
+
+</li>
+<li>Long-running tasks may run inside `ensure&#8217; clauses after timeout
+fires, causing the timeout to be ineffective.
+
+</li>
+</ul>
+<p>
+The Timeout module is a second-to-last-resort solution, timeouts using
+IO.select (or similar) are more reliable. If you depend on libraries that
+do not offer timeouts when connecting to external resources, kindly ask
+those library authors to provide configurable timeouts.
+</p>
+<h3>A Note About Filesystems</h3>
+<p>
+Most operations to regular files on POSIX filesystems are NOT
+interruptable. Thus, the &quot;timeout&quot; module in the Ruby standard
+library can not reliably timeout systems with massive amounts of iowait.
+</p>
+<p>
+If your app relies on the filesystem, ensure all the data your application
+works with is small enough to fit in the kernel page cache. Otherwise
+increase the amount of physical memory you have to match, or employ a fast,
+low-latency storage system (solid state).
+</p>
+<p>
+Volumes mounted over NFS (and thus a potentially unreliable network) must
+be mounted with timeouts and applications must be prepared to handle
+network/server failures.
+</p>
+<h2>The Last Line Of Defense</h2>
+<p>
+The <a href="../Unicorn/Configurator.html#method-i-timeout">timeout</a>
+mechanism in \<a href="../classes/Unicorn.html">Unicorn</a> is an extreme
+solution that should be avoided whenever possible. It will help catch bugs
+in your application where and when your application forgets to use
+timeouts, but it is expensive as it kills and respawns a worker process.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

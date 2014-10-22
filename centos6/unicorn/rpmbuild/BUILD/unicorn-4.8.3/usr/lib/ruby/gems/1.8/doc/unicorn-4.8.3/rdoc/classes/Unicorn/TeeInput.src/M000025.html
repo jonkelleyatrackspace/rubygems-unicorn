@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>rewind (Unicorn::TeeInput)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/tee_input.rb, line 106</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rewind</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">if</span> <span class="ruby-value">0</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@tmp</span>.<span class="ruby-identifier">size</span>
+    <span class="ruby-identifier">consume!</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@socket</span>
+    <span class="ruby-ivar">@tmp</span>.<span class="ruby-identifier">rewind</span> <span class="ruby-comment cmt"># Rack does not specify what the return value is here</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

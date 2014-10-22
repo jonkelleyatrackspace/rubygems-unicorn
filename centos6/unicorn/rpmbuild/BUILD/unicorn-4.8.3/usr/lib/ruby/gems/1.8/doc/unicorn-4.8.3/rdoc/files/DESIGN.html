@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: DESIGN</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>DESIGN</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>DESIGN
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/DESIGN"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Design</h2>
+<ul>
+<li>Simplicity: <a href="../classes/Unicorn.html">Unicorn</a> is a traditional
+UNIX prefork web server. No threads are used at all, this makes
+applications easier to debug and fix. When your application goes awry, a
+BOFH can just &quot;kill -9&quot; the runaway worker process without
+worrying about tearing all clients down, just one. Only UNIX-like systems
+supporting fork() and file descriptor inheritance are supported.
+
+</li>
+<li>The Ragel+C HTTP parser is taken from Mongrel. This is the only non-Ruby
+part and there are no plans to add any more non-Ruby components.
+
+</li>
+<li>All HTTP parsing and I/O is done much like Mongrel:
+
+<pre>
+  1. read/parse HTTP request headers in full
+  2. call Rack application
+  3. write HTTP response back to the client
+</pre>
+</li>
+<li>Like Mongrel, neither keepalive nor pipelining are supported. These
+aren&#8216;t needed since <a href="../classes/Unicorn.html">Unicorn</a> is
+only designed to serve fast, low-latency clients directly. Do one thing, do
+it well; let nginx handle slow clients.
+
+</li>
+<li>Configuration is purely in Ruby and eval(). Ruby is less ambiguous than
+YAML and lets lambdas for before_fork/after_fork/before_exec hooks be
+defined inline. An optional, separate config_file may be used to modify
+supported configuration changes (and also gives you plenty of rope if you
+RTFS :&gt;)
+
+</li>
+<li>One master process spawns and reaps worker processes. The Rack application
+itself is called only within the worker process (but can be loaded within
+the master). A copy-on-write friendly garbage collector like the one found
+in Ruby 2.0.0dev or Ruby Enterprise Edition can be used to minimize memory
+usage along with the &quot;preload_app true&quot; directive (see <a
+href="../classes/Unicorn/Configurator.html">Unicorn::Configurator</a>).
+
+</li>
+<li>The number of worker processes should be scaled to the number of CPUs,
+memory or even spindles you have. If you have an existing Mongrel cluster
+on a single-threaded app, using the same amount of processes should work.
+Let a full-HTTP-request-buffering reverse proxy like nginx manage
+concurrency to thousands of slow clients for you. <a
+href="../classes/Unicorn.html">Unicorn</a> scaling should only be concerned
+about limits of your backend system(s).
+
+</li>
+<li>Load balancing between worker processes is done by the OS kernel. All
+workers share a common set of listener sockets and does non-blocking
+accept() on them. The kernel will decide which worker process to give a
+socket to and workers will sleep if there is nothing to accept().
+
+</li>
+<li>Since non-blocking accept() is used, there can be a thundering herd when an
+occasional client connects when application *is not busy*. The thundering
+herd problem should not affect applications that are running all the time
+since worker processes will only select()/accept() outside of the
+application dispatch.
+
+</li>
+<li>Additionally, thundering herds are much smaller than with configurations
+using existing prefork servers. Process counts should only be scaled to
+backend resources, <em>never</em> to the number of expected clients like is
+typical with blocking prefork servers. So while we&#8216;ve seen instances
+of popular prefork servers configured to run many hundreds of worker
+processes, <a href="../classes/Unicorn.html">Unicorn</a> deployments are
+typically only 2-4 processes per-core.
+
+</li>
+<li>On-demand scaling of worker processes never happens automatically. Again,
+<a href="../classes/Unicorn.html">Unicorn</a> is concerned about scaling to
+backend limits and should never configured in a fashion where it could be
+waiting on slow clients. For extremely rare circumstances, we provide TTIN
+and TTOU signal handlers to increment/decrement your process counts without
+reloading. Think of it as driving a car with manual transmission: you have
+a lot more control if you know what you&#8216;re doing.
+
+</li>
+<li>Blocking I/O is used for clients. This allows a simpler code path to be
+followed within the Ruby interpreter and fewer syscalls. Applications that
+use threads continue to work if <a
+href="../classes/Unicorn.html">Unicorn</a> is only serving LAN or localhost
+clients.
+
+</li>
+<li>SIGKILL is used to terminate the timed-out workers from misbehaving apps as
+reliably as possible on a UNIX system. The default timeout is a generous 60
+seconds (same default as in Mongrel).
+
+</li>
+<li>The poor performance of select() on large FD sets is avoided as few file
+descriptors are used in each worker. There should be no gain from moving to
+highly scalable but unportable event notification solutions for watching
+few file descriptors.
+
+</li>
+<li>If the master process dies unexpectedly for any reason, workers will notice
+within :timeout/2 seconds and follow the master to its death.
+
+</li>
+<li>There is never any explicit real-time dependency or communication between
+the worker processes nor to the master process. Synchronization is handled
+entirely by the OS kernel and shared resources are never accessed by the
+worker when it is servicing a client.
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

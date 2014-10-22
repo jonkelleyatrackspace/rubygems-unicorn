@@ -1,0 +1,32 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "sets object to the <tt>obj</tt> Logger-like object. The new Logger-like object must respond to the following methods:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: debug
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: info
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: warn
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: error
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: fatal
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: The default Logger will log its output to the path specified by <tt>stderr_path</tt>. If you're running Unicorn daemonized, then you must specify a path to prevent error messages from going to /dev/null.
+full_name: Unicorn::Configurator#logger
+is_singleton: false
+name: logger
+params: (obj)
+visibility: public

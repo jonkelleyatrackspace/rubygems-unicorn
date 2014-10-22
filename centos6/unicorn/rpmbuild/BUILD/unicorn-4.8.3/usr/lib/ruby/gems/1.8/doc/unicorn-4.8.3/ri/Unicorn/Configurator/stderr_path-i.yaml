@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Allow redirecting $stderr to a given path. Unlike doing this from the shell, this allows the unicorn process to know the path its writing to and rotate the file if it is used for logging. The file will be opened with the File::APPEND flag and writes synchronized to the kernel (but not necessarily to <em>disk</em>) so multiple processes can safely append to it.
+- !ruby/struct:SM::Flow::P 
+  body: If you are daemonizing and using the default <tt>logger</tt>, it is important to specify this as errors will otherwise be lost to /dev/null. Some applications/libraries may also triggering warnings that go to stderr, and they will end up here.
+full_name: Unicorn::Configurator#stderr_path
+is_singleton: false
+name: stderr_path
+params: (path)
+visibility: public

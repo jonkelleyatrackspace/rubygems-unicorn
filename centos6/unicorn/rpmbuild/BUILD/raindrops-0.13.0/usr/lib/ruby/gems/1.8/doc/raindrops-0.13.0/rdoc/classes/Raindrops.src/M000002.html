@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>incr (Raindrops)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      rd.incr(index[, number])     -&gt; result
+ *
+ * Increments the value referred to by the +index+ by +number+.
+ * +number+ defaults to +1+ if unspecified.
+ */
+static VALUE incr(int argc, VALUE *argv, VALUE self)
+{
+        unsigned long nr = incr_decr_arg(argc, argv);
+
+        return ULONG2NUM(__sync_add_and_fetch(addr_of(self, argv[0]), nr));
+}</pre>
+</body>
+</html>

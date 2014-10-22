@@ -1,0 +1,1464 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Unicorn::Configurator</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Unicorn::Configurator</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/unicorn/configurator_rb.html">
+                lib/unicorn/configurator.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/lib/unicorn/configurator.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+                <a href="../../files/lib/unicorn/configurator_rb.html">
+                lib/unicorn/configurator.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/lib/unicorn/configurator.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Implements a simple DSL for configuring a \<a
+href="../Unicorn.html">Unicorn</a> server.
+</p>
+<p>
+See <a
+href="http://unicorn.bogomips.org/examples/unicorn.conf.rb">unicorn.bogomips.org/examples/unicorn.conf.rb</a>
+and <a
+href="http://unicorn.bogomips.org/examples/unicorn.conf.minimal.rb">unicorn.bogomips.org/examples/unicorn.conf.minimal.rb</a>
+example configuration files. An example config file for use with nginx is
+also available at <a
+href="http://unicorn.bogomips.org/examples/nginx.conf">unicorn.bogomips.org/examples/nginx.conf</a>
+</p>
+<p>
+See the <a href="../../TUNING.html">TUNING.html</a> document for more
+information on tuning unicorn.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000052">after_fork</a>&nbsp;&nbsp;
+      <a href="#M000036">after_fork</a>&nbsp;&nbsp;
+      <a href="#M000038">before_exec</a>&nbsp;&nbsp;
+      <a href="#M000054">before_exec</a>&nbsp;&nbsp;
+      <a href="#M000037">before_fork</a>&nbsp;&nbsp;
+      <a href="#M000053">before_fork</a>&nbsp;&nbsp;
+      <a href="#M000046">check_client_connection</a>&nbsp;&nbsp;
+      <a href="#M000062">check_client_connection</a>&nbsp;&nbsp;
+      <a href="#M000061">client_body_buffer_size</a>&nbsp;&nbsp;
+      <a href="#M000045">client_body_buffer_size</a>&nbsp;&nbsp;
+      <a href="#M000057">listen</a>&nbsp;&nbsp;
+      <a href="#M000041">listen</a>&nbsp;&nbsp;
+      <a href="#M000035">logger</a>&nbsp;&nbsp;
+      <a href="#M000051">logger</a>&nbsp;&nbsp;
+      <a href="#M000058">pid</a>&nbsp;&nbsp;
+      <a href="#M000042">pid</a>&nbsp;&nbsp;
+      <a href="#M000059">preload_app</a>&nbsp;&nbsp;
+      <a href="#M000043">preload_app</a>&nbsp;&nbsp;
+      <a href="#M000060">rewindable_input</a>&nbsp;&nbsp;
+      <a href="#M000044">rewindable_input</a>&nbsp;&nbsp;
+      <a href="#M000047">stderr_path</a>&nbsp;&nbsp;
+      <a href="#M000063">stderr_path</a>&nbsp;&nbsp;
+      <a href="#M000064">stdout_path</a>&nbsp;&nbsp;
+      <a href="#M000048">stdout_path</a>&nbsp;&nbsp;
+      <a href="#M000039">timeout</a>&nbsp;&nbsp;
+      <a href="#M000055">timeout</a>&nbsp;&nbsp;
+      <a href="#M000050">user</a>&nbsp;&nbsp;
+      <a href="#M000066">user</a>&nbsp;&nbsp;
+      <a href="#M000040">worker_processes</a>&nbsp;&nbsp;
+      <a href="#M000056">worker_processes</a>&nbsp;&nbsp;
+      <a href="#M000065">working_directory</a>&nbsp;&nbsp;
+      <a href="#M000049">working_directory</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="../Unicorn.html">Unicorn</a></span>
+        <span class="include-name"><a href="SSLConfigurator.html">Unicorn::SSLConfigurator</a></span>
+        <span class="include-name"><a href="../Unicorn.html">Unicorn</a></span>
+        <span class="include-name"><a href="SSLConfigurator.html">Unicorn::SSLConfigurator</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000052.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000052.html');return false;">
+          <span class="method-name">after_fork</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets <a href="Configurator.html#M000036">after_fork</a> hook to a given
+block. This block will be called by the worker after forking. The following
+is an example hook which adds a per-process listener to every worker:
+</p>
+<pre>
+ after_fork do |server,worker|
+   # per-process listener ports for debugging/admin:
+   addr = &quot;127.0.0.1:#{9293 + worker.nr}&quot;
+
+   # the negative :tries parameter indicates we will retry forever
+   # waiting on the existing process to exit with a 5 second :delay
+   # Existing options for Unicorn::Configurator#listen such as
+   # :backlog, :rcvbuf, :sndbuf are available here as well.
+   server.listen(addr, :tries =&gt; -1, :delay =&gt; 5, :backlog =&gt; 128)
+ end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000036" class="method-detail">
+        <a name="M000036"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000036.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000036.html');return false;">
+          <span class="method-name">after_fork</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets <a href="Configurator.html#M000036">after_fork</a> hook to a given
+block. This block will be called by the worker after forking. The following
+is an example hook which adds a per-process listener to every worker:
+</p>
+<pre>
+ after_fork do |server,worker|
+   # per-process listener ports for debugging/admin:
+   addr = &quot;127.0.0.1:#{9293 + worker.nr}&quot;
+
+   # the negative :tries parameter indicates we will retry forever
+   # waiting on the existing process to exit with a 5 second :delay
+   # Existing options for Unicorn::Configurator#listen such as
+   # :backlog, :rcvbuf, :sndbuf are available here as well.
+   server.listen(addr, :tries =&gt; -1, :delay =&gt; 5, :backlog =&gt; 128)
+ end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000038.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000038.html');return false;">
+          <span class="method-name">before_exec</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <a href="Configurator.html#M000038">before_exec</a> hook to a
+given Proc object. This Proc object will be called by the master process
+right before exec()-ing the new unicorn binary. This is useful for freeing
+certain OS resources that you do NOT wish to share with the reexeced child
+process. There is no corresponding after_exec hook (for obvious reasons).
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000054.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000054.html');return false;">
+          <span class="method-name">before_exec</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <a href="Configurator.html#M000038">before_exec</a> hook to a
+given Proc object. This Proc object will be called by the master process
+right before exec()-ing the new unicorn binary. This is useful for freeing
+certain OS resources that you do NOT wish to share with the reexeced child
+process. There is no corresponding after_exec hook (for obvious reasons).
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000037.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000037.html');return false;">
+          <span class="method-name">before_fork</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets <a href="Configurator.html#M000037">before_fork</a> got be a given
+Proc object. This Proc object will be called by the master process before
+forking each worker.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000053.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000053.html');return false;">
+          <span class="method-name">before_fork</span><span class="method-args">(*args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets <a href="Configurator.html#M000037">before_fork</a> got be a given
+Proc object. This Proc object will be called by the master process before
+forking each worker.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000046" class="method-detail">
+        <a name="M000046"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000046.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000046.html');return false;">
+          <span class="method-name">check_client_connection</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+When enabled, unicorn will check the client connection by writing the
+beginning of the HTTP headers before calling the application.
+</p>
+<p>
+This will prevent calling the application for clients who have disconnected
+while their connection was queued.
+</p>
+<p>
+This only affects clients connecting over Unix domain sockets and TCP via
+loopback (127.*.*.*). It is unlikely to detect disconnects if the client is
+on a remote host (even on a fast LAN).
+</p>
+<p>
+This option cannot be used in conjunction with :tcp_nopush.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000062.html');return false;">
+          <span class="method-name">check_client_connection</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+When enabled, unicorn will check the client connection by writing the
+beginning of the HTTP headers before calling the application.
+</p>
+<p>
+This will prevent calling the application for clients who have disconnected
+while their connection was queued.
+</p>
+<p>
+This only affects clients connecting over Unix domain sockets and TCP via
+loopback (127.*.*.*). It is unlikely to detect disconnects if the client is
+on a remote host (even on a fast LAN).
+</p>
+<p>
+This option cannot be used in conjunction with :tcp_nopush.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000061.html');return false;">
+          <span class="method-name">client_body_buffer_size</span><span class="method-args">(bytes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The maximum size (in <tt>bytes</tt>) to buffer in memory before resorting
+to a temporary file. Default is 112 kilobytes. This option has no effect if
+&quot;<a href="Configurator.html#M000044">rewindable_input</a>&quot; is set
+to <tt>false</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000045" class="method-detail">
+        <a name="M000045"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000045.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000045.html');return false;">
+          <span class="method-name">client_body_buffer_size</span><span class="method-args">(bytes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The maximum size (in <tt>bytes</tt>) to buffer in memory before resorting
+to a temporary file. Default is 112 kilobytes. This option has no effect if
+&quot;<a href="Configurator.html#M000044">rewindable_input</a>&quot; is set
+to <tt>false</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000057.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000057.html');return false;">
+          <span class="method-name">listen</span><span class="method-args">(address, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds an <tt>address</tt> to the existing listener set. May be specified
+more than once. <tt>address</tt> may be an Integer port number for a TCP
+port, an &quot;IP_ADDRESS:PORT&quot; for TCP listeners or a pathname for
+UNIX domain sockets.
+</p>
+<pre>
+  listen 3000 # listen to port 3000 on all TCP interfaces
+  listen &quot;127.0.0.1:3000&quot;  # listen to port 3000 on the loopback interface
+  listen &quot;/path/to/.unicorn.sock&quot; # listen on the given Unix domain socket
+  listen &quot;[::1]:3000&quot; # listen to port 3000 on the IPv6 loopback interface
+</pre>
+<p>
+When using Unix domain sockets, be sure: 1) the path matches the one used
+by nginx 2) uses the same filesystem namespace as the nginx process For
+systemd users using PrivateTmp=true (for either nginx or unicorn), this
+means Unix domain sockets must not be placed in /tmp
+</p>
+<p>
+The following options may be specified (but are generally not needed):
+</p>
+<p>
+[:backlog =&gt; number of clients]
+</p>
+<pre>
+  This is the backlog of the listen() syscall.
+
+  Some operating systems allow negative values here to specify the
+  maximum allowable value.  In most cases, this number is only
+  recommendation and there are other OS-specific tunables and
+  variables that can affect this number.  See the listen(2)
+  syscall documentation of your OS for the exact semantics of
+  this.
+
+  If you are running unicorn on multiple machines, lowering this number
+  can help your load balancer detect when a machine is overloaded
+  and give requests to a different machine.
+
+  Default: 1024
+</pre>
+<p>
+[:rcvbuf =&gt; bytes, :sndbuf =&gt; bytes]
+</p>
+<pre>
+  Maximum receive and send buffer sizes (in bytes) of sockets.
+
+  These correspond to the SO_RCVBUF and SO_SNDBUF settings which
+  can be set via the setsockopt(2) syscall.  Some kernels
+  (e.g. Linux 2.4+) have intelligent auto-tuning mechanisms and
+  there is no need (and it is sometimes detrimental) to specify them.
+
+  See the socket API documentation of your operating system
+  to determine the exact semantics of these settings and
+  other operating system-specific knobs where they can be
+  specified.
+
+  Defaults: operating system defaults
+</pre>
+<p>
+[:tcp_nodelay =&gt; true or false]
+</p>
+<pre>
+  Disables Nagle's algorithm on TCP sockets if +true+.
+
+  Setting this to +true+ can make streaming responses in Rails 3.1
+  appear more quickly at the cost of slightly higher bandwidth usage.
+  The effect of this option is most visible if nginx is not used,
+  but nginx remains highly recommended with \Unicorn.
+
+  This has no effect on UNIX sockets.
+
+  Default: +true+ (Nagle's algorithm disabled) in \Unicorn,
+  +true+ in Rainbows!  This defaulted to +false+ in \Unicorn
+  3.x
+</pre>
+<p>
+[:tcp_nopush =&gt; true or false]
+</p>
+<pre>
+  Enables/disables TCP_CORK in Linux or TCP_NOPUSH in FreeBSD
+
+  This prevents partial TCP frames from being sent out and reduces
+  wakeups in nginx if it is on a different machine.  Since \Unicorn
+  is only designed for applications that send the response body
+  quickly without keepalive, sockets will always be flushed on close
+  to prevent delays.
+
+  This has no effect on UNIX sockets.
+
+  Default: +false+
+  This defaulted to +true+ in \Unicorn 3.4 - 3.7
+</pre>
+<p>
+[:ipv6only =&gt; true or false]
+</p>
+<pre>
+  This option makes IPv6-capable TCP listeners IPv6-only and unable
+  to receive IPv4 queries on dual-stack systems.  A separate IPv4-only
+  listener is required if this is true.
+
+  This option is only available for Ruby 1.9.2 and later.
+
+  Enabling this option for the IPv6-only listener and having a
+  separate IPv4 listener is recommended if you wish to support IPv6
+  on the same TCP port.  Otherwise, the value of \env[\&quot;REMOTE_ADDR\&quot;]
+  will appear as an ugly IPv4-mapped-IPv6 address for IPv4 clients
+  (e.g &quot;:ffff:10.0.0.1&quot; instead of just &quot;10.0.0.1&quot;).
+
+  Default: Operating-system dependent
+</pre>
+<p>
+[:reuseport =&gt; true or false]
+</p>
+<pre>
+  This enables multiple, independently-started unicorn instances to
+  bind to the same port (as long as all the processes enable this).
+
+  This option must be used when unicorn first binds the listen socket.
+  It cannot be enabled when a socket is inherited via SIGUSR2
+  (but it will remain on if inherited), and it cannot be enabled
+  directly via SIGHUP.
+
+  Note: there is a chance of connections being dropped if
+  one of the unicorn instances is stopped while using this.
+
+  This is supported on *BSD systems and Linux 3.9 or later.
+
+  ref: https://lwn.net/Articles/542629/
+
+  Default: false (unset)
+</pre>
+<p>
+[:tries =&gt; Integer]
+</p>
+<pre>
+  Times to retry binding a socket if it is already in use
+
+  A negative number indicates we will retry indefinitely, this is
+  useful for migrations and upgrades when individual workers
+  are binding to different ports.
+
+  Default: 5
+</pre>
+<p>
+[:delay =&gt; seconds]
+</p>
+<pre>
+  Seconds to wait between successive +tries+
+
+  Default: 0.5 seconds
+</pre>
+<p>
+[:umask =&gt; mode]
+</p>
+<pre>
+  Sets the file mode creation mask for UNIX sockets.  If specified,
+  this is usually in octal notation.
+
+  Typically UNIX domain sockets are created with more liberal
+  file permissions than the rest of the application.  By default,
+  we create UNIX domain sockets to be readable and writable by
+  all local users to give them the same accessibility as
+  locally-bound TCP listeners.
+
+  This has no effect on TCP listeners.
+
+  Default: 0000 (world-read/writable)
+</pre>
+<p>
+[:tcp_defer_accept =&gt; Integer]
+</p>
+<pre>
+  Defer accept() until data is ready (Linux-only)
+
+  For Linux 2.6.32 and later, this is the number of retransmits to
+  defer an accept() for if no data arrives, but the client will
+  eventually be accepted after the specified number of retransmits
+  regardless of whether data is ready.
+
+  For Linux before 2.6.32, this is a boolean option, and
+  accepts are _always_ deferred indefinitely if no data arrives.
+  This is similar to &lt;code&gt;:accept_filter =&gt; &quot;dataready&quot;&lt;/code&gt;
+  under FreeBSD.
+
+  Specifying +true+ is synonymous for the default value(s) below,
+  and +false+ or +nil+ is synonymous for a value of zero.
+
+  A value of +1+ is a good optimization for local networks
+  and trusted clients.  For Rainbows! and Zbatery users, a higher
+  value (e.g. +60+) provides more protection against some
+  denial-of-service attacks.  There is no good reason to ever
+  disable this with a +zero+ value when serving HTTP.
+
+  Default: 1 retransmit for \Unicorn, 60 for Rainbows! 0.95.0\+
+</pre>
+<p>
+[:accept_filter =&gt; String]
+</p>
+<pre>
+  defer accept() until data is ready (FreeBSD-only)
+
+  This enables either the &quot;dataready&quot; or (default) &quot;httpready&quot;
+  accept() filter under FreeBSD.  This is intended as an
+  optimization to reduce context switches with common GET/HEAD
+  requests.  For Rainbows! and Zbatery users, this provides
+  some protection against certain denial-of-service attacks, too.
+
+  There is no good reason to change from the default.
+
+  Default: &quot;httpready&quot;
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000041" class="method-detail">
+        <a name="M000041"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000041.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000041.html');return false;">
+          <span class="method-name">listen</span><span class="method-args">(address, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds an <tt>address</tt> to the existing listener set. May be specified
+more than once. <tt>address</tt> may be an Integer port number for a TCP
+port, an &quot;IP_ADDRESS:PORT&quot; for TCP listeners or a pathname for
+UNIX domain sockets.
+</p>
+<pre>
+  listen 3000 # listen to port 3000 on all TCP interfaces
+  listen &quot;127.0.0.1:3000&quot;  # listen to port 3000 on the loopback interface
+  listen &quot;/path/to/.unicorn.sock&quot; # listen on the given Unix domain socket
+  listen &quot;[::1]:3000&quot; # listen to port 3000 on the IPv6 loopback interface
+</pre>
+<p>
+When using Unix domain sockets, be sure: 1) the path matches the one used
+by nginx 2) uses the same filesystem namespace as the nginx process For
+systemd users using PrivateTmp=true (for either nginx or unicorn), this
+means Unix domain sockets must not be placed in /tmp
+</p>
+<p>
+The following options may be specified (but are generally not needed):
+</p>
+<p>
+[:backlog =&gt; number of clients]
+</p>
+<pre>
+  This is the backlog of the listen() syscall.
+
+  Some operating systems allow negative values here to specify the
+  maximum allowable value.  In most cases, this number is only
+  recommendation and there are other OS-specific tunables and
+  variables that can affect this number.  See the listen(2)
+  syscall documentation of your OS for the exact semantics of
+  this.
+
+  If you are running unicorn on multiple machines, lowering this number
+  can help your load balancer detect when a machine is overloaded
+  and give requests to a different machine.
+
+  Default: 1024
+</pre>
+<p>
+[:rcvbuf =&gt; bytes, :sndbuf =&gt; bytes]
+</p>
+<pre>
+  Maximum receive and send buffer sizes (in bytes) of sockets.
+
+  These correspond to the SO_RCVBUF and SO_SNDBUF settings which
+  can be set via the setsockopt(2) syscall.  Some kernels
+  (e.g. Linux 2.4+) have intelligent auto-tuning mechanisms and
+  there is no need (and it is sometimes detrimental) to specify them.
+
+  See the socket API documentation of your operating system
+  to determine the exact semantics of these settings and
+  other operating system-specific knobs where they can be
+  specified.
+
+  Defaults: operating system defaults
+</pre>
+<p>
+[:tcp_nodelay =&gt; true or false]
+</p>
+<pre>
+  Disables Nagle's algorithm on TCP sockets if +true+.
+
+  Setting this to +true+ can make streaming responses in Rails 3.1
+  appear more quickly at the cost of slightly higher bandwidth usage.
+  The effect of this option is most visible if nginx is not used,
+  but nginx remains highly recommended with \Unicorn.
+
+  This has no effect on UNIX sockets.
+
+  Default: +true+ (Nagle's algorithm disabled) in \Unicorn,
+  +true+ in Rainbows!  This defaulted to +false+ in \Unicorn
+  3.x
+</pre>
+<p>
+[:tcp_nopush =&gt; true or false]
+</p>
+<pre>
+  Enables/disables TCP_CORK in Linux or TCP_NOPUSH in FreeBSD
+
+  This prevents partial TCP frames from being sent out and reduces
+  wakeups in nginx if it is on a different machine.  Since \Unicorn
+  is only designed for applications that send the response body
+  quickly without keepalive, sockets will always be flushed on close
+  to prevent delays.
+
+  This has no effect on UNIX sockets.
+
+  Default: +false+
+  This defaulted to +true+ in \Unicorn 3.4 - 3.7
+</pre>
+<p>
+[:ipv6only =&gt; true or false]
+</p>
+<pre>
+  This option makes IPv6-capable TCP listeners IPv6-only and unable
+  to receive IPv4 queries on dual-stack systems.  A separate IPv4-only
+  listener is required if this is true.
+
+  This option is only available for Ruby 1.9.2 and later.
+
+  Enabling this option for the IPv6-only listener and having a
+  separate IPv4 listener is recommended if you wish to support IPv6
+  on the same TCP port.  Otherwise, the value of \env[\&quot;REMOTE_ADDR\&quot;]
+  will appear as an ugly IPv4-mapped-IPv6 address for IPv4 clients
+  (e.g &quot;:ffff:10.0.0.1&quot; instead of just &quot;10.0.0.1&quot;).
+
+  Default: Operating-system dependent
+</pre>
+<p>
+[:reuseport =&gt; true or false]
+</p>
+<pre>
+  This enables multiple, independently-started unicorn instances to
+  bind to the same port (as long as all the processes enable this).
+
+  This option must be used when unicorn first binds the listen socket.
+  It cannot be enabled when a socket is inherited via SIGUSR2
+  (but it will remain on if inherited), and it cannot be enabled
+  directly via SIGHUP.
+
+  Note: there is a chance of connections being dropped if
+  one of the unicorn instances is stopped while using this.
+
+  This is supported on *BSD systems and Linux 3.9 or later.
+
+  ref: https://lwn.net/Articles/542629/
+
+  Default: false (unset)
+</pre>
+<p>
+[:tries =&gt; Integer]
+</p>
+<pre>
+  Times to retry binding a socket if it is already in use
+
+  A negative number indicates we will retry indefinitely, this is
+  useful for migrations and upgrades when individual workers
+  are binding to different ports.
+
+  Default: 5
+</pre>
+<p>
+[:delay =&gt; seconds]
+</p>
+<pre>
+  Seconds to wait between successive +tries+
+
+  Default: 0.5 seconds
+</pre>
+<p>
+[:umask =&gt; mode]
+</p>
+<pre>
+  Sets the file mode creation mask for UNIX sockets.  If specified,
+  this is usually in octal notation.
+
+  Typically UNIX domain sockets are created with more liberal
+  file permissions than the rest of the application.  By default,
+  we create UNIX domain sockets to be readable and writable by
+  all local users to give them the same accessibility as
+  locally-bound TCP listeners.
+
+  This has no effect on TCP listeners.
+
+  Default: 0000 (world-read/writable)
+</pre>
+<p>
+[:tcp_defer_accept =&gt; Integer]
+</p>
+<pre>
+  Defer accept() until data is ready (Linux-only)
+
+  For Linux 2.6.32 and later, this is the number of retransmits to
+  defer an accept() for if no data arrives, but the client will
+  eventually be accepted after the specified number of retransmits
+  regardless of whether data is ready.
+
+  For Linux before 2.6.32, this is a boolean option, and
+  accepts are _always_ deferred indefinitely if no data arrives.
+  This is similar to &lt;code&gt;:accept_filter =&gt; &quot;dataready&quot;&lt;/code&gt;
+  under FreeBSD.
+
+  Specifying +true+ is synonymous for the default value(s) below,
+  and +false+ or +nil+ is synonymous for a value of zero.
+
+  A value of +1+ is a good optimization for local networks
+  and trusted clients.  For Rainbows! and Zbatery users, a higher
+  value (e.g. +60+) provides more protection against some
+  denial-of-service attacks.  There is no good reason to ever
+  disable this with a +zero+ value when serving HTTP.
+
+  Default: 1 retransmit for \Unicorn, 60 for Rainbows! 0.95.0\+
+</pre>
+<p>
+[:accept_filter =&gt; String]
+</p>
+<pre>
+  defer accept() until data is ready (FreeBSD-only)
+
+  This enables either the &quot;dataready&quot; or (default) &quot;httpready&quot;
+  accept() filter under FreeBSD.  This is intended as an
+  optimization to reduce context switches with common GET/HEAD
+  requests.  For Rainbows! and Zbatery users, this provides
+  some protection against certain denial-of-service attacks, too.
+
+  There is no good reason to change from the default.
+
+  Default: &quot;httpready&quot;
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000035" class="method-detail">
+        <a name="M000035"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000035.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000035.html');return false;">
+          <span class="method-name">logger</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets object to the <tt>obj</tt> Logger-like object. The new Logger-like
+object must respond to the following methods:
+</p>
+<ul>
+<li>debug
+
+</li>
+<li>info
+
+</li>
+<li>warn
+
+</li>
+<li>error
+
+</li>
+<li>fatal
+
+</li>
+</ul>
+<p>
+The default Logger will log its output to the path specified by <tt><a
+href="Configurator.html#M000047">stderr_path</a></tt>. If you&#8216;re
+running <a href="../Unicorn.html">Unicorn</a> daemonized, then you must
+specify a path to prevent error messages from going to /dev/null.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000051.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000051.html');return false;">
+          <span class="method-name">logger</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets object to the <tt>obj</tt> Logger-like object. The new Logger-like
+object must respond to the following methods:
+</p>
+<ul>
+<li>debug
+
+</li>
+<li>info
+
+</li>
+<li>warn
+
+</li>
+<li>error
+
+</li>
+<li>fatal
+
+</li>
+</ul>
+<p>
+The default Logger will log its output to the path specified by <tt><a
+href="Configurator.html#M000047">stderr_path</a></tt>. If you&#8216;re
+running <a href="../Unicorn.html">Unicorn</a> daemonized, then you must
+specify a path to prevent error messages from going to /dev/null.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000058.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000058.html');return false;">
+          <span class="method-name">pid</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <tt>path</tt> for the PID file of the unicorn master process
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000042" class="method-detail">
+        <a name="M000042"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000042.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000042.html');return false;">
+          <span class="method-name">pid</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <tt>path</tt> for the PID file of the unicorn master process
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000059.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000059.html');return false;">
+          <span class="method-name">preload_app</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Enabling this preloads an application before forking worker processes. This
+allows memory savings when using a copy-on-write-friendly GC but can cause
+bad things to happen when resources like sockets are opened at load time by
+the master process and shared by multiple children. People enabling this
+are highly encouraged to look at the before_fork/after_fork hooks to
+properly close/reopen sockets. Files opened for logging do not have to be
+reopened as (unbuffered-in-userspace) files opened with the File::APPEND
+flag are written to atomically on UNIX.
+</p>
+<p>
+In addition to reloading the unicorn-specific config settings, SIGHUP will
+reload application code in the working directory/symlink when workers are
+gracefully restarted when preload_app=false (the default). As reloading the
+application sometimes requires RubyGems updates, +Gem.refresh+ is always
+called before the application is loaded (for RubyGems users).
+</p>
+<p>
+During deployments, care should <em>always</em> be taken to ensure your
+applications are properly deployed and running. Using preload_app=false
+(the default) means you <em>must</em> check if your application is
+responding properly after a deployment. Improperly deployed applications
+can go into a spawn loop if the application fails to load. While your
+children are in a spawn loop, it is is possible to fix an application by
+properly deploying all required code and dependencies. Using
+preload_app=true means any application load error will cause the master
+process to exit with an error.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000043" class="method-detail">
+        <a name="M000043"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000043.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000043.html');return false;">
+          <span class="method-name">preload_app</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Enabling this preloads an application before forking worker processes. This
+allows memory savings when using a copy-on-write-friendly GC but can cause
+bad things to happen when resources like sockets are opened at load time by
+the master process and shared by multiple children. People enabling this
+are highly encouraged to look at the before_fork/after_fork hooks to
+properly close/reopen sockets. Files opened for logging do not have to be
+reopened as (unbuffered-in-userspace) files opened with the File::APPEND
+flag are written to atomically on UNIX.
+</p>
+<p>
+In addition to reloading the unicorn-specific config settings, SIGHUP will
+reload application code in the working directory/symlink when workers are
+gracefully restarted when preload_app=false (the default). As reloading the
+application sometimes requires RubyGems updates, +Gem.refresh+ is always
+called before the application is loaded (for RubyGems users).
+</p>
+<p>
+During deployments, care should <em>always</em> be taken to ensure your
+applications are properly deployed and running. Using preload_app=false
+(the default) means you <em>must</em> check if your application is
+responding properly after a deployment. Improperly deployed applications
+can go into a spawn loop if the application fails to load. While your
+children are in a spawn loop, it is is possible to fix an application by
+properly deploying all required code and dependencies. Using
+preload_app=true means any application load error will cause the master
+process to exit with an error.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000060.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000060.html');return false;">
+          <span class="method-name">rewindable_input</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Toggles making \<a href="http://\"rack.input\"">env</a> rewindable.
+Disabling rewindability can improve performance by lowering I/O and memory
+usage for applications that accept uploads. Keep in mind that the Rack 1.x
+spec requires \<a href="http://\"rack.input\"">env</a> to be rewindable, so
+this allows intentionally violating the current Rack 1.x spec.
+</p>
+<p>
+<tt><a href="Configurator.html#M000044">rewindable_input</a></tt> defaults
+to <tt>true</tt> when used with Rack 1.x for Rack conformance. When Rack
+2.x is finalized, this will most likely default to <tt>false</tt> while
+still conforming to the newer (less demanding) spec.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000044" class="method-detail">
+        <a name="M000044"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000044.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000044.html');return false;">
+          <span class="method-name">rewindable_input</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Toggles making \<a href="http://\"rack.input\"">env</a> rewindable.
+Disabling rewindability can improve performance by lowering I/O and memory
+usage for applications that accept uploads. Keep in mind that the Rack 1.x
+spec requires \<a href="http://\"rack.input\"">env</a> to be rewindable, so
+this allows intentionally violating the current Rack 1.x spec.
+</p>
+<p>
+<tt><a href="Configurator.html#M000044">rewindable_input</a></tt> defaults
+to <tt>true</tt> when used with Rack 1.x for Rack conformance. When Rack
+2.x is finalized, this will most likely default to <tt>false</tt> while
+still conforming to the newer (less demanding) spec.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000047" class="method-detail">
+        <a name="M000047"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000047.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000047.html');return false;">
+          <span class="method-name">stderr_path</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Allow redirecting $stderr to a given path. Unlike doing this from the
+shell, this allows the unicorn process to know the path its writing to and
+rotate the file if it is used for logging. The file will be opened with the
+File::APPEND flag and writes synchronized to the kernel (but not
+necessarily to <em>disk</em>) so multiple processes can safely append to
+it.
+</p>
+<p>
+If you are daemonizing and using the default <tt><a
+href="Configurator.html#M000035">logger</a></tt>, it is important to
+specify this as errors will otherwise be lost to /dev/null. Some
+applications/libraries may also triggering warnings that go to stderr, and
+they will end up here.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000063.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000063.html');return false;">
+          <span class="method-name">stderr_path</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Allow redirecting $stderr to a given path. Unlike doing this from the
+shell, this allows the unicorn process to know the path its writing to and
+rotate the file if it is used for logging. The file will be opened with the
+File::APPEND flag and writes synchronized to the kernel (but not
+necessarily to <em>disk</em>) so multiple processes can safely append to
+it.
+</p>
+<p>
+If you are daemonizing and using the default <tt><a
+href="Configurator.html#M000035">logger</a></tt>, it is important to
+specify this as errors will otherwise be lost to /dev/null. Some
+applications/libraries may also triggering warnings that go to stderr, and
+they will end up here.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000064" class="method-detail">
+        <a name="M000064"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000064.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000064.html');return false;">
+          <span class="method-name">stdout_path</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as <a href="Configurator.html#M000047">stderr_path</a>, except for
+$stdout. Not many Rack applications write to $stdout, but any that do will
+have their output written here. It is safe to point this to the same
+location a <a href="Configurator.html#M000047">stderr_path</a>. Like <a
+href="Configurator.html#M000047">stderr_path</a>, this defaults to
+/dev/null when daemonized.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000048.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000048.html');return false;">
+          <span class="method-name">stdout_path</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Same as <a href="Configurator.html#M000047">stderr_path</a>, except for
+$stdout. Not many Rack applications write to $stdout, but any that do will
+have their output written here. It is safe to point this to the same
+location a <a href="Configurator.html#M000047">stderr_path</a>. Like <a
+href="Configurator.html#M000047">stderr_path</a>, this defaults to
+/dev/null when daemonized.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000039" class="method-detail">
+        <a name="M000039"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000039.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000039.html');return false;">
+          <span class="method-name">timeout</span><span class="method-args">(seconds)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <a href="Configurator.html#M000039">timeout</a> of worker
+processes to <tt>seconds</tt>. Workers handling the
+request/app.call/response cycle taking longer than this time period will be
+forcibly killed (via SIGKILL). This <a
+href="Configurator.html#M000039">timeout</a> is enforced by the master
+process itself and not subject to the scheduling limitations by the worker
+process. Due the low-complexity, low-overhead implementation, timeouts of
+less than 3.0 seconds can be considered inaccurate and unsafe.
+</p>
+<p>
+For running <a href="../Unicorn.html">Unicorn</a> behind nginx, it is
+recommended to set &quot;fail_timeout=0&quot; for in your nginx
+configuration like this to have nginx always retry backends that may have
+had workers SIGKILL-ed due to timeouts.
+</p>
+<pre>
+   # See http://wiki.nginx.org/NginxHttpUpstreamModule for more details
+   # on nginx upstream configuration:
+   upstream unicorn_backend {
+     # for UNIX domain socket setups:
+     server unix:/path/to/.unicorn.sock fail_timeout=0;
+
+     # for TCP setups
+     server 192.168.0.7:8080 fail_timeout=0;
+     server 192.168.0.8:8080 fail_timeout=0;
+     server 192.168.0.9:8080 fail_timeout=0;
+   }
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000055.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000055.html');return false;">
+          <span class="method-name">timeout</span><span class="method-args">(seconds)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the <a href="Configurator.html#M000039">timeout</a> of worker
+processes to <tt>seconds</tt>. Workers handling the
+request/app.call/response cycle taking longer than this time period will be
+forcibly killed (via SIGKILL). This <a
+href="Configurator.html#M000039">timeout</a> is enforced by the master
+process itself and not subject to the scheduling limitations by the worker
+process. Due the low-complexity, low-overhead implementation, timeouts of
+less than 3.0 seconds can be considered inaccurate and unsafe.
+</p>
+<p>
+For running <a href="../Unicorn.html">Unicorn</a> behind nginx, it is
+recommended to set &quot;fail_timeout=0&quot; for in your nginx
+configuration like this to have nginx always retry backends that may have
+had workers SIGKILL-ed due to timeouts.
+</p>
+<pre>
+   # See http://wiki.nginx.org/NginxHttpUpstreamModule for more details
+   # on nginx upstream configuration:
+   upstream unicorn_backend {
+     # for UNIX domain socket setups:
+     server unix:/path/to/.unicorn.sock fail_timeout=0;
+
+     # for TCP setups
+     server 192.168.0.7:8080 fail_timeout=0;
+     server 192.168.0.8:8080 fail_timeout=0;
+     server 192.168.0.9:8080 fail_timeout=0;
+   }
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000050.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000050.html');return false;">
+          <span class="method-name">user</span><span class="method-args">(user, group = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Runs worker processes as the specified <tt><a
+href="Configurator.html#M000050">user</a></tt> and <tt>group</tt>. The
+master process always stays running as the <a
+href="Configurator.html#M000050">user</a> who started it. This switch will
+occur after calling the <a href="Configurator.html#M000036">after_fork</a>
+hook, and only if the <a href="Worker.html#M000033">Worker#user</a> method
+is not called in the <a href="Configurator.html#M000036">after_fork</a>
+hook <tt>group</tt> is optional and will not change if unspecified.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000066" class="method-detail">
+        <a name="M000066"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000066.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000066.html');return false;">
+          <span class="method-name">user</span><span class="method-args">(user, group = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Runs worker processes as the specified <tt><a
+href="Configurator.html#M000050">user</a></tt> and <tt>group</tt>. The
+master process always stays running as the <a
+href="Configurator.html#M000050">user</a> who started it. This switch will
+occur after calling the <a href="Configurator.html#M000036">after_fork</a>
+hook, and only if the <a href="Worker.html#M000033">Worker#user</a> method
+is not called in the <a href="Configurator.html#M000036">after_fork</a>
+hook <tt>group</tt> is optional and will not change if unspecified.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000040" class="method-detail">
+        <a name="M000040"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000040.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000040.html');return false;">
+          <span class="method-name">worker_processes</span><span class="method-args">(nr)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the current number of <a
+href="Configurator.html#M000040">worker_processes</a> to <tt>nr</tt>. Each
+worker process will serve exactly one client at a time. You can increment
+or decrement this value at runtime by sending SIGTTIN or SIGTTOU
+respectively to the master process without reloading the rest of your <a
+href="../Unicorn.html">Unicorn</a> configuration. See the SIGNALS document
+for more information.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000056.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000056.html');return false;">
+          <span class="method-name">worker_processes</span><span class="method-args">(nr)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the current number of <a
+href="Configurator.html#M000040">worker_processes</a> to <tt>nr</tt>. Each
+worker process will serve exactly one client at a time. You can increment
+or decrement this value at runtime by sending SIGTTIN or SIGTTOU
+respectively to the master process without reloading the rest of your <a
+href="../Unicorn.html">Unicorn</a> configuration. See the SIGNALS document
+for more information.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000065" class="method-detail">
+        <a name="M000065"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000065.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000065.html');return false;">
+          <span class="method-name">working_directory</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the working directory for <a href="../Unicorn.html">Unicorn</a>. This
+ensures SIGUSR2 will start a new instance of <a
+href="../Unicorn.html">Unicorn</a> in this directory. This may be a
+symlink, a common scenario for Capistrano users. Unlike all other <a
+href="../Unicorn.html">Unicorn</a> configuration directives, this binds
+immediately for error checking and cannot be undone by unsetting it in the
+configuration file and reloading.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
+
+        <div class="method-heading">
+          <a href="Configurator.src/M000049.html" target="Code" class="method-signature"
+            onclick="popupCode('Configurator.src/M000049.html');return false;">
+          <span class="method-name">working_directory</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the working directory for <a href="../Unicorn.html">Unicorn</a>. This
+ensures SIGUSR2 will start a new instance of <a
+href="../Unicorn.html">Unicorn</a> in this directory. This may be a
+symlink, a common scenario for Capistrano users. Unlike all other <a
+href="../Unicorn.html">Unicorn</a> configuration directives, this binds
+immediately for error checking and cannot be undone by unsetting it in the
+configuration file and reloading.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

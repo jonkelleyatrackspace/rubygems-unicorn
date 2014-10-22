@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets the current number of worker_processes to <tt>nr</tt>. Each worker process will serve exactly one client at a time. You can increment or decrement this value at runtime by sending SIGTTIN or SIGTTOU respectively to the master process without reloading the rest of your Unicorn configuration. See the SIGNALS document for more information.
+full_name: Unicorn::Configurator#worker_processes
+is_singleton: false
+name: worker_processes
+params: (nr)
+visibility: public

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Kgio::Socket)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * If passed one argument, this is identical to Kgio::Socket.connect.
+ * If passed two or three arguments, it uses its superclass method:
+ *
+ *   Socket.new(domain, socktype [, protocol ])
+ */
+static VALUE kgio_new(int argc, VALUE *argv, VALUE klass)
+{
+        if (argc == 1)
+                /* backwards compat, the only way for kgio &lt;= 2.7.4 */
+                return stream_connect(klass, argv[0], 1);
+
+        return rb_call_super(argc, argv);
+}</pre>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: Sandbox</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>Sandbox</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>Sandbox
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/Sandbox"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Tips for using \<a href="../classes/Unicorn.html">Unicorn</a> with Sandbox installation tools</h1>
+<p>
+Since unicorn includes executables and is usually used to start a Ruby
+process, there are certain caveats to using it with tools that sandbox
+RubyGems installations such as <a href="http://gembundler.com/">Bundler</a>
+or <a href="http://github.com/jbarnette/isolate">Isolate</a>.
+</p>
+<h2>General deployment</h2>
+<p>
+If you&#8216;re sandboxing your unicorn installation and using Capistrano
+(or similar), it&#8216;s required that you sandbox your RubyGems in a
+per-application shared directory that can be used between different
+revisions.
+</p>
+<p>
+unicorn will stash its original command-line at startup for the USR2
+upgrades, and cleaning up old revisions will cause revision-specific
+installations of unicorn to go missing and upgrades to fail. If you find
+yourself in this situation and can&#8216;t afford downtime, you can
+override the existing unicorn executable path in the config file like this:
+</p>
+<pre>
+        Unicorn::HttpServer::START_CTX[0] = &quot;/some/path/to/bin/unicorn&quot;
+</pre>
+<p>
+Then use HUP to reload, and then continue with the USR2+QUIT upgrade
+sequence.
+</p>
+<p>
+Environment variable pollution when exec-ing a new process (with USR2) is
+the primary issue with sandboxing tools such as Bundler and Isolate.
+</p>
+<h2>Bundler</h2>
+<h3>Running</h3>
+<p>
+If you&#8216;re bundling unicorn, use &quot;bundle exec unicorn&quot; (or
+&quot;bundle exec unicorn_rails&quot;) to start unicorn with the correct
+environment variables
+</p>
+<p>
+ref: <a
+href="http://mid.gmane.org/9ECF07C4-5216-47BE-961D-AFC0F0C82060@internetfamo.us">mid.gmane.org/9ECF07C4-5216-47BE-961D-AFC0F0C82060@internetfamo.us</a>
+</p>
+<p>
+Otherwise (if you choose to not sandbox your unicorn installation), we
+expect the tips for Isolate (below) apply, too.
+</p>
+<h3>RUBYOPT pollution from SIGUSR2 upgrades</h3>
+<p>
+This is no longer be an issue as of bundler 0.9.17
+</p>
+<p>
+ref: <a
+href="http://mid.gmane.org/8FC34B23-5994-41CC-B5AF-7198EF06909E@tramchase.com">mid.gmane.org/8FC34B23-5994-41CC-B5AF-7198EF06909E@tramchase.com</a>
+</p>
+<h3>BUNDLE_GEMFILE for Capistrano users</h3>
+<p>
+You may need to set or reset the BUNDLE_GEMFILE environment variable in the
+before_exec hook:
+</p>
+<pre>
+        before_exec do |server|
+          ENV[&quot;BUNDLE_GEMFILE&quot;] = &quot;/path/to/app/current/Gemfile&quot;
+        end
+</pre>
+<h3>Other ENV pollution issues</h3>
+<p>
+If you&#8216;re using an older Bundler version (0.9.x), you may need to set
+or reset GEM_HOME, GEM_PATH and PATH environment variables in the
+before_exec hook as illustrated by <a
+href="http://gist.github.com/534668">gist.github.com/534668</a>
+</p>
+<h3>Ruby 2.0.0 close-on-exec and SIGUSR2 incompatibility</h3>
+<p>
+Ruby 2.0.0 enforces FD_CLOEXEC on file descriptors by default. unicorn has
+been prepared for this behavior since unicorn 4.1.0, but we forgot to
+remind the Bundler developers. This issue is being tracked here: <a
+href="https://github.com/bundler/bundler/issues/2628">github.com/bundler/bundler/issues/2628</a>
+</p>
+<h2>Isolate</h2>
+<h3>Running</h3>
+<p>
+Installing &quot;unicorn&quot; as a system-wide Rubygem and using the
+isolate gem may cause issues if you&#8216;re using any of the bundled
+application-level libraries in unicorn/app/* (for compatibility with
+CGI-based applications, Rails &lt;= 2.2.2, or ExecCgi). For now workarounds
+include doing one of the following:
+</p>
+<ol>
+<li>Isolating unicorn, setting GEM_HOME to your Isolate path, and running the
+isolated version of unicorn. You <b>must</b> set GEM_HOME before running
+your isolated unicorn install in this way.
+
+</li>
+<li>Installing the same version of unicorn as a system-wide Rubygem <b>and</b>
+isolating unicorn as well.
+
+</li>
+<li>Explicitly setting RUBYLIB or $LOAD_PATH to include any gem path where the
+unicorn gem is installed (e.g.
+/usr/lib/ruby/gems/1.9.1/gems/unicorn-VERSION/lib)
+
+</li>
+</ol>
+<h3>RUBYOPT pollution from SIGUSR2 upgrades</h3>
+<p>
+If you are using Isolate, using Isolate 2.x is strongly recommended as
+environment modifications are idempotent.
+</p>
+<p>
+If you are stuck with 1.x versions of Isolate, it is recommended that you
+disable it with the <tt>before_exec</tt> hook prevent the PATH and RUBYOPT
+environment variable modifications from propagating between upgrades in
+your <a href="../classes/Unicorn.html">Unicorn</a> config file:
+</p>
+<pre>
+        before_exec do |server|
+          Isolate.disable
+        end
+</pre>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

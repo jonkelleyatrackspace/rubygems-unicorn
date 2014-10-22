@@ -1,0 +1,66 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This is the process manager of Unicorn. This manages worker processes which in turn handle the I/O and application process. Listener sockets are started in the master process and shared with forked worker children.
+- !ruby/struct:SM::Flow::P 
+  body: Users do not need to know the internals of this class, but reading the {source}[http://bogomips.org/unicorn.git/tree/lib/unicorn/http_server.rb] is education for programmers wishing to learn how \Unicorn works. See Unicorn::Configurator for information on how to configure \Unicorn.
+constants: 
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "and upgrade the currently running instance of Unicorn This Hash is considered a stable interface and changing its contents will allow you to switch between different installations of Unicorn or even different installations of the same applications without downtime. Keys of this constant Hash are described as follows:"
+  - !ruby/object:SM::Flow::LIST 
+    contents: 
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: 0 - the path to the unicorn/unicorn_rails executable
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: ":argv - a deep copy of the ARGV array the executable originally saw"
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: ":cwd - the working directory of the application, this is where"
+    type: :BULLET
+  - !ruby/struct:SM::Flow::P 
+    body: you originally started Unicorn.
+  - !ruby/struct:SM::Flow::P 
+    body: "To change your unicorn executable to a different path without downtime, you can set the following in your Unicorn config file, HUP and then continue with the traditional USR2 + QUIT upgrade steps:"
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  Unicorn::HttpServer::START_CTX[0] = &quot;/home/bofh/1.9.2/bin/unicorn&quot;\n"
+  name: START_CTX
+  value: "{     :argv => ARGV.map { |arg| arg.dup },     0 => $0.dup,   }"
+- !ruby/object:RI::Constant 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: "and upgrade the currently running instance of Unicorn This Hash is considered a stable interface and changing its contents will allow you to switch between different installations of Unicorn or even different installations of the same applications without downtime. Keys of this constant Hash are described as follows:"
+  - !ruby/object:SM::Flow::LIST 
+    contents: 
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: 0 - the path to the unicorn/unicorn_rails executable
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: ":argv - a deep copy of the ARGV array the executable originally saw"
+    - !ruby/struct:SM::Flow::LI 
+      label: "*"
+      body: ":cwd - the working directory of the application, this is where"
+    type: :BULLET
+  - !ruby/struct:SM::Flow::P 
+    body: you originally started Unicorn.
+  - !ruby/struct:SM::Flow::P 
+    body: "To change your unicorn executable to a different path without downtime, you can set the following in your Unicorn config file, HUP and then continue with the traditional USR2 + QUIT upgrade steps:"
+  - !ruby/struct:SM::Flow::VERB 
+    body: "  Unicorn::HttpServer::START_CTX[0] = &quot;/home/bofh/1.9.2/bin/unicorn&quot;\n"
+  name: START_CTX
+  value: "{     :argv => ARGV.map { |arg| arg.dup },     0 => $0.dup,   }"
+full_name: Unicorn::HttpServer
+includes: []
+
+instance_methods: []
+
+name: HttpServer
+superclass: Object

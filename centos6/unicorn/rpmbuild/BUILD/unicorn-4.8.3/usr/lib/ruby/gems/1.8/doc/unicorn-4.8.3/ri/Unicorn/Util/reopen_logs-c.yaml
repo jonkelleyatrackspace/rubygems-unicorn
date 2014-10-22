@@ -1,0 +1,18 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "This reopens ALL logfiles in the process that have been rotated using logrotate(8) (without copytruncate) or similar tools. A <tt>File</tt> object is considered for reopening if it is:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  1) opened with the O_APPEND and O_WRONLY flags\n  2) the current open file handle does not match its original open path\n  3) unbuffered (as far as userspace buffering goes, not O_SYNC)\n"
+- !ruby/struct:SM::Flow::P 
+  body: Returns the number of files reopened
+- !ruby/struct:SM::Flow::P 
+  body: In Unicorn 3.5.x and earlier, files must be opened with an absolute path to be considered a log file.
+full_name: Unicorn::Util::reopen_logs
+is_singleton: true
+name: reopen_logs
+params: ()
+visibility: public

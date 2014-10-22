@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Toggles making \env[\&quot;rack.input\&quot;] rewindable. Disabling rewindability can improve performance by lowering I/O and memory usage for applications that accept uploads. Keep in mind that the Rack 1.x spec requires \env[\&quot;rack.input\&quot;] to be rewindable, so this allows intentionally violating the current Rack 1.x spec.
+- !ruby/struct:SM::Flow::P 
+  body: <tt>rewindable_input</tt> defaults to <tt>true</tt> when used with Rack 1.x for Rack conformance. When Rack 2.x is finalized, this will most likely default to <tt>false</tt> while still conforming to the newer (less demanding) spec.
+full_name: Unicorn::Configurator#rewindable_input
+is_singleton: false
+name: rewindable_input
+params: (bool)
+visibility: public

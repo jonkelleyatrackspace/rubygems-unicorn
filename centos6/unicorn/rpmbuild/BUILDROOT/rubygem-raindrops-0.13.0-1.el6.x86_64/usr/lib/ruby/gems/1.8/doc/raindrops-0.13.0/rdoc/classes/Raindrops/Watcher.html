@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Raindrops::Watcher</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Raindrops::Watcher</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/raindrops/watcher_rb.html">
+                lib/raindrops/watcher.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/raindrops.git/tree/lib/raindrops/watcher.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+<a href="Watcher.html">Raindrops::Watcher</a> is a stand-alone Rack
+application for watching any number of TCP and UNIX listeners (all of them
+by default).
+</p>
+<p>
+It depends on the <a href="http://rubygems.org/gems/aggregate">Aggregate
+RubyGem</a>
+</p>
+<p>
+In your Rack config.ru:
+</p>
+<pre>
+   run Raindrops::Watcher(options = {})
+</pre>
+<p>
+It takes the following options hash:
+</p>
+<ul>
+<li>:listeners - an array of listener names, (e.g. %w(0.0.0.0:80 /tmp/sock))
+
+</li>
+<li>:delay - interval between stats updates in seconds (default: 1)
+
+</li>
+</ul>
+<p>
+<a href="Watcher.html">Raindrops::Watcher</a> is compatible any
+thread-safe/thread-aware Rack middleware. It does not work well with
+multi-process web servers but can be used to monitor them. It consumes
+minimal resources with the default :delay.
+</p>
+<h2>HTTP endpoints</h2>
+<h3>GET /</h3>
+<p>
+Returns an HTML summary listing of all listen interfaces watched on
+</p>
+<h3>GET /active/$LISTENER.txt</h3>
+<p>
+Returns a plain text summary + histogram with X-* HTTP headers for active
+connections.
+</p>
+<p>
+e.g.: curl <a
+href="http://raindrops-demo.bogomips.org/active/0.0.0.0%3A80.txt">raindrops-demo.bogomips.org/active/0.0.0.0%3A80.txt</a>
+</p>
+<h3>GET /active/$LISTENER.html</h3>
+<p>
+Returns an HTML summary + histogram with X-* HTTP headers for active
+connections.
+</p>
+<p>
+e.g.: curl <a
+href="http://raindrops-demo.bogomips.org/active/0.0.0.0%3A80.html">raindrops-demo.bogomips.org/active/0.0.0.0%3A80.html</a>
+</p>
+<h3>GET /queued/$LISTENER.txt</h3>
+<p>
+Returns a plain text summary + histogram with X-* HTTP headers for queued
+connections.
+</p>
+<p>
+e.g.: curl <a
+href="http://raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.txt">raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.txt</a>
+</p>
+<h3>GET /queued/$LISTENER.html</h3>
+<p>
+Returns an HTML summary + histogram with X-* HTTP headers for queued
+connections.
+</p>
+<p>
+e.g.: curl <a
+href="http://raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.html">raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.html</a>
+</p>
+<h3>POST /reset/$LISTENER</h3>
+<p>
+Resets the active and queued statistics for the given listener.
+</p>
+<h3>GET /tail/$LISTENER.txt?active_min=1&amp;queued_min=1</h3>
+<p>
+Streams chunked a response to the client. Interval is the preconfigured
++:delay+ of the application (default 1 second)
+</p>
+<p>
+The response is plain text in the following format:
+</p>
+<pre>
+  ISO8601_TIMESTAMP LISTENER_NAME ACTIVE_COUNT QUEUED_COUNT LINEFEED
+</pre>
+<p>
+Query parameters:
+</p>
+<ul>
+<li>active_min - do not stream a line until this active count is reached
+
+</li>
+<li>queued_min - do not stream a line until this queued count is reached
+
+</li>
+</ul>
+<h2>Response headers (mostly the same names as Raindrops::LastDataRecv)</h2>
+<ul>
+<li>X-Count - number of samples polled
+
+</li>
+<li>X-Last-Reset - date since the last reset
+
+</li>
+</ul>
+<p>
+The following headers are only present if X-Count is greater than one.
+</p>
+<ul>
+<li>X-Min - lowest number of connections recorded
+
+</li>
+<li>X-Max - highest number of connections recorded
+
+</li>
+<li>X-Mean - mean number of connections recorded
+
+</li>
+<li>X-Std-Dev - standard deviation of connection count
+
+</li>
+<li>X-Outliers-Low - number of low outliers (hopefully many for queued)
+
+</li>
+<li>X-Outliers-High - number of high outliers (hopefully zero for queued)
+
+</li>
+<li>X-Current - current number of connections
+
+</li>
+<li>X-First-Peak-At - date of when X-Max was first reached
+
+</li>
+<li>X-Last-Peak-At - date of when X-Max was last reached
+
+</li>
+</ul>
+<h1>Demo Server</h1>
+<p>
+There is a server running this app at <a
+href="http://raindrops-demo.bogomips.org">raindrops-demo.bogomips.org</a>/
+The <a href="Middleware.html">Raindrops::Middleware</a> demo is also
+accessible at <a
+href="http://raindrops-demo.bogomips.org/_raindrops">raindrops-demo.bogomips.org/_raindrops</a>
+</p>
+<p>
+The demo server is only limited to 30 users, so be sure not to abuse it by
+using the /tail/ endpoint too much.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: automatically extends any TCPServer objects used by Unicorn
+full_name: Raindrops::Aggregate::LastDataRecv::cornify!
+is_singleton: true
+name: cornify!
+params: ()
+visibility: public

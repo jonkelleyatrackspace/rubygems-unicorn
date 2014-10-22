@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: The <tt>last_data_recv</tt> member of Raindrops::TCP_Info can be used to infer the time a client spent in the listen queue before it was accepted.
+- !ruby/struct:SM::Flow::P 
+  body: We require TCP_DEFER_ACCEPT on the listen socket for <tt>last_data_recv</tt> to be accurate
+full_name: Raindrops::Aggregate::LastDataRecv#count!
+is_singleton: false
+name: count!
+params: (io)
+visibility: public

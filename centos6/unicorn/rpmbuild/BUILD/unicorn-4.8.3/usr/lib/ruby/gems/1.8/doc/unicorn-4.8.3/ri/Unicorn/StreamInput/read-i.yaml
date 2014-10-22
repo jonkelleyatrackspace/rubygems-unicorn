@@ -1,0 +1,18 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Reads at most length bytes from the I/O stream, or to the end of file if length is omitted or is nil. length must be a non-negative integer or nil. If the optional buffer argument is present, it must reference a String, which will receive the data.
+- !ruby/struct:SM::Flow::P 
+  body: At end of file, it returns nil or '' depend on length. ios.read() and ios.read(nil) returns ''. ios.read(length [, buffer]) returns nil.
+- !ruby/struct:SM::Flow::P 
+  body: "If the Content-Length of the HTTP request is known (as is the common case for POST requests), then ios.read(length [, buffer]) will block until the specified length is read (or it is the last chunk). Otherwise, for uncommon &quot;Transfer-Encoding: chunked&quot; requests, ios.read(length [, buffer]) will return immediately if there is any data and only block when nothing is available (providing IO#readpartial semantics)."
+full_name: Unicorn::StreamInput#read
+is_singleton: false
+name: read
+params: |
+  ios.read([length [, buffer ]]) => string, buffer, or nil
+
+visibility: public

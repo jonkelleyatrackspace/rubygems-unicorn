@@ -1,0 +1,19 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: tryopen
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This subclass of the core File class adds the &quot;tryopen&quot; singleton method for opening files. A single &quot;tryopen&quot; and check for the return value may be used to avoid unnecessary stat(2) syscalls or File.open exceptions when checking for the existence of a file and opening it.
+constants: []
+
+full_name: Kgio::File
+includes: 
+- !ruby/object:RI::IncludedModule 
+  name: mPipeMethods
+instance_methods: []
+
+name: File
+superclass: File

@@ -1,0 +1,84 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "Raindrops::Middleware is Rack middleware that allows snapshotting current activity from an HTTP request. For all operating systems, it returns at least the following fields:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: calling - the number of application dispatchers on your machine
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: writing - the number of clients being written to on your machine
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: Additional fields are available for \Linux users.
+- !ruby/struct:SM::Flow::P 
+  body: It should be loaded at the top of Rack middleware stack before other middlewares for maximum accuracy.
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: Usage (Rainbows!/Unicorn preload_app=false)
+- !ruby/struct:SM::Flow::P 
+  body: If you're using preload_app=false (the default) in your Rainbows!/Unicorn config file, you'll need to create the global Stats object before forking.
+- !ruby/struct:SM::Flow::VERB 
+  body: "   require 'raindrops'\n   $stats ||= Raindrops::Middleware::Stats.new\n"
+- !ruby/struct:SM::Flow::P 
+  body: "In your Rack config.ru:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "   use Raindrops::Middleware, :stats =&gt; $stats\n"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: Usage (Rainbows!/Unicorn preload_app=true)
+- !ruby/struct:SM::Flow::P 
+  body: "If you're using preload_app=true in your Rainbows!/Unicorn config file, just add the middleware to your stack:"
+- !ruby/struct:SM::Flow::P 
+  body: "In your Rack config.ru:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "   use Raindrops::Middleware\n"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: Linux-only extras!
+- !ruby/struct:SM::Flow::P 
+  body: To get bound listener statistics under \Linux, you need to specify the listener names for your server. You can even include listen sockets for <b>other</b> servers on the same machine. This can be handy for monitoring your nginx proxy as well.
+- !ruby/struct:SM::Flow::P 
+  body: "In your Rack config.ru, just pass the :listeners argument as an array of strings (along with any other arguments). You can specify any combination of TCP or Unix domain socket names:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "   use Raindrops::Middleware, :listeners =&gt; %w(0.0.0.0:80 /tmp/.sock)\n"
+- !ruby/struct:SM::Flow::P 
+  body: If you're running Unicorn 0.98.0 or later, you don't have to pass in the :listeners array, Raindrops will automatically detect the listeners used by Unicorn master process. This does not detect listeners in different processes, of course.
+- !ruby/struct:SM::Flow::P 
+  body: "The response body includes the following stats for each listener (see also Raindrops::ListenStats):"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: active - total number of active clients on that listener
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: queued - total number of queued (pre-accept()) clients on that listener
+  type: :BULLET
+- !ruby/struct:SM::Flow::H 
+  level: 1
+  text: Demo Server
+- !ruby/struct:SM::Flow::P 
+  body: There is a server running this middleware (and Watcher) at
+- !ruby/struct:SM::Flow::VERB 
+  body: " http://raindrops-demo.bogomips.org/_raindrops\n"
+- !ruby/struct:SM::Flow::P 
+  body: Also check out the Watcher demo at http://raindrops-demo.bogomips.org/
+- !ruby/struct:SM::Flow::P 
+  body: The demo server is only limited to 30 users, so be sure not to abuse it by using the /tail/ endpoint too much.
+constants: []
+
+full_name: Raindrops::Middleware
+includes: []
+
+instance_methods: []
+
+name: Middleware
+superclass: Object

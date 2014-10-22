@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Unicorn::TeeInput</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Unicorn::TeeInput</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/unicorn/tee_input_rb.html">
+                lib/unicorn/tee_input.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/lib/unicorn/tee_input.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+                <a href="../../files/lib/unicorn/tee_input_rb.html">
+                lib/unicorn/tee_input.rb
+                </a>
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/lib/unicorn/tee_input.rb"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="StreamInput.html">
+                Unicorn::StreamInput
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+acts like tee(1) on an input input to provide a input-like stream while
+providing rewindable semantics through a File/StringIO backing store. On
+the first pass, the input is only <a href="TeeInput.html#M000023">read</a>
+on demand so your Rack application can use input notification (upload
+progress and like). This should fully conform to the
+Rack::Lint::InputWrapper specification on the public API. This class is
+intended to be a strict interpretation of Rack::Lint::InputWrapper
+functionality and will not support any deviations from it.
+</p>
+<p>
+When processing uploads, <a href="../Unicorn.html">Unicorn</a> exposes a <a
+href="TeeInput.html">TeeInput</a> object under &quot;rack.input&quot; of
+the Rack environment.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000027">client_body_buffer_size</a>&nbsp;&nbsp;
+      <a href="#M000020">client_body_buffer_size</a>&nbsp;&nbsp;
+      <a href="#M000019">client_body_buffer_size=</a>&nbsp;&nbsp;
+      <a href="#M000026">client_body_buffer_size=</a>&nbsp;&nbsp;
+      <a href="#M000031">gets</a>&nbsp;&nbsp;
+      <a href="#M000024">gets</a>&nbsp;&nbsp;
+      <a href="#M000028">new</a>&nbsp;&nbsp;
+      <a href="#M000021">new</a>&nbsp;&nbsp;
+      <a href="#M000023">read</a>&nbsp;&nbsp;
+      <a href="#M000030">read</a>&nbsp;&nbsp;
+      <a href="#M000025">rewind</a>&nbsp;&nbsp;
+      <a href="#M000032">rewind</a>&nbsp;&nbsp;
+      <a href="#M000029">size</a>&nbsp;&nbsp;
+      <a href="#M000022">size</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000027.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000027.html');return false;">
+          <span class="method-name">client_body_buffer_size</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the maximum <a href="TeeInput.html#M000022">size</a> of request
+bodies to buffer in memory, amounts larger than this are buffered to the
+filesystem
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000020.html');return false;">
+          <span class="method-name">client_body_buffer_size</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the maximum <a href="TeeInput.html#M000022">size</a> of request
+bodies to buffer in memory, amounts larger than this are buffered to the
+filesystem
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000019.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000019.html');return false;">
+          <span class="method-name">client_body_buffer_size=</span><span class="method-args">(bytes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the maximum <a href="TeeInput.html#M000022">size</a> of request bodies
+to buffer in memory, amounts larger than this are buffered to the
+filesystem
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000026.html');return false;">
+          <span class="method-name">client_body_buffer_size=</span><span class="method-args">(bytes)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sets the maximum <a href="TeeInput.html#M000022">size</a> of request bodies
+to buffer in memory, amounts larger than this are buffered to the
+filesystem
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000028.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000028.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(socket, request)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initializes a <a href="TeeInput.html#M000021">new</a> <a
+href="TeeInput.html">TeeInput</a> object. You normally do not have to call
+this unless you are writing an HTTP server.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000021.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(socket, request)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initializes a <a href="TeeInput.html#M000021">new</a> <a
+href="TeeInput.html">TeeInput</a> object. You normally do not have to call
+this unless you are writing an HTTP server.
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000031.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000031.html');return false;">
+          <span class="method-name">ios.gets   => string or nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads the next ``line&#8217;&#8217; from the I/O stream; lines are
+separated by the global record separator ($/, typically &quot;\n&quot;). A
+global record separator of nil reads the entire unread contents of ios.
+Returns nil if called at the end of file. This takes zero arguments for
+strict Rack::Lint compatibility, unlike IO#gets.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000024.html');return false;">
+          <span class="method-name">ios.gets   => string or nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads the next ``line&#8217;&#8217; from the I/O stream; lines are
+separated by the global record separator ($/, typically &quot;\n&quot;). A
+global record separator of nil reads the entire unread contents of ios.
+Returns nil if called at the end of file. This takes zero arguments for
+strict Rack::Lint compatibility, unlike IO#gets.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000023.html');return false;">
+          <span class="method-name">ios.read([length [, buffer ]]) => string, buffer, or nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads at most length bytes from the I/O stream, or to the end of file if
+length is omitted or is nil. length must be a non-negative integer or nil.
+If the optional buffer argument is present, it must reference a String,
+which will receive the data.
+</p>
+<p>
+At end of file, it returns nil or &quot;&quot; depend on length. ios.read()
+and ios.read(nil) returns &quot;&quot;. ios.read(length [, buffer]) returns
+nil.
+</p>
+<p>
+If the Content-Length of the HTTP request is known (as is the common case
+for POST requests), then ios.read(length [, buffer]) will block until the
+specified length is <a href="TeeInput.html#M000023">read</a> (or it is the
+last chunk). Otherwise, for uncommon &quot;Transfer-Encoding: chunked&quot;
+requests, ios.read(length [, buffer]) will return immediately if there is
+any data and only block when nothing is available (providing IO#readpartial
+semantics).
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000030.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000030.html');return false;">
+          <span class="method-name">ios.read([length [, buffer ]]) => string, buffer, or nil<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads at most length bytes from the I/O stream, or to the end of file if
+length is omitted or is nil. length must be a non-negative integer or nil.
+If the optional buffer argument is present, it must reference a String,
+which will receive the data.
+</p>
+<p>
+At end of file, it returns nil or &quot;&quot; depend on length. ios.read()
+and ios.read(nil) returns &quot;&quot;. ios.read(length [, buffer]) returns
+nil.
+</p>
+<p>
+If the Content-Length of the HTTP request is known (as is the common case
+for POST requests), then ios.read(length [, buffer]) will block until the
+specified length is <a href="TeeInput.html#M000023">read</a> (or it is the
+last chunk). Otherwise, for uncommon &quot;Transfer-Encoding: chunked&quot;
+requests, ios.read(length [, buffer]) will return immediately if there is
+any data and only block when nothing is available (providing IO#readpartial
+semantics).
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000025.html');return false;">
+          <span class="method-name">ios.rewind    => 0<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Positions the <b>ios</b> pointer to the beginning of input, returns the
+offset (zero) of the <tt>ios</tt> pointer. Subsequent reads will start from
+the beginning of the previously-buffered input.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000032.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000032.html');return false;">
+          <span class="method-name">ios.rewind    => 0<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Positions the <b>ios</b> pointer to the beginning of input, returns the
+offset (zero) of the <tt>ios</tt> pointer. Subsequent reads will start from
+the beginning of the previously-buffered input.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000029.html');return false;">
+          <span class="method-name">ios.size  => Integer<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="TeeInput.html#M000022">size</a> of the input. For
+requests with a Content-Length header value, this will not <a
+href="TeeInput.html#M000023">read</a> data off the socket and just return
+the value of the Content-Length header as an Integer.
+</p>
+<p>
+For Transfer-Encoding:chunked requests, this requires consuming all of the
+input stream before returning since there&#8216;s no other way to determine
+the <a href="TeeInput.html#M000022">size</a> of the request body
+beforehand.
+</p>
+<p>
+This method is no longer part of the Rack specification as of Rack 1.2, so
+its use is not recommended. This method only exists for compatibility with
+Rack applications designed for Rack 1.1 and earlier. Most applications
+should only need to call <tt><a href="TeeInput.html#M000023">read</a></tt>
+with a specified <tt>length</tt> in a loop until it returns <tt>nil</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="TeeInput.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('TeeInput.src/M000022.html');return false;">
+          <span class="method-name">ios.size  => Integer<br />
+</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="TeeInput.html#M000022">size</a> of the input. For
+requests with a Content-Length header value, this will not <a
+href="TeeInput.html#M000023">read</a> data off the socket and just return
+the value of the Content-Length header as an Integer.
+</p>
+<p>
+For Transfer-Encoding:chunked requests, this requires consuming all of the
+input stream before returning since there&#8216;s no other way to determine
+the <a href="TeeInput.html#M000022">size</a> of the request body
+beforehand.
+</p>
+<p>
+This method is no longer part of the Rack specification as of Rack 1.2, so
+its use is not recommended. This method only exists for compatibility with
+Rack applications designed for Rack 1.1 and earlier. Most applications
+should only need to call <tt><a href="TeeInput.html#M000023">read</a></tt>
+with a specified <tt>length</tt> in a loop until it returns <tt>nil</tt>.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "sets after_fork hook to a given block. This block will be called by the worker after forking. The following is an example hook which adds a per-process listener to every worker:"
+- !ruby/struct:SM::Flow::VERB 
+  body: " after_fork do |server,worker|\n   # per-process listener ports for debugging/admin:\n   addr = &quot;127.0.0.1:#{9293 + worker.nr}&quot;\n\n   # the negative :tries parameter indicates we will retry forever\n   # waiting on the existing process to exit with a 5 second :delay\n   # Existing options for Unicorn::Configurator#listen such as\n   # :backlog, :rcvbuf, :sndbuf are available here as well.\n   server.listen(addr, :tries =&gt; -1, :delay =&gt; 5, :backlog =&gt; 128)\n end\n"
+full_name: Unicorn::Configurator#after_fork
+is_singleton: false
+name: after_fork
+params: (*args, &block)
+visibility: public

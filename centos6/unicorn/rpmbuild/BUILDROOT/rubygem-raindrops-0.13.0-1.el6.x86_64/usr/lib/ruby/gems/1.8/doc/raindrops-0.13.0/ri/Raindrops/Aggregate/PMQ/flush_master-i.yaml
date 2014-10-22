@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Flushes the currently aggregate statistics to a temporary file. There is no need to call this explicitly as +:worker_interval+ defines how frequently your data will be flushed for workers to read.
+full_name: Raindrops::Aggregate::PMQ#flush_master
+is_singleton: false
+name: flush_master
+params: ()
+visibility: public

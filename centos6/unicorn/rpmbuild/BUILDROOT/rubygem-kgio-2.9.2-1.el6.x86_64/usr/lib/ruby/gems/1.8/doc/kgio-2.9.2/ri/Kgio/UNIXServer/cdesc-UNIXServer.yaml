@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Kgio::UNIXServer should be used in place of the plain UNIXServer when kgio_accept and kgio_tryaccept methods are needed.
+constants: []
+
+full_name: Kgio::UNIXServer
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: kgio_accept
+- !ruby/object:RI::MethodSummary 
+  name: kgio_tryaccept
+name: UNIXServer
+superclass: cUNIXServer

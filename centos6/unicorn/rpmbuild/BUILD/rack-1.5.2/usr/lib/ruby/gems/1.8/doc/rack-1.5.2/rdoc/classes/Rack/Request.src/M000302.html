@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>trusted_proxy? (Rack::Request)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/request.rb, line 342</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">trusted_proxy?</span>(<span class="ruby-identifier">ip</span>)
+      <span class="ruby-identifier">ip</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\A127\.0\.0\.1\Z|\A(10|172\.(1[6-9]|2[0-9]|30|31)|192\.168)\.|\A::1\Z|\Afd[0-9a-f]{2}:.+|\Alocalhost\Z|\Aunix\Z|\Aunix:/i</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

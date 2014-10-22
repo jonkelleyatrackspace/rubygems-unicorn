@@ -1,0 +1,42 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+constants: []
+
+full_name: Unicorn::SSLConfigurator
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: ssl
+- !ruby/object:RI::MethodSummary 
+  name: ssl_certificate
+- !ruby/object:RI::MethodSummary 
+  name: ssl_certificate_key
+- !ruby/object:RI::MethodSummary 
+  name: ssl_ciphers
+- !ruby/object:RI::MethodSummary 
+  name: ssl_client_certificate
+- !ruby/object:RI::MethodSummary 
+  name: ssl_compression
+- !ruby/object:RI::MethodSummary 
+  name: ssl_crl
+- !ruby/object:RI::MethodSummary 
+  name: ssl_dhparam
+- !ruby/object:RI::MethodSummary 
+  name: ssl_engine
+- !ruby/object:RI::MethodSummary 
+  name: ssl_prefer_server_ciphers
+- !ruby/object:RI::MethodSummary 
+  name: ssl_protocols
+- !ruby/object:RI::MethodSummary 
+  name: ssl_session_timeout
+- !ruby/object:RI::MethodSummary 
+  name: ssl_verify_client
+- !ruby/object:RI::MethodSummary 
+  name: ssl_verify_depth
+name: SSLConfigurator
+superclass: 

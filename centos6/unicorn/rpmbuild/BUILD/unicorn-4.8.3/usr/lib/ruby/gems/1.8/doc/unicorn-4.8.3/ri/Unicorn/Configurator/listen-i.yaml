@@ -1,0 +1,62 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Adds an <tt>address</tt> to the existing listener set. May be specified more than once. <tt>address</tt> may be an Integer port number for a TCP port, an &quot;IP_ADDRESS:PORT&quot; for TCP listeners or a pathname for UNIX domain sockets.
+- !ruby/struct:SM::Flow::VERB 
+  body: "  listen 3000 # listen to port 3000 on all TCP interfaces\n  listen &quot;127.0.0.1:3000&quot;  # listen to port 3000 on the loopback interface\n  listen &quot;/path/to/.unicorn.sock&quot; # listen on the given Unix domain socket\n  listen &quot;[::1]:3000&quot; # listen to port 3000 on the IPv6 loopback interface\n"
+- !ruby/struct:SM::Flow::P 
+  body: "When using Unix domain sockets, be sure: 1) the path matches the one used by nginx 2) uses the same filesystem namespace as the nginx process For systemd users using PrivateTmp=true (for either nginx or unicorn), this means Unix domain sockets must not be placed in /tmp"
+- !ruby/struct:SM::Flow::P 
+  body: "The following options may be specified (but are generally not needed):"
+- !ruby/struct:SM::Flow::P 
+  body: "[:backlog =&gt; number of clients]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  This is the backlog of the listen() syscall.\n\n  Some operating systems allow negative values here to specify the\n  maximum allowable value.  In most cases, this number is only\n  recommendation and there are other OS-specific tunables and\n  variables that can affect this number.  See the listen(2)\n  syscall documentation of your OS for the exact semantics of\n  this.\n\n  If you are running unicorn on multiple machines, lowering this number\n  can help your load balancer detect when a machine is overloaded\n  and give requests to a different machine.\n\n  Default: 1024\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:rcvbuf =&gt; bytes, :sndbuf =&gt; bytes]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Maximum receive and send buffer sizes (in bytes) of sockets.\n\n  These correspond to the SO_RCVBUF and SO_SNDBUF settings which\n  can be set via the setsockopt(2) syscall.  Some kernels\n  (e.g. Linux 2.4+) have intelligent auto-tuning mechanisms and\n  there is no need (and it is sometimes detrimental) to specify them.\n\n  See the socket API documentation of your operating system\n  to determine the exact semantics of these settings and\n  other operating system-specific knobs where they can be\n  specified.\n\n  Defaults: operating system defaults\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:tcp_nodelay =&gt; true or false]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Disables Nagle's algorithm on TCP sockets if <tt>true</tt>.\n\n  Setting this to <tt>true</tt> can make streaming responses in Rails 3.1\n  appear more quickly at the cost of slightly higher bandwidth usage.\n  The effect of this option is most visible if nginx is not used,\n  but nginx remains highly recommended with \\Unicorn.\n\n  This has no effect on UNIX sockets.\n\n  Default: <tt>true</tt> (Nagle's algorithm disabled) in \\Unicorn,\n  <tt>true</tt> in Rainbows!  This defaulted to <tt>false</tt> in \\Unicorn\n  3.x\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:tcp_nopush =&gt; true or false]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Enables/disables TCP_CORK in Linux or TCP_NOPUSH in FreeBSD\n\n  This prevents partial TCP frames from being sent out and reduces\n  wakeups in nginx if it is on a different machine.  Since \\Unicorn\n  is only designed for applications that send the response body\n  quickly without keepalive, sockets will always be flushed on close\n  to prevent delays.\n\n  This has no effect on UNIX sockets.\n\n  Default: <tt>false</tt>\n  This defaulted to <tt>true</tt> in \\Unicorn 3.4 - 3.7\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:ipv6only =&gt; true or false]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  This option makes IPv6-capable TCP listeners IPv6-only and unable\n  to receive IPv4 queries on dual-stack systems.  A separate IPv4-only\n  listener is required if this is true.\n\n  This option is only available for Ruby 1.9.2 and later.\n\n  Enabling this option for the IPv6-only listener and having a\n  separate IPv4 listener is recommended if you wish to support IPv6\n  on the same TCP port.  Otherwise, the value of \\env[\\&quot;REMOTE_ADDR\\&quot;]\n  will appear as an ugly IPv4-mapped-IPv6 address for IPv4 clients\n  (e.g &quot;:ffff:10.0.0.1&quot; instead of just &quot;10.0.0.1&quot;).\n\n  Default: Operating-system dependent\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:reuseport =&gt; true or false]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  This enables multiple, independently-started unicorn instances to\n  bind to the same port (as long as all the processes enable this).\n\n  This option must be used when unicorn first binds the listen socket.\n  It cannot be enabled when a socket is inherited via SIGUSR2\n  (but it will remain on if inherited), and it cannot be enabled\n  directly via SIGHUP.\n\n  Note: there is a chance of connections being dropped if\n  one of the unicorn instances is stopped while using this.\n\n  This is supported on *BSD systems and Linux 3.9 or later.\n\n  ref: https://lwn.net/Articles/542629/\n\n  Default: false (unset)\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:tries =&gt; Integer]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Times to retry binding a socket if it is already in use\n\n  A negative number indicates we will retry indefinitely, this is\n  useful for migrations and upgrades when individual workers\n  are binding to different ports.\n\n  Default: 5\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:delay =&gt; seconds]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Seconds to wait between successive <tt>tries</tt>\n\n  Default: 0.5 seconds\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:umask =&gt; mode]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Sets the file mode creation mask for UNIX sockets.  If specified,\n  this is usually in octal notation.\n\n  Typically UNIX domain sockets are created with more liberal\n  file permissions than the rest of the application.  By default,\n  we create UNIX domain sockets to be readable and writable by\n  all local users to give them the same accessibility as\n  locally-bound TCP listeners.\n\n  This has no effect on TCP listeners.\n\n  Default: 0000 (world-read/writable)\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:tcp_defer_accept =&gt; Integer]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  Defer accept() until data is ready (Linux-only)\n\n  For Linux 2.6.32 and later, this is the number of retransmits to\n  defer an accept() for if no data arrives, but the client will\n  eventually be accepted after the specified number of retransmits\n  regardless of whether data is ready.\n\n  For Linux before 2.6.32, this is a boolean option, and\n  accepts are <em>always</em> deferred indefinitely if no data arrives.\n  This is similar to <tt>:accept_filter =&gt; &quot;dataready&quot;</tt>\n  under FreeBSD.\n\n  Specifying <tt>true</tt> is synonymous for the default value(s) below,\n  and <tt>false</tt> or <tt>nil</tt> is synonymous for a value of zero.\n\n  A value of +1+ is a good optimization for local networks\n  and trusted clients.  For Rainbows! and Zbatery users, a higher\n  value (e.g. +60+) provides more protection against some\n  denial-of-service attacks.  There is no good reason to ever\n  disable this with a <tt>zero</tt> value when serving HTTP.\n\n  Default: 1 retransmit for \\Unicorn, 60 for Rainbows! 0.95.0+\n"
+- !ruby/struct:SM::Flow::P 
+  body: "[:accept_filter =&gt; String]"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  defer accept() until data is ready (FreeBSD-only)\n\n  This enables either the &quot;dataready&quot; or (default) &quot;httpready&quot;\n  accept() filter under FreeBSD.  This is intended as an\n  optimization to reduce context switches with common GET/HEAD\n  requests.  For Rainbows! and Zbatery users, this provides\n  some protection against certain denial-of-service attacks, too.\n\n  There is no good reason to change from the default.\n\n  Default: &quot;httpready&quot;\n"
+full_name: Unicorn::Configurator#listen
+is_singleton: false
+name: listen
+params: (address, options = {})
+visibility: public

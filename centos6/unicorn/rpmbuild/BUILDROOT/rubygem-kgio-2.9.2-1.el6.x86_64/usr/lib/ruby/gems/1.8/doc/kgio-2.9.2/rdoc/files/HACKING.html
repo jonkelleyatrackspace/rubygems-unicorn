@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: HACKING</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>HACKING</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>HACKING
+        &nbsp;(<a href="http://bogomips.org/kgio.git/tree/HACKING"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:04:24 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>kgio Hacker&#8216;s Guide</h1>
+<h3>Documentation</h3>
+<p>
+We use the latest version of <a
+href="http://bogomips.org/wrongdoc">wrongdoc</a> as much as possible.
+</p>
+<p>
+Please wrap documentation at 72 characters-per-line or less (long URLs are
+exempt) so it is comfortably readable from terminals.
+</p>
+<p>
+When referencing mailing list posts, use &quot;<a
+href="http://mid.gmane.org/$MESSAGE_ID">mid.gmane.org/$MESSAGE_ID</a>&quot;
+if possible since the Message-ID remains searchable even if Gmane becomes
+unavailable.
+</p>
+<h3>Code Compatibility</h3>
+<p>
+We target Ruby 1.8.6+, 1.9.1+ and Rubinius 1.1+ and their respective C
+APIs.
+</p>
+<p>
+All of our C code should be compatible with all reasonably modern Unices
+and should run on compilers supported by the versions of Ruby we target.
+</p>
+<p>
+We will NEVER directly support non-Free platforms under any circumstances.
+</p>
+<p>
+Our C code follows K&amp;R indentation style (hard tabs, tabs are always 8
+characters wide) and NOT the indentation style of Matz Ruby.
+</p>
+<h2>Contributing</h2>
+<p>
+Contributions are welcome in the form of patches, pull requests, code
+review, testing, documentation, user support or any other feedback. The <a
+href="mailto:kgio@librelist.org">kgio mailing list</a> is the central
+coordination point for all user and developer feedback and bug reports.
+</p>
+<h3>Submitting Patches</h3>
+<p>
+Follow conventions already established in the code and do not exceed 80
+characters per line.
+</p>
+<p>
+Inline patches (from &quot;git format-patch -M&quot;) to the mailing list
+are preferred because they allow code review and comments in the reply to
+the patch.
+</p>
+<p>
+We will adhere to mostly the same conventions for patch submissions as git
+itself. See the Documentation/SubmittingPatches document distributed with
+git on on patch submission guidelines to follow. Just don&#8216;t email the
+git mailing list or maintainer with kgio patches :)
+</p>
+<h2>Running Development Versions</h2>
+<p>
+It is easy to install the contents of your git working directory:
+</p>
+<p>
+Via RubyGems (RubyGems 1.3.5+ recommended for prerelease versions):
+</p>
+<pre>
+  gmake install-gem
+</pre>
+<p>
+Without RubyGems (via setup.rb):
+</p>
+<pre>
+  gmake install
+</pre>
+<p>
+It is not at all recommended to mix a RubyGems installation with an
+installation done without RubyGems, however.
+</p>
+<h3>Tests</h3>
+<p>
+We use GNU make to run tests in parallel. test/unit/parallel didn&#8216;t
+exist for old versions of Ruby before 1.9.3. Users of GNU-based systems
+(such as GNU/Linux) usually have GNU make installed as &quot;make&quot;
+instead of &quot;gmake&quot;.
+</p>
+<p>
+Running the entire test suite with 4 tests in parallel:
+</p>
+<pre>
+  gmake -j4 test
+</pre>
+<p>
+Running just one unit test:
+</p>
+<pre>
+  gmake test/test_poll.rb
+</pre>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

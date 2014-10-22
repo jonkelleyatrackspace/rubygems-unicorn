@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_tryaccept (Kgio::UNIXServer)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      server = Kgio::UNIXServer.new(&quot;/path/to/unix/socket&quot;)
+ *      server.kgio_tryaccept -&gt; Kgio::Socket or nil
+ *      server.kgio_tryaccept(klass = MySocket) -&gt; MySocket or nil
+ *      server.kgio_tryaccept(nil, flags) -&gt; Kgio::Socket or nil
+ *
+ * Initiates a non-blocking accept and returns a generic Kgio::Socket
+ * object with the kgio_addr attribute set (to the value of
+ * Kgio::LOCALHOST) on success.
+ *
+ * An optional +klass+ argument may be specified to override the
+ * Kgio::Socket-class on a successful return value.
+ *
+ * An optional +flags+ argument may also be specified.
+ * +flags+ is a bitmask that may contain any combination of:
+ *
+ * - Kgio::SOCK_CLOEXEC - close-on-exec flag (enabled by default)
+ * - Kgio::SOCK_NONBLOCK - non-blocking flag (unimportant)
+ */
+static VALUE unix_tryaccept(int argc, VALUE *argv, VALUE self)
+{
+        struct accept_args a;
+
+        a.addr = NULL;
+        a.addrlen = NULL;
+        prepare_accept(&amp;a, self, argc, argv);
+        return my_accept(&amp;a, 1);
+}</pre>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: SIGNALS</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>SIGNALS</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>SIGNALS
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/SIGNALS"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Signal handling</h2>
+<p>
+In general, signals need only be sent to the master process. However, the
+signals <a href="../classes/Unicorn.html">Unicorn</a> uses internally to
+communicate with the worker processes are documented here as well. With the
+exception of TTIN/TTOU, signal handling matches the behavior of <a
+href="http://nginx.net/">nginx</a> so it should be possible to easily share
+process management scripts between <a
+href="../classes/Unicorn.html">Unicorn</a> and nginx.
+</p>
+<p>
+One example init script is distributed with unicorn: <a
+href="http://unicorn.bogomips.org/examples/init.sh">unicorn.bogomips.org/examples/init.sh</a>
+</p>
+<h3>Master Process</h3>
+<ul>
+<li>HUP - reloads config file and gracefully restart all workers. If the
+&quot;preload_app&quot; directive is false (the default), then workers will
+also pick up any application code changes when restarted. If
+&quot;preload_app&quot; is true, then application code changes will have no
+effect; USR2 + QUIT (see below) must be used to load newer code in this
+case. When reloading the application, +Gem.refresh+ will be called so
+updated code for your application can pick up newly installed RubyGems. It
+is not recommended that you uninstall libraries your application depends on
+while <a href="../classes/Unicorn.html">Unicorn</a> is running, as
+respawned workers may enter a spawn loop when they fail to load an
+uninstalled dependency.
+
+</li>
+<li>INT/TERM - quick shutdown, kills all workers immediately
+
+</li>
+<li>QUIT - graceful shutdown, waits for workers to finish their current request
+before finishing.
+
+</li>
+<li>USR1 - reopen all logs owned by the master and all workers See
+Unicorn::Util.reopen_logs for what is considered a log.
+
+</li>
+<li>USR2 - reexecute the running binary. A separate QUIT should be sent to the
+original process once the child is verified to be up and running.
+
+</li>
+<li>WINCH - gracefully stops workers but keep the master running. This will
+only work for daemonized processes.
+
+</li>
+<li>TTIN - increment the number of worker processes by one
+
+</li>
+<li>TTOU - decrement the number of worker processes by one
+
+</li>
+</ul>
+<h3>Worker Processes</h3>
+<p>
+Note: as of unicorn 4.8, the master uses a pipe to signal workers instead
+of kill(2) for most cases. Using signals still (and works and remains
+supported for external tools/libraries), however.
+</p>
+<p>
+Sending signals directly to the worker processes should not normally be
+needed. If the master process is running, any exited worker will be
+automatically respawned.
+</p>
+<ul>
+<li>INT/TERM - Quick shutdown, immediately exit. Unless WINCH has been sent to
+the master (or the master is killed), the master process will respawn a
+worker to replace this one. Immediate shutdown is still triggered using
+kill(2) and not the internal pipe as of unicorn 4.8
+
+</li>
+<li>QUIT - Gracefully exit after finishing the current request. Unless WINCH
+has been sent to the master (or the master is killed), the master process
+will respawn a worker to replace this one.
+
+</li>
+<li>USR1 - Reopen all logs owned by the worker process. See
+Unicorn::Util.reopen_logs for what is considered a log. Log files are not
+reopened until it is done processing the current request, so multiple log
+lines for one request (as done by Rails) will not be split across multiple
+logs.
+
+<p>
+It is NOT recommended to send the USR1 signal directly to workers via
+&quot;killall -USR1 unicorn&quot; if you are using user/group-switching
+support in your workers. You will encounter incorrect file permissions and
+workers will need to be respawned. Sending USR1 to the master process first
+will ensure logs have the correct permissions before the master forwards
+the USR1 signal to workers.
+</p>
+</li>
+</ul>
+<h3>Procedure to replace a running unicorn executable</h3>
+<p>
+You may replace a running instance of unicorn with a new one without losing
+any incoming connections. Doing so will reload all of your application
+code, <a href="../classes/Unicorn.html">Unicorn</a> config, Ruby
+executable, and all libraries. The only things that will not change (due to
+OS limitations) are:
+</p>
+<ol>
+<li>The path to the unicorn executable script. If you want to change to a
+different installation of Ruby, you can modify the shebang line to point to
+your alternative interpreter.
+
+</li>
+</ol>
+<p>
+The procedure is exactly like that of nginx:
+</p>
+<ol>
+<li>Send USR2 to the master process
+
+</li>
+<li>Check your process manager or pid files to see if a new master spawned
+successfully. If you&#8216;re using a pid file, the old process will have
+&quot;.oldbin&quot; appended to its path. You should have two master
+instances of unicorn running now, both of which will have workers servicing
+requests. Your process tree should look something like this:
+
+<pre>
+  unicorn master (old)
+  \_ unicorn worker[0]
+  \_ unicorn worker[1]
+  \_ unicorn worker[2]
+  \_ unicorn worker[3]
+  \_ unicorn master
+     \_ unicorn worker[0]
+     \_ unicorn worker[1]
+     \_ unicorn worker[2]
+     \_ unicorn worker[3]
+</pre>
+</li>
+<li>You can now send WINCH to the old master process so only the new workers
+serve requests. If your unicorn process is bound to an interactive terminal
+(not daemonized), you can skip this step. Step 5 will be more difficult but
+you can also skip it if your process is not daemonized.
+
+</li>
+<li>You should now ensure that everything is running correctly with the new
+workers as the old workers die off.
+
+</li>
+<li>If everything seems ok, then send QUIT to the old master. You&#8216;re
+done!
+
+<p>
+If something is broken, then send HUP to the old master to reload the
+config and restart its workers. Then send QUIT to the new master process.
+</p>
+</li>
+</ol>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

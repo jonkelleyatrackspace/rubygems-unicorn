@@ -1,0 +1,21 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+- !ruby/object:RI::MethodSummary 
+  name: start
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Kgio::TCPSocket should be used in place of the plain TCPSocket when kgio_* methods are needed.
+constants: []
+
+full_name: Kgio::TCPSocket
+includes: 
+- !ruby/object:RI::IncludedModule 
+  name: mSocketMethods
+instance_methods: []
+
+name: TCPSocket
+superclass: cTCPSocket

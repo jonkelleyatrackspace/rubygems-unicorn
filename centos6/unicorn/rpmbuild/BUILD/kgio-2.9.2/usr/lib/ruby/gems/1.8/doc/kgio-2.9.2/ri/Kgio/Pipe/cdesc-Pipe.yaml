@@ -1,0 +1,20 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: use Kgio::Pipe.popen and Kgio::Pipe.new instead of IO.popen and IO.pipe to get PipeMethods#kgio_read and PipeMethod#kgio_write methods.
+constants: []
+
+full_name: Kgio::Pipe
+includes: 
+- !ruby/object:RI::IncludedModule 
+  name: Kgio::PipeMethods
+- !ruby/object:RI::IncludedModule 
+  name: Kgio::PipeMethods
+instance_methods: []
+
+name: Pipe
+superclass: IO

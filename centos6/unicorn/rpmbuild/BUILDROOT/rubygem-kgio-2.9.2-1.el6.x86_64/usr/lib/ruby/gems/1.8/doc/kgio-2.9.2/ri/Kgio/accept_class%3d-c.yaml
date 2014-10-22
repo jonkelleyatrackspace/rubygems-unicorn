@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Sets the default class for newly accepted sockets. This is legacy behavior, kgio_accept and kgio_tryaccept now take optional class arguments to override this value.
+full_name: Kgio::accept_class=
+is_singleton: true
+name: accept_class=
+params: (p1)
+visibility: public

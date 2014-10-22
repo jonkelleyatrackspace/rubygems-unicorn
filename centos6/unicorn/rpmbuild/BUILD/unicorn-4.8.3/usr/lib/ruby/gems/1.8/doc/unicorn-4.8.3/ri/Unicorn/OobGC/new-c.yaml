@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: this pretends to be Rack middleware because it used to be But we need to hook into unicorn internals so we need to close the socket before clearing the request env.
+- !ruby/struct:SM::Flow::P 
+  body: <tt>interval</tt> is the number of requests matching the <tt>path</tt> regular expression before invoking GC.
+full_name: Unicorn::OobGC::new
+is_singleton: true
+name: new
+params: (app, interval = 5, path = %r{\A/})
+visibility: public

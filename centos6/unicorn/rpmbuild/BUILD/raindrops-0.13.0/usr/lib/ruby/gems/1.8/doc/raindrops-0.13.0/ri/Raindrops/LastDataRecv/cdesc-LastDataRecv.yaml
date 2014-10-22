@@ -1,0 +1,75 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This is highly experimental!
+- !ruby/struct:SM::Flow::P 
+  body: A self-contained Rack application for aggregating in the <tt>tcpi_last_data_recv</tt> field in <tt>struct</tt> <tt>tcp_info</tt> defined in +/usr/include/linux/tcp.h+. This is only useful for \Linux 2.6 and later. This primarily supports Unicorn and derived servers, but may also be used with any Ruby web server using the core TCPServer class in Ruby.
+- !ruby/struct:SM::Flow::P 
+  body: "Hitting the Rack endpoint configured for this application will return a an ASCII histogram response body with the following headers:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Count - number of requests received
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: The following headers are only present if X-Count is greater than one.
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Min - lowest last_data_recv time recorded (in milliseconds)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Max - highest last_data_recv time recorded (in milliseconds)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Mean - mean last_data_recv time recorded (rounded, in milliseconds)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Std-Dev - standard deviation of last_data_recv times
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Outliers-Low - number of low outliers (hopefully many!)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Outliers-High - number of high outliers (hopefully zero!)
+  type: :BULLET
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: "To use with Unicorn and derived servers (preload_app=false):"
+- !ruby/struct:SM::Flow::P 
+  body: "Put the following in our Unicorn config file (not config.ru):"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  require &quot;raindrops/last_data_recv&quot;\n"
+- !ruby/struct:SM::Flow::P 
+  body: "Then follow the instructions below for config.ru:"
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: To use with any Rack server using TCPServer
+- !ruby/struct:SM::Flow::P 
+  body: "Setup a route for Raindrops::LastDataRecv in your Rackup config file (typically config.ru):"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  require &quot;raindrops&quot;\n  map &quot;/raindrops/last_data_recv&quot; do\n    run Raindrops::LastDataRecv.new\n  end\n  map &quot;/&quot; do\n    use SomeMiddleware\n    use MoreMiddleware\n    # ...\n    run YourAppHere.new\n  end\n"
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: To use with any other Ruby web server that uses TCPServer
+- !ruby/struct:SM::Flow::P 
+  body: "Put the following in any piece of Ruby code loaded after the server has bound its TCP listeners:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  ObjectSpace.each_object(TCPServer) do |s|\n    s.extend Raindrops::Aggregate::LastDataRecv\n  end\n\n  Thread.new do\n    Raindrops::Aggregate::LastDataRecv.default_aggregate.master_loop\n  end\n"
+- !ruby/struct:SM::Flow::P 
+  body: Then follow the above instructions for config.ru
+constants: []
+
+full_name: Raindrops::LastDataRecv
+includes: []
+
+instance_methods: []
+
+name: LastDataRecv
+superclass: Object

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>reopen_logs (Unicorn::Util)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/util.rb, line 34</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">reopen_logs</span>
+    <span class="ruby-identifier">to_reopen</span> = []
+    <span class="ruby-identifier">nr</span> = <span class="ruby-value">0</span>
+    <span class="ruby-constant">ObjectSpace</span>.<span class="ruby-identifier">each_object</span>(<span class="ruby-constant">File</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">fp</span><span class="ruby-operator">|</span> <span class="ruby-identifier">is_log?</span>(<span class="ruby-identifier">fp</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">to_reopen</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">fp</span> }
+
+    <span class="ruby-identifier">to_reopen</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fp</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">orig_st</span> = <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">stat</span>
+      <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">IOError</span>, <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">EBADF</span> <span class="ruby-comment cmt"># race</span>
+        <span class="ruby-keyword kw">next</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-identifier">b</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">stat</span>(<span class="ruby-identifier">fp</span>.<span class="ruby-identifier">path</span>)
+        <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">ino</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">ino</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">dev</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">dev</span>
+      <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-comment cmt"># stdin, stdout, stderr are special.  The following dance should</span>
+        <span class="ruby-comment cmt"># guarantee there is no window where `fp' is unwritable in MRI</span>
+        <span class="ruby-comment cmt"># (or any correct Ruby implementation).</span>
+        <span class="ruby-comment cmt">#</span>
+        <span class="ruby-comment cmt"># Fwiw, GVL has zero bearing here.  This is tricky because of</span>
+        <span class="ruby-comment cmt"># the unavoidable existence of stdio FILE * pointers for</span>
+        <span class="ruby-comment cmt"># std{in,out,err} in all programs which may use the standard C library</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">fileno</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">2</span>
+          <span class="ruby-comment cmt"># We do not want to hit fclose(3)-&gt;dup(2) window for std{in,out,err}</span>
+          <span class="ruby-comment cmt"># MRI will use freopen(3) here internally on std{in,out,err}</span>
+          <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">reopen</span>(<span class="ruby-identifier">fp</span>.<span class="ruby-identifier">path</span>, <span class="ruby-value str">&quot;a&quot;</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-comment cmt"># We should not need this workaround, Ruby can be fixed:</span>
+          <span class="ruby-comment cmt">#    http://bugs.ruby-lang.org/issues/9036</span>
+          <span class="ruby-comment cmt"># MRI will not call call fclose(3) or freopen(3) here</span>
+          <span class="ruby-comment cmt"># since there's no associated std{in,out,err} FILE * pointer</span>
+          <span class="ruby-comment cmt"># This should atomically use dup3(2) (or dup2(2)) syscall</span>
+          <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">fp</span>.<span class="ruby-identifier">path</span>, <span class="ruby-value str">&quot;a&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">tmpfp</span><span class="ruby-operator">|</span> <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">reopen</span>(<span class="ruby-identifier">tmpfp</span>) }
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">sync</span> = <span class="ruby-keyword kw">true</span>
+        <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">flush</span> <span class="ruby-comment cmt"># IO#sync=true may not implicitly flush</span>
+        <span class="ruby-identifier">new_st</span> = <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">stat</span>
+
+        <span class="ruby-comment cmt"># this should only happen in the master:</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">uid</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">new_st</span>.<span class="ruby-identifier">uid</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">gid</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">new_st</span>.<span class="ruby-identifier">gid</span>
+          <span class="ruby-identifier">fp</span>.<span class="ruby-identifier">chown</span>(<span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">orig_st</span>.<span class="ruby-identifier">gid</span>)
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-identifier">nr</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">IOError</span>, <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">EBADF</span>
+        <span class="ruby-comment cmt"># not much we can do...</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">nr</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

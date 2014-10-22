@@ -1,0 +1,15 @@
+%dir /usr/lib/debug
+%dir /usr/lib/debug/usr
+%dir /usr/lib/debug/usr/lib
+%dir /usr/lib/debug/usr/lib/ruby
+%dir /usr/lib/debug/usr/lib/ruby/gems
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems/unicorn-4.8.3
+%dir /usr/lib/debug/usr/lib/ruby/gems/1.8/gems/unicorn-4.8.3/lib
+%dir /usr/lib/debug/.build-id
+%dir /usr/lib/debug/.build-id/4c
+/usr/lib/debug/usr/lib/ruby/gems/1.8/gems/unicorn-4.8.3/lib/unicorn_http.so.debug
+/usr/lib/debug/.build-id/4c/acdc3d48f432f2433e6269be2b89a4c8a54772.debug
+/usr/lib/debug/.build-id/4c/acdc3d48f432f2433e6269be2b89a4c8a54772
+/usr/src/debug/unicorn-4.8.3

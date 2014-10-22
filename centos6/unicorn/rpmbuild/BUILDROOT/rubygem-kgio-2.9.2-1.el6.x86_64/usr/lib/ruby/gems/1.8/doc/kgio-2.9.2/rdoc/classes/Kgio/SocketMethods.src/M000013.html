@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_autopush? (Kgio::SocketMethods)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      io.kgio_autopush?  -&gt; true or false
+ *
+ * Returns the current autopush state of the Kgio::SocketMethods-enabled
+ * socket.
+ *
+ * Only available on systems with TCP_CORK (Linux) or
+ * TCP_NOPUSH (FreeBSD, and maybe other *BSDs).
+ */
+static VALUE autopush_get(VALUE io)
+{
+        return state_get(io) &lt;= 0 ? Qfalse : Qtrue;
+}</pre>
+</body>
+</html>

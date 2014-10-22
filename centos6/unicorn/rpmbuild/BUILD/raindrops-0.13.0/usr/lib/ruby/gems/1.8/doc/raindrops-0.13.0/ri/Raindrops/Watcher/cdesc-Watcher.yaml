@@ -1,0 +1,148 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Raindrops::Watcher is a stand-alone Rack application for watching any number of TCP and UNIX listeners (all of them by default).
+- !ruby/struct:SM::Flow::P 
+  body: It depends on the {Aggregate RubyGem}[http://rubygems.org/gems/aggregate]
+- !ruby/struct:SM::Flow::P 
+  body: "In your Rack config.ru:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "   run Raindrops::Watcher(options = {})\n"
+- !ruby/struct:SM::Flow::P 
+  body: "It takes the following options hash:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":listeners - an array of listener names, (e.g. %w(0.0.0.0:80 /tmp/sock))"
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":delay - interval between stats updates in seconds (default: 1)"
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: Raindrops::Watcher is compatible any thread-safe/thread-aware Rack middleware. It does not work well with multi-process web servers but can be used to monitor them. It consumes minimal resources with the default :delay.
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: HTTP endpoints
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /
+- !ruby/struct:SM::Flow::P 
+  body: Returns an HTML summary listing of all listen interfaces watched on
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /active/$LISTENER.txt
+- !ruby/struct:SM::Flow::P 
+  body: Returns a plain text summary + histogram with X-* HTTP headers for active connections.
+- !ruby/struct:SM::Flow::P 
+  body: "e.g.: curl http://raindrops-demo.bogomips.org/active/0.0.0.0%3A80.txt"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /active/$LISTENER.html
+- !ruby/struct:SM::Flow::P 
+  body: Returns an HTML summary + histogram with X-* HTTP headers for active connections.
+- !ruby/struct:SM::Flow::P 
+  body: "e.g.: curl http://raindrops-demo.bogomips.org/active/0.0.0.0%3A80.html"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /queued/$LISTENER.txt
+- !ruby/struct:SM::Flow::P 
+  body: Returns a plain text summary + histogram with X-* HTTP headers for queued connections.
+- !ruby/struct:SM::Flow::P 
+  body: "e.g.: curl http://raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.txt"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /queued/$LISTENER.html
+- !ruby/struct:SM::Flow::P 
+  body: Returns an HTML summary + histogram with X-* HTTP headers for queued connections.
+- !ruby/struct:SM::Flow::P 
+  body: "e.g.: curl http://raindrops-demo.bogomips.org/queued/0.0.0.0%3A80.html"
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: POST /reset/$LISTENER
+- !ruby/struct:SM::Flow::P 
+  body: Resets the active and queued statistics for the given listener.
+- !ruby/struct:SM::Flow::H 
+  level: 3
+  text: GET /tail/$LISTENER.txt?active_min=1&amp;queued_min=1
+- !ruby/struct:SM::Flow::P 
+  body: Streams chunked a response to the client. Interval is the preconfigured +:delay+ of the application (default 1 second)
+- !ruby/struct:SM::Flow::P 
+  body: "The response is plain text in the following format:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  ISO8601_TIMESTAMP LISTENER_NAME ACTIVE_COUNT QUEUED_COUNT LINEFEED\n"
+- !ruby/struct:SM::Flow::P 
+  body: "Query parameters:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: active_min - do not stream a line until this active count is reached
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: queued_min - do not stream a line until this queued count is reached
+  type: :BULLET
+- !ruby/struct:SM::Flow::H 
+  level: 2
+  text: Response headers (mostly the same names as Raindrops::LastDataRecv)
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Count - number of samples polled
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Last-Reset - date since the last reset
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: The following headers are only present if X-Count is greater than one.
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Min - lowest number of connections recorded
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Max - highest number of connections recorded
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Mean - mean number of connections recorded
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Std-Dev - standard deviation of connection count
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Outliers-Low - number of low outliers (hopefully many for queued)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Outliers-High - number of high outliers (hopefully zero for queued)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Current - current number of connections
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-First-Peak-At - date of when X-Max was first reached
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: X-Last-Peak-At - date of when X-Max was last reached
+  type: :BULLET
+- !ruby/struct:SM::Flow::H 
+  level: 1
+  text: Demo Server
+- !ruby/struct:SM::Flow::P 
+  body: There is a server running this app at http://raindrops-demo.bogomips.org/ The Raindrops::Middleware demo is also accessible at http://raindrops-demo.bogomips.org/_raindrops
+- !ruby/struct:SM::Flow::P 
+  body: The demo server is only limited to 30 users, so be sure not to abuse it by using the /tail/ endpoint too much.
+constants: []
+
+full_name: Raindrops::Watcher
+includes: []
+
+instance_methods: []
+
+name: Watcher
+superclass: Object

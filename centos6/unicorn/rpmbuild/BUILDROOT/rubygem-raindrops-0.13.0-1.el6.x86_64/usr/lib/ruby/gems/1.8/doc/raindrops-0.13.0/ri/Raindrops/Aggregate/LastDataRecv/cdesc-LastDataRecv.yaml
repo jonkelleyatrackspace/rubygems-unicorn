@@ -1,0 +1,47 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: 
+- !ruby/object:RI::Attribute 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The integer value of <tt>last_data_recv</tt> is sent to this object. This is usually a duck type compatible with the \Aggregate class, but can be <b>anything</b> that accepts the *&lt;&lt;* method.
+  name: raindrops_aggregate
+  rw: RW
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: cornify!
+- !ruby/object:RI::MethodSummary 
+  name: default_aggregate
+- !ruby/object:RI::MethodSummary 
+  name: default_aggregate=
+- !ruby/object:RI::MethodSummary 
+  name: extended
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: This module is used to extend TCPServer and Kgio::TCPServer objects and aggregate <tt>last_data_recv</tt> times for all accepted clients. It is designed to be used with Raindrops::LastDataRecv Rack application but can be easily changed to work with other stats collection devices.
+- !ruby/struct:SM::Flow::P 
+  body: "Methods wrapped include:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: TCPServer#accept
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: TCPServer#accept_nonblock
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: Kgio::TCPServer#kgio_accept
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: Kgio::TCPServer#kgio_tryaccept
+  type: :BULLET
+constants: []
+
+full_name: Raindrops::Aggregate::LastDataRecv
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: count!
+name: LastDataRecv
+superclass: 

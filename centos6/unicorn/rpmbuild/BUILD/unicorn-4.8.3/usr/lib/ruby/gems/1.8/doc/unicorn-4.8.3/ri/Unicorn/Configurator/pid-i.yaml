@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets the <tt>path</tt> for the PID file of the unicorn master process
+full_name: Unicorn::Configurator#pid
+is_singleton: false
+name: pid
+params: (path)
+visibility: public

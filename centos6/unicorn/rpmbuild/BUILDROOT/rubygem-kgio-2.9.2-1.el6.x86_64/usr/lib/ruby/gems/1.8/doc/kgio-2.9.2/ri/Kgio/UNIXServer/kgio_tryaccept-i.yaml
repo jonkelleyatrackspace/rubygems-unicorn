@@ -1,0 +1,29 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     server = Kgio::UNIXServer.new(&quot;/path/to/unix/socket&quot;)\n     server.kgio_tryaccept -&gt; Kgio::Socket or nil\n     server.kgio_tryaccept(klass = MySocket) -&gt; MySocket or nil\n     server.kgio_tryaccept(nil, flags) -&gt; Kgio::Socket or nil\n"
+- !ruby/struct:SM::Flow::P 
+  body: Initiates a non-blocking accept and returns a generic Kgio::Socket object with the kgio_addr attribute set (to the value of Kgio::LOCALHOST) on success.
+- !ruby/struct:SM::Flow::P 
+  body: An optional <tt>klass</tt> argument may be specified to override the Kgio::Socket-class on a successful return value.
+- !ruby/struct:SM::Flow::P 
+  body: "An optional <tt>flags</tt> argument may also be specified. <tt>flags</tt> is a bitmask that may contain any combination of:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: Kgio::SOCK_CLOEXEC - close-on-exec flag (enabled by default)
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: Kgio::SOCK_NONBLOCK - non-blocking flag (unimportant)
+  type: :BULLET
+full_name: Kgio::UNIXServer#kgio_tryaccept
+is_singleton: false
+name: kgio_tryaccept
+params: |
+  
+
+visibility: public

@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: In most cases, you should be using the Unicorn::Configurator#user directive instead. This method should only be used if you need fine-grained control of exactly when you want to change permissions in your after_fork hooks.
+- !ruby/struct:SM::Flow::P 
+  body: Changes the worker process to the specified <tt>user</tt> and <tt>group</tt> This is only intended to be called from within the worker process from the <tt>after_fork</tt> hook. This should be called in the <tt>after_fork</tt> hook after any privileged functions need to be run (e.g. to set per-worker CPU affinity, niceness, etc)
+- !ruby/struct:SM::Flow::P 
+  body: Any and all errors raised within this method will be propagated directly back to the caller (usually the <tt>after_fork</tt> hook. These errors commonly include ArgumentError for specifying an invalid user/group and Errno::EPERM for insufficient privileges
+full_name: Unicorn::Worker#user
+is_singleton: false
+name: user
+params: (user, group = nil)
+visibility: public

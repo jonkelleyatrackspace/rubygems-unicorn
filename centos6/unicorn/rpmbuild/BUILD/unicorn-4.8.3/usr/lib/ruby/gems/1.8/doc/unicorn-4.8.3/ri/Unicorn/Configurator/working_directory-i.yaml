@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets the working directory for Unicorn. This ensures SIGUSR2 will start a new instance of Unicorn in this directory. This may be a symlink, a common scenario for Capistrano users. Unlike all other Unicorn configuration directives, this binds immediately for error checking and cannot be undone by unsetting it in the configuration file and reloading.
+full_name: Unicorn::Configurator#working_directory
+is_singleton: false
+name: working_directory
+params: (path)
+visibility: public

@@ -1,0 +1,17 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: raindrops may use the {aggregate}[http://github.com/josephruscio/aggregate] RubyGem to aggregate statistics from TCP_Info lookups.
+constants: []
+
+full_name: Raindrops::Aggregate
+includes: []
+
+instance_methods: []
+
+name: Aggregate
+superclass: 

@@ -1,0 +1,31 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio::File.tryopen(filename, [, mode [, perm]])      -&gt; Kgio::File or Symbol\n"
+- !ruby/struct:SM::Flow::P 
+  body: Returns a Kgio::File object on a successful open. <tt>filename</tt> is a path to any file on the filesystem. If specified, <tt>mode</tt> is a bitmask of flags (see IO.sysopen) and <tt>perm</tt> should be an octal number.
+- !ruby/struct:SM::Flow::P 
+  body: This does not raise errors for most failures, but installs returns a Ruby symbol for the constant in the Errno::* namespace.
+- !ruby/struct:SM::Flow::P 
+  body: "Common error symbols are:"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":ENOENT"
+  - !ruby/struct:SM::Flow::LI 
+    label: "-"
+    body: ":EACCES"
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: See your open(2) manpage for more information on open(2) errors.
+full_name: Kgio::File::tryopen
+is_singleton: true
+name: tryopen
+params: |
+  
+
+visibility: public

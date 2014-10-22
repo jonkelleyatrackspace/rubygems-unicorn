@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>read (Unicorn::StreamInput)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/unicorn/stream_input.rb, line 42</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">read</span>(<span class="ruby-identifier">length</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">rv</span> = <span class="ruby-value str">''</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">length</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">size</span>
+        <span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;negative length #{length} given&quot;</span>
+        <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">length</span>))
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">to_read</span> = <span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">size</span>
+        <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">size</span>))
+        <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">to_read</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">eof?</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">rv</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@chunked</span>)
+          <span class="ruby-ivar">@socket</span>.<span class="ruby-identifier">kgio_read</span>(<span class="ruby-identifier">to_read</span>, <span class="ruby-ivar">@buf</span>) <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">eof!</span>
+          <span class="ruby-identifier">filter_body</span>(<span class="ruby-ivar">@rbuf</span>, <span class="ruby-ivar">@buf</span>)
+          <span class="ruby-identifier">rv</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@rbuf</span>
+          <span class="ruby-identifier">to_read</span> <span class="ruby-operator">-=</span> <span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">size</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@rbuf</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-value str">''</span>)
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">rv</span> = <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">read_all</span>(<span class="ruby-identifier">rv</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">rv</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

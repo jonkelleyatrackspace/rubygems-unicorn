@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio::UNIXSocket.start(&quot;/path/to/unix/socket&quot;) -&gt; socket\n"
+- !ruby/struct:SM::Flow::P 
+  body: Creates a new Kgio::UNIXSocket object and initiates a non-blocking connection. The caller should select/poll on the socket for writability before attempting to write or optimistically attempt a write and handle :wait_writable or Errno::EAGAIN.
+full_name: Kgio::UNIXSocket::start
+is_singleton: true
+name: start
+params: |
+  
+
+visibility: public

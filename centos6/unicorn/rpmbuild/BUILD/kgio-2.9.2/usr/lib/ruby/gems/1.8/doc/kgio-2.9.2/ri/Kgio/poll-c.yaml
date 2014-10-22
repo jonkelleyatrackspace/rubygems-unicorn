@@ -1,0 +1,26 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio.poll({ $stdin =&gt; :wait_readable }, 100)  -&gt; hash or nil\n     Kgio.poll({ $stdin =&gt; Kgio::POLLIN }, 100)  -&gt; hash or nil\n"
+- !ruby/struct:SM::Flow::P 
+  body: "Accepts an input hash with IO objects to wait for as the key and the events to wait for as its value. The events may either be +:wait_readable+ or +:wait_writable+ symbols or a Fixnum mask of Kgio::POLL* constants:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio::POLLIN      - there is data to read\n     Kgio::POLLPRI     - there is urgent data to read\n     Kgio::POLLOUT     - writing will not block\n     Kgio::POLLRDHUP   - peer has shutdown writes (Linux 2.6.17+ only)\n"
+- !ruby/struct:SM::Flow::P 
+  body: Timeout is specified in Integer milliseconds just like the underlying poll(2), not in seconds like IO.select. A nil timeout means to wait forever. It must be an Integer or nil.
+- !ruby/struct:SM::Flow::P 
+  body: "Kgio.poll modifies and returns its input hash on success with the IO-like object as the key and an Integer mask of events as the hash value. It can return any of the events specified in the input above, along with the following events:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "     Kgio::POLLERR     - error condition occurred on the descriptor\n     Kgio::POLLHUP     - hang up\n     Kgio::POLLNVAL    - invalid request (bad file descriptor)\n"
+- !ruby/struct:SM::Flow::P 
+  body: This method is only available under Ruby 1.9 or any other implementations that uses native threads and rb_thread_blocking_region()
+full_name: Kgio::poll
+is_singleton: true
+name: poll
+params: |
+  
+
+visibility: public

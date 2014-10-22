@@ -1,0 +1,14 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Positions the <b>ios</b> pointer to the beginning of input, returns the offset (zero) of the <tt>ios</tt> pointer. Subsequent reads will start from the beginning of the previously-buffered input.
+full_name: Unicorn::TeeInput#rewind
+is_singleton: false
+name: rewind
+params: |
+  ios.rewind    => 0
+
+visibility: public

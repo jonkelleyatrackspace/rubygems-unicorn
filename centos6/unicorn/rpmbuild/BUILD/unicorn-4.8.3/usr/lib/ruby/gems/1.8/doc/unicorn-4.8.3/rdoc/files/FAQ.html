@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: FAQ</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>FAQ</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>FAQ
+        &nbsp;(<a href="http://bogomips.org/unicorn.git/tree/FAQ"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed Oct 22 17:03:11 -0400 2014</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Frequently Asked Questions about <a href="../classes/Unicorn.html">Unicorn</a></h1>
+<h3>I&#8216;ve installed Rack 1.1.x, why can&#8216;t <a href="../classes/Unicorn.html">Unicorn</a> load Rails (2.3.5)?</h3>
+<p>
+Rails 2.3.5 is not compatible with Rack 1.1.x. <a
+href="../classes/Unicorn.html">Unicorn</a> is compatible with both Rack
+1.1.x and Rack 1.0.x, and RubyGems will load the latest version of Rack
+installed on the system. Uninstalling the Rack 1.1.x gem should solve gem
+loading issues with Rails 2.3.5. Rails 2.3.6 and later correctly support
+Rack 1.1.x.
+</p>
+<h3>Why are my redirects going to &quot;http&quot; URLs when my site uses https?</h3>
+<p>
+If your site is entirely behind https, then Rack applications that use
+&quot;rack.url_scheme&quot; can set the following in the <a
+href="../classes/Unicorn.html">Unicorn</a> config file:
+</p>
+<pre>
+  HttpRequest::DEFAULTS[&quot;rack.url_scheme&quot;] = &quot;https&quot;
+</pre>
+<p>
+For frameworks that do not use &quot;rack.url_scheme&quot;, you can also
+try setting one or both of the following:
+</p>
+<pre>
+  HttpRequest::DEFAULTS[&quot;HTTPS&quot;] = &quot;on&quot;
+  HttpRequest::DEFAULTS[&quot;HTTP_X_FORWARDED_PROTO&quot;] = &quot;https&quot;
+</pre>
+<p>
+Otherwise, you can configure your proxy (nginx) to send the
+&quot;X-Forwarded-Proto: https&quot; header only for parts of the site that
+use https. For nginx, you can do it with the following line in appropriate
+&quot;location&quot; blocks of your nginx config file:
+</p>
+<pre>
+  proxy_set_header X-Forwarded-Proto https;
+</pre>
+<h3>Why are log messages from <a href="../classes/Unicorn.html">Unicorn</a> are unformatted when using Rails?</h3>
+<p>
+Current versions of Rails unfortunately overrides the default Logger
+formatter.
+</p>
+<p>
+You can undo this behavior with the default logger in your <a
+href="../classes/Unicorn.html">Unicorn</a> config file:
+</p>
+<pre>
+  Configurator::DEFAULTS[:logger].formatter = Logger::Formatter.new
+</pre>
+<p>
+Of course you can specify an entirely different logger as well with the
+&quot;logger&quot; directive described by <a
+href="../classes/Unicorn/Configurator.html">Unicorn::Configurator</a>.
+</p>
+<h3>Why am I getting &quot;connection refused&quot;/502 errors under high load?</h3>
+<p>
+Short answer: your application cannot keep up.
+</p>
+<p>
+You can increase the size of the :backlog parameter if your kernel supports
+a larger listen() queue, but keep in mind having a large listen queue makes
+failover to a different machine more difficult.
+</p>
+<p>
+See the TUNING and <a
+href="../classes/Unicorn/Configurator.html">Unicorn::Configurator</a>
+documents for more information on :backlog-related topics.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

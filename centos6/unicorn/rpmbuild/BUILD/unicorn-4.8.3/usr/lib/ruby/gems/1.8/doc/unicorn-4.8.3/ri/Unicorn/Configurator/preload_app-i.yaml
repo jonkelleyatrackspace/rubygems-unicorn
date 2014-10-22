@@ -1,0 +1,16 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Enabling this preloads an application before forking worker processes. This allows memory savings when using a copy-on-write-friendly GC but can cause bad things to happen when resources like sockets are opened at load time by the master process and shared by multiple children. People enabling this are highly encouraged to look at the before_fork/after_fork hooks to properly close/reopen sockets. Files opened for logging do not have to be reopened as (unbuffered-in-userspace) files opened with the File::APPEND flag are written to atomically on UNIX.
+- !ruby/struct:SM::Flow::P 
+  body: In addition to reloading the unicorn-specific config settings, SIGHUP will reload application code in the working directory/symlink when workers are gracefully restarted when preload_app=false (the default). As reloading the application sometimes requires RubyGems updates, +Gem.refresh+ is always called before the application is loaded (for RubyGems users).
+- !ruby/struct:SM::Flow::P 
+  body: During deployments, care should <em>always</em> be taken to ensure your applications are properly deployed and running. Using preload_app=false (the default) means you <em>must</em> check if your application is responding properly after a deployment. Improperly deployed applications can go into a spawn loop if the application fails to load. While your children are in a spawn loop, it is is possible to fix an application by properly deploying all required code and dependencies. Using preload_app=true means any application load error will cause the master process to exit with an error.
+full_name: Unicorn::Configurator#preload_app
+is_singleton: false
+name: preload_app
+params: (bool)
+visibility: public

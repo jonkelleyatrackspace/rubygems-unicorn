@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_wait_writable (Kgio::DefaultWaiters)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      io.kgio_wait_writable           -&gt; IO
+ *      io.kgio_wait_writable(timeout)  -&gt; IO or nil
+ *
+ * Blocks the running Thread indefinitely until the IO object is writable
+ * or if +timeout+ expires.  If +timeout+ is specified and expires, +nil+
+ * is returned.
+ *
+ * This method is automatically called (without timeout argument) by default
+ * whenever kgio_write needs to block on output.
+ *
+ * Users of alternative threading/fiber libraries are
+ * encouraged to override this method in their subclasses or modules to
+ * work with their threading/blocking methods.
+ */
+static VALUE kgio_wait_writable(int argc, VALUE *argv, VALUE self)
+{
+        int r = kgio_wait(argc, argv, self, 1);
+
+        if (r &lt; 0) rb_sys_fail(&quot;kgio_wait_writable&quot;);
+        return r == 0 ? Qnil : self;
+}</pre>
+</body>
+</html>

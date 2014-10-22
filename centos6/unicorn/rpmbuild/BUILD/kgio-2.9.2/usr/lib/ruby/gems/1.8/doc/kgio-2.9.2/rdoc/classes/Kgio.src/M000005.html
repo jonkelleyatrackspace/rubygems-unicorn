@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>accept_class= (Kgio)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * Sets the default class for newly accepted sockets.  This is
+ * legacy behavior, kgio_accept and kgio_tryaccept now take optional
+ * class arguments to override this value.
+ */
+static VALUE set_accepted(VALUE klass, VALUE aclass)
+{
+        VALUE tmp;
+
+        if (NIL_P(aclass))
+                aclass = cKgio_Socket;
+
+        tmp = rb_funcall(aclass, rb_intern(&quot;included_modules&quot;), 0, 0);
+        tmp = rb_funcall(tmp, rb_intern(&quot;include?&quot;), 1, mSocketMethods);
+
+        if (tmp != Qtrue)
+                rb_raise(rb_eTypeError,
+                         &quot;class must include Kgio::SocketMethods&quot;);
+
+        cClientSocket = aclass;
+
+        return aclass;
+}</pre>
+</body>
+</html>

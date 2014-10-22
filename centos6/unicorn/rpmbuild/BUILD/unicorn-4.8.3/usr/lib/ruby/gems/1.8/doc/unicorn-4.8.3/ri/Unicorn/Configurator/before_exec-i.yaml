@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: sets the before_exec hook to a given Proc object. This Proc object will be called by the master process right before exec()-ing the new unicorn binary. This is useful for freeing certain OS resources that you do NOT wish to share with the reexeced child process. There is no corresponding after_exec hook (for obvious reasons).
+full_name: Unicorn::Configurator#before_exec
+is_singleton: false
+name: before_exec
+params: (*args, &block)
+visibility: public

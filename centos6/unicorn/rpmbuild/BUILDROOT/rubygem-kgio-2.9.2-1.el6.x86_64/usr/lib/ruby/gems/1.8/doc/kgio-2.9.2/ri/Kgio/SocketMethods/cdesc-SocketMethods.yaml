@@ -1,0 +1,26 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: 
+- !ruby/object:RI::Attribute 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: Returns the client IP address of the socket as a string (e.g. &quot;127.0.0.1&quot; or &quot;::1&quot;). This is always the value of the Kgio::LOCALHOST constant for UNIX domain sockets.
+  name: kgio_addr
+  rw: RW
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: KGIO_TFO_MAYBE will be false if a distro backports TFO to a pre-3.7 kernel, but includes the necessary constants in system headers
+constants: []
+
+full_name: Kgio::SocketMethods
+includes: 
+- !ruby/object:RI::IncludedModule 
+  name: Kgio::DefaultWaiters
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: kgio_autopush=
+- !ruby/object:RI::MethodSummary 
+  name: kgio_autopush?
+name: SocketMethods
+superclass: 

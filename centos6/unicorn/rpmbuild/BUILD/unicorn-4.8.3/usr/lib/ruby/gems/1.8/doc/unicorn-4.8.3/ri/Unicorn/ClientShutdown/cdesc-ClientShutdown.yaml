@@ -1,0 +1,17 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: []
+
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Raised inside TeeInput when a client closes the socket inside the application dispatch. This is always raised with an empty backtrace since there is nothing in the application stack that is responsible for client shutdowns/disconnects. This exception is visible to Rack applications unless PrereadInput middleware is loaded.
+constants: []
+
+full_name: Unicorn::ClientShutdown
+includes: []
+
+instance_methods: []
+
+name: ClientShutdown
+superclass: EOFError

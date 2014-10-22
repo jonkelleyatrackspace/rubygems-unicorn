@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_autopush= (Kgio::SocketMethods)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      io.kgio_autopush = true
+ *      io.kgio_autopush = false
+ *
+ * Enables or disables autopush on any given Kgio::SocketMethods-capable
+ * IO object.  This does NOT enable or disable TCP_NOPUSH/TCP_CORK right
+ * away, that must be done with IO.setsockopt
+ *
+ * Only available on systems with TCP_CORK (Linux) or
+ * TCP_NOPUSH (FreeBSD, and maybe other *BSDs).
+ */
+static VALUE autopush_set(VALUE io, VALUE vbool)
+{
+        if (RTEST(vbool))
+                state_set(io, AUTOPUSH_STATE_WRITER);
+        else
+                state_set(io, AUTOPUSH_STATE_IGNORE);
+        return vbool;
+}</pre>
+</body>
+</html>

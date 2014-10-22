@@ -1,0 +1,12 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Loads the last shared \Aggregate from the master thread/process
+full_name: Raindrops::Aggregate::PMQ#aggregate
+is_singleton: false
+name: aggregate
+params: ()
+visibility: public

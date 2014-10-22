@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>start (Kgio::Socket)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/* call-seq:
+ *
+ *      addr = Socket.pack_sockaddr_in(80, 'example.com')
+ *      Kgio::Socket.start(addr) -&gt; socket
+ *
+ *      addr = Socket.pack_sockaddr_un(&quot;/path/to/unix/socket&quot;)
+ *      Kgio::Socket.start(addr) -&gt; socket
+ *
+ * Creates a generic Kgio::Socket object and initiates a
+ * non-blocking connection.  The caller should select/poll
+ * on the socket for writability before attempting to write
+ * or optimistically attempt a write and handle :wait_writable
+ * or Errno::EAGAIN.
+ */
+static VALUE kgio_start(VALUE klass, VALUE addr)
+{
+        return stream_connect(klass, addr, 0);
+}</pre>
+</body>
+</html>

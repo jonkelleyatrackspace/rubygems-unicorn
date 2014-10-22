@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kgio_accept (Kgio::TCPServer)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *
+ *      server = Kgio::TCPServer.new('0.0.0.0', 80)
+ *      server.kgio_accept -&gt; Kgio::Socket or nil
+ *      server.kgio_tryaccept -&gt; Kgio::Socket or nil
+ *      server.kgio_tryaccept(klass = MySocket) -&gt; MySocket or nil
+ *
+ * Initiates a blocking accept and returns a generic Kgio::Socket
+ * object with the kgio_addr attribute set to the IP address of
+ * the client on success.
+ *
+ * On Ruby implementations using native threads, this can use a blocking
+ * accept(2) (or accept4(2)) system call to avoid thundering herds.
+ *
+ * An optional +klass+ argument may be specified to override the
+ * Kgio::Socket-class on a successful return value.
+ *
+ * An optional +flags+ argument may also be specified.
+ * +flags+ is a bitmask that may contain any combination of:
+ *
+ * - Kgio::SOCK_CLOEXEC - close-on-exec flag (enabled by default)
+ * - Kgio::SOCK_NONBLOCK - non-blocking flag (unimportant)
+ */
+static VALUE tcp_accept(int argc, VALUE *argv, VALUE self)
+{
+        struct sockaddr_storage addr;
+        socklen_t addrlen = sizeof(struct sockaddr_storage);
+        struct accept_args a;
+
+        a.addr = (struct sockaddr *)&amp;addr;
+        a.addrlen = &amp;addrlen;
+        prepare_accept(&amp;a, self, argc, argv);
+        return my_accept(&amp;a, 0);
+}</pre>
+</body>
+</html>

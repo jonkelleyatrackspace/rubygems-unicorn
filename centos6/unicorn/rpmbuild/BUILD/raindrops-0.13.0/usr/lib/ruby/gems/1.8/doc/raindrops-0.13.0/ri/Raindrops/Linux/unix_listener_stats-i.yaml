@@ -1,0 +1,27 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: Get ListenStats from an array of <tt>paths</tt>
+- !ruby/struct:SM::Flow::P 
+  body: "Socket state mapping from integer =&gt; symbol, based on socket_state enum from include/linux/net.h in the \\Linux kernel:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "    typedef enum {\n            SS_FREE = 0,              /* not allocated                */\n            SS_UNCONNECTED,           /* unconnected to any socket    */\n            SS_CONNECTING,            /* in process of connecting     */\n            SS_CONNECTED,             /* connected to socket          */\n            SS_DISCONNECTING          /* in process of disconnecting  */\n    } socket_state;\n"
+- !ruby/object:SM::Flow::LIST 
+  contents: 
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: SS_CONNECTING maps to ListenStats#queued
+  - !ruby/struct:SM::Flow::LI 
+    label: "*"
+    body: SS_CONNECTED maps to ListenStats#active
+  type: :BULLET
+- !ruby/struct:SM::Flow::P 
+  body: This method may be significantly slower than its tcp_listener_stats counterpart due to the latter being able to use inet_diag via netlink. This parses /proc/net/unix as there is no other (known) way to expose Unix domain socket statistics over netlink.
+full_name: Raindrops::Linux#unix_listener_stats
+is_singleton: false
+name: unix_listener_stats
+params: (paths = nil)
+visibility: public

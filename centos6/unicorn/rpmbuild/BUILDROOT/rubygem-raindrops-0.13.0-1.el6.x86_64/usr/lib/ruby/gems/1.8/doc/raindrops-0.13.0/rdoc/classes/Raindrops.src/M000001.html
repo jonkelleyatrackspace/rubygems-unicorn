@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Raindrops)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>/*
+ * call-seq:
+ *      Raindrops.new(size)  -&gt; raindrops object
+ *
+ * Initializes a Raindrops object to hold +size+ counters.  +size+ is
+ * only a hint and the actual number of counters the object has is
+ * dependent on the CPU model, number of cores, and page size of
+ * the machine.  The actual size of the object will always be equal
+ * or greater than the specified +size+.
+ */
+static VALUE init(VALUE self, VALUE size)
+{
+        struct raindrops *r = DATA_PTR(self);
+        int tries = 1;
+        size_t tmp;
+
+        if (r-&gt;drops != MAP_FAILED)
+                rb_raise(rb_eRuntimeError, &quot;already initialized&quot;);
+
+        r-&gt;size = NUM2SIZET(size);
+        if (r-&gt;size &lt; 1)
+                rb_raise(rb_eArgError, &quot;size must be &gt;= 1&quot;);
+
+        tmp = PAGE_ALIGN(raindrop_size * r-&gt;size);
+        r-&gt;capa = tmp / raindrop_size;
+        assert(PAGE_ALIGN(raindrop_size * r-&gt;capa) == tmp &amp;&amp; &quot;not aligned&quot;);
+
+retry:
+        r-&gt;drops = mmap(NULL, tmp,
+                        PROT_READ|PROT_WRITE, MAP_ANON|MAP_SHARED, -1, 0);
+        if (r-&gt;drops == MAP_FAILED) {
+                if ((errno == EAGAIN || errno == ENOMEM) &amp;&amp; tries-- &gt; 0) {
+                        rb_gc();
+                        goto retry;
+                }
+                rb_sys_fail(&quot;mmap&quot;);
+        }
+        r-&gt;pid = getpid();
+
+        return self;
+}</pre>
+</body>
+</html>

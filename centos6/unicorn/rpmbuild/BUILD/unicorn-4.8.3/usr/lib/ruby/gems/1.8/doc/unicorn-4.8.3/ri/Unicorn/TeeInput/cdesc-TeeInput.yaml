@@ -1,0 +1,45 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: []
+
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: client_body_buffer_size
+- !ruby/object:RI::MethodSummary 
+  name: client_body_buffer_size
+- !ruby/object:RI::MethodSummary 
+  name: client_body_buffer_size=
+- !ruby/object:RI::MethodSummary 
+  name: client_body_buffer_size=
+- !ruby/object:RI::MethodSummary 
+  name: new
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: acts like tee(1) on an input input to provide a input-like stream while providing rewindable semantics through a File/StringIO backing store. On the first pass, the input is only read on demand so your Rack application can use input notification (upload progress and like). This should fully conform to the Rack::Lint::InputWrapper specification on the public API. This class is intended to be a strict interpretation of Rack::Lint::InputWrapper functionality and will not support any deviations from it.
+- !ruby/struct:SM::Flow::P 
+  body: When processing uploads, Unicorn exposes a TeeInput object under &quot;rack.input&quot; of the Rack environment.
+constants: []
+
+full_name: Unicorn::TeeInput
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: gets
+- !ruby/object:RI::MethodSummary 
+  name: gets
+- !ruby/object:RI::MethodSummary 
+  name: read
+- !ruby/object:RI::MethodSummary 
+  name: read
+- !ruby/object:RI::MethodSummary 
+  name: rewind
+- !ruby/object:RI::MethodSummary 
+  name: rewind
+- !ruby/object:RI::MethodSummary 
+  name: size
+- !ruby/object:RI::MethodSummary 
+  name: size
+name: TeeInput
+superclass: Unicorn::StreamInput
