@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (Rack::Multipart::Parser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/multipart/parser.rb, line 12</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">setup_parse</span>
+
+        <span class="ruby-identifier">fast_forward_to_first_boundary</span>
+
+        <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+          <span class="ruby-identifier">head</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">content_type</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">body</span> =
+            <span class="ruby-identifier">get_current_head_and_filename_and_content_type_and_name_and_body</span>
+
+          <span class="ruby-comment cmt"># Save the rest.</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">i</span> = <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">rx</span>)
+            <span class="ruby-identifier">body</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">i</span>)
+            <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@boundary_size</span><span class="ruby-operator">+</span><span class="ruby-value">2</span>)
+
+            <span class="ruby-ivar">@content_length</span> = <span class="ruby-value">-1</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;--&quot;</span>
+          <span class="ruby-keyword kw">end</span>
+
+          <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">data</span> = <span class="ruby-identifier">get_data</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-identifier">body</span>, <span class="ruby-identifier">content_type</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">head</span>)
+
+          <span class="ruby-constant">Utils</span>.<span class="ruby-identifier">normalize_params</span>(<span class="ruby-ivar">@params</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">data</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">nil?</span>
+
+          <span class="ruby-comment cmt"># break if we're at the end of a buffer, but not if it is the end of a field</span>
+          <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">$1</span> <span class="ruby-operator">!=</span> <span class="ruby-constant">EOL</span>) <span class="ruby-operator">||</span> <span class="ruby-ivar">@content_length</span> <span class="ruby-operator">==</span> <span class="ruby-value">-1</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">rewind</span>
+
+        <span class="ruby-ivar">@params</span>.<span class="ruby-identifier">to_params_hash</span>
+      <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

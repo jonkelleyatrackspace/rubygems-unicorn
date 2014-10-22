@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>valid_options (Rack::Handler::Mongrel)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/handler/mongrel.rb, line 41</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">valid_options</span>
+        {
+          <span class="ruby-value str">&quot;Host=HOST&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Hostname to listen on (default: localhost)&quot;</span>,
+          <span class="ruby-value str">&quot;Port=PORT&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Port to listen on (default: 8080)&quot;</span>,
+          <span class="ruby-value str">&quot;Processors=N&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Number of concurrent processors to accept (default: 950)&quot;</span>,
+          <span class="ruby-value str">&quot;Timeout=N&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Time before a request is dropped for inactivity (default: 60)&quot;</span>,
+          <span class="ruby-value str">&quot;Throttle=N&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Throttle time between socket.accept calls in hundredths of a second (default: 0)&quot;</span>,
+        }
+      <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

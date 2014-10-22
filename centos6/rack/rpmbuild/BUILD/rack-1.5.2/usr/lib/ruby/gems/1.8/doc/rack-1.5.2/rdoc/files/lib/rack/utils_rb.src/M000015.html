@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>byte_ranges (lib/rack/utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rack/utils.rb, line 368</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">byte_ranges</span>(<span class="ruby-identifier">env</span>, <span class="ruby-identifier">size</span>)
+      <span class="ruby-comment cmt"># See &lt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35&gt;</span>
+      <span class="ruby-identifier">http_range</span> = <span class="ruby-identifier">env</span>[<span class="ruby-value str">'HTTP_RANGE'</span>]
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">http_range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">http_range</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/bytes=([^;]+)/</span>
+      <span class="ruby-identifier">ranges</span> = []
+      <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">/,\s*/</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">range_spec</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>  <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">range_spec</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/(\d*)-(\d*)/</span>
+        <span class="ruby-identifier">r0</span>,<span class="ruby-identifier">r1</span> = <span class="ruby-identifier">$1</span>, <span class="ruby-identifier">$2</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r0</span>.<span class="ruby-identifier">empty?</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r1</span>.<span class="ruby-identifier">empty?</span>
+          <span class="ruby-comment cmt"># suffix-byte-range-spec, represents trailing suffix of file</span>
+          <span class="ruby-identifier">r0</span> = <span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">r1</span>.<span class="ruby-identifier">to_i</span>
+          <span class="ruby-identifier">r0</span> = <span class="ruby-value">0</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r0</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>
+          <span class="ruby-identifier">r1</span> = <span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">r0</span> = <span class="ruby-identifier">r0</span>.<span class="ruby-identifier">to_i</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r1</span>.<span class="ruby-identifier">empty?</span>
+            <span class="ruby-identifier">r1</span> = <span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">r1</span> = <span class="ruby-identifier">r1</span>.<span class="ruby-identifier">to_i</span>
+            <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r0</span>  <span class="ruby-comment cmt"># backwards range is syntactically invalid</span>
+            <span class="ruby-identifier">r1</span> = <span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r1</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">size</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">ranges</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">r0</span><span class="ruby-operator">..</span><span class="ruby-identifier">r1</span>)  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r0</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">r1</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">ranges</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
